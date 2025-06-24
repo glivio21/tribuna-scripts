@@ -20,47 +20,6 @@ javascript:(function(){
     font-family: sans-serif;
   `;
 
-  function criarCategoria(tituloText, scriptsArray, iconePadrao){
-    const titulo = document.createElement('h3');
-    titulo.textContent = tituloText;
-    titulo.style = "margin: 12px 0 6px; font-size: 15px; border-bottom: 1px solid #ccc;";
-    menu.appendChild(titulo);
-
-    const grid = document.createElement('div');
-    grid.style = "display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px;";
-
-    scriptsArray.forEach(([nome, icone, urlOrFunc]) => {
-      const btn = document.createElement('div');
-      btn.style = "cursor:pointer;text-align:center;font-size:11px";
-      btn.title = nome;
-      btn.innerHTML = `<img src="${icone || iconePadrao}" style="display:block;margin:0 auto 4px;width:32px;height:32px;"><span>${nome}</span>`;
-
-      btn.onclick = () => {
-        try {
-          if(typeof urlOrFunc === 'function'){
-            urlOrFunc();
-          } else if(urlOrFunc.startsWith('javascript:')){
-            eval(urlOrFunc.slice(11));
-          } else if(urlOrFunc.includes('{game}')){
-            if(typeof game_data !== 'undefined' && game_data.link_base){
-              window.location.href = game_data.link_base + urlOrFunc.replace('{game}', '');
-            } else {
-              alert('game_data.link_base não definido.');
-            }
-          } else {
-            $.getScript(urlOrFunc).fail(() => alert('Erro ao carregar o script: ' + urlOrFunc));
-          }
-        } catch(e){
-          alert('Erro ao executar o script: ' + e.message);
-        }
-      };
-
-      grid.appendChild(btn);
-    });
-
-    menu.appendChild(grid);
-  }
-
   // Ícones padrão
   const iconePadrao = "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png";
   const iconeEdificio = "https://icons.iconarchive.com/icons/icondigest/main-street/32/Cradle-of-learning-icon.png";
@@ -74,6 +33,7 @@ javascript:(function(){
   const categorias = [
     {
       titulo: '🏰 Edifícios',
+      icone: iconeEdificio,
       scripts: [
         ["Bem Vindo", "https://icons.iconarchive.com/icons/be-os/be-box/32/Flash-Updater-icon.png", "{game}&screen=welcome&intro&oscreen=overview"],
         ["Edifício Principal", iconeEdificio, "{game}&screen=main"],
@@ -89,6 +49,7 @@ javascript:(function(){
     },
     {
       titulo: '⚙️ Scripts de Configuração',
+      icone: iconePadrao,
       scripts: [
         ["Mostrar Pontos dos Edifícios", iconePadrao, "https://almis90.github.io/tw-scripts/building-points.js"],
         ["Renomeador de Aldeias", iconePadrao, "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/TsalkaponeVillageRenamer.js"],
@@ -105,6 +66,7 @@ javascript:(function(){
     },
     {
       titulo: '🤝 Scripts para Tribo',
+      icone: iconeTribo,
       scripts: [
         ["Aristocracia", iconeTribo, "https://shinko-to-kuma.com/scripts/overwatch.js"],
         ["Ver ataques na tribo", iconeTribo, "https://dl.dropboxusercontent.com/s/ikunxd5d59059b4/scriptMostrarAtaquesACaminho.js"],
@@ -120,6 +82,7 @@ javascript:(function(){
     },
     {
       titulo: '🎯 Scripts Ofensivos',
+      icone: iconeOfensivo,
       scripts: [
         ["Exibir Comandos (Confirmar Ataque)", iconeOfensivo, "https://media.innogames.com/com_DS_NL/scripts/ConfirmEnhancer_206293.js"],
         ["Todos os Ataques Enviados (Perfil Player)", iconeOfensivo, "https://twscripts.dev/scripts/getIncsForPlayer.js"],
@@ -184,6 +147,7 @@ javascript:(function(){
     },
     {
       titulo: '🛑 Scripts Defensivos',
+      icone: iconeDefensivo,
       scripts: [
         ["Remover Tropas de Apoio", iconeDefensivo, "https://twscripts.dev/scripts/supportCounterEvolved.js"],
         ["Apoio em Massa", iconeDefensivo, function(){
@@ -205,6 +169,7 @@ javascript:(function(){
     },
     {
       titulo: '⛏️ Scripts de Obter Recursos',
+      icone: iconeRecurso,
       scripts: [
         ["Coleta em Massa", iconeRecurso, function(){
           window.premiumBtnEnabled = false;
@@ -241,6 +206,7 @@ javascript:(function(){
     },
     {
       titulo: '🧮 Scripts de Calculadora',
+      icone: iconeCalculadora,
       scripts: [
         ["Calculadora de Ataques nas Bárbaras", iconeCalculadora, "https://twscripts.dev/scripts/lastTimeAttacked.js"],
         ["Calculadora de Snip Individual", iconeCalculadora, "https://twscripts.dev/scripts/singleVillageSnipe.js"],
@@ -282,47 +248,140 @@ javascript:(function(){
               var H = parseInt(timeArray[0], 10) - parseInt(travArray[0], 10);
               var M = parseInt(timeArray[1], 10) - parseInt(travArray[1], 10);
               var S = parseInt(timeArray[2], 10) - parseInt(travArray[2], 10);
-              if(S < 0){ S = 60 - (S * -1); M--; }
-              if(M < 0){ M = 60 - (M * -1); H--; }
-              if(H < 0){ H = 24 - (H * -1); if(H > 10){ H = 'Ontem às ' + H; } else if(H < 10){ H = 'Ontem às ' + H; } }
-              if(S < 10){ S = '0' + S; }
-              if(M < 10){ M = '0' + M; }
-              if(H < 10){ H = '0' + H; }
+              if(S < 0) { M -= 1; S += 60; }
+              if(M < 0) { H -= 1; M += 60; }
+              if(H < 0) { H += 24; }
+              if(S < 10) { S = '0' + S; }
+              if(M < 10) { M = '0' + M; }
+              if(H < 10) { H = '0' + H; }
               result = H + ':' + M + ':' + S;
-              $("#resultado").html($("#resultado").html() + "<br />Snipe: " + result);
-              $("#resultado").fadeIn("slow");
+              $("#resultado").append("<br>Out:&nbsp; " + result + " (Tempo até sair)");
             } else {
-              $("#resultado").html("<p style='color: red;'>Formato de horas incorreto!<br />Utilize: HH:MM:SS</p>");
-              $("#resultado").fadeIn("slow");
+              $("#resultado").html("Insira horários válidos (HH:MM:SS).");
             }
           }
-          var conteudo = '<div style=max-width:600px;>' +
-            '<h2 class="popup_box_header">Calc. BT & Snipe</h2>' +
-            '<p><div style="text-align: center;">Hora do ataque<br /><input type="text" id="bt1"><br />Duração<br /><input type="text" id="bt2"><br /><br />' +
-            '<input onClick="calcular()" style="padding-left: 28px; background: #6C4824 url(https://brtwscripts.com/calc-icon.png) no-repeat 10px" class="btn" type="submit" value="Calcular"></div></p>' +
-            '<div id="resultado" style="display: none;">Back:&nbsp; xx:xx:xx<br />Snipe: xx:xx:xx</div>' +
-            '</div>';
-          Dialog.show('bt_snipe_calc', conteudo);
+          if(!document.getElementById('btCalc')){
+            const html = `
+              <div>
+                <label>Hora Chegada: <input id="bt1" type="text" placeholder="HH:MM:SS"></label><br>
+                <label>Tempo Viagem: <input id="bt2" type="text" placeholder="HH:MM:SS"></label><br>
+                <button id="btCalc">Calcular</button><br>
+                <div id="resultado" style="margin-top:10px;"></div>
+              </div>`;
+            $("body").append(html);
+            $("#btCalc").click(calcular);
+          }
         }],
-        ["Calculadora de Snip + Aflição", iconeCalculadora, function(){
-          let script = document.createElement('script');
-          script.type = 'text/javascript';
-          script.src = 'https://dl.dropboxusercontent.com/s/5f0ewzcwkh39pau/TESTE12.js?dl=0';
-          document.head.appendChild(script);
-        }],
-        ["Calculadora de Snip Cancel", iconeCalculadora, "https://twdevtools.github.io/approved/scripts/snipe.js"]
       ]
     }
   ];
 
-  categorias.forEach(cat => criarCategoria(cat.titulo, cat.scripts, iconePadrao));
+  // Função para executar o script ou abrir link
+  function executarScript(script) {
+    if(typeof script === 'function') {
+      script();
+    } else if(typeof script === 'string') {
+      if(script.startsWith('javascript:')) {
+        eval(script.slice(11));
+      } else if(script.startsWith('http')) {
+        window.open(script, '_blank');
+      } else if(script.includes('{game}')) {
+        // Trocar {game} pelo URL base do jogo
+        let base = window.location.href.split('?')[0];
+        window.location.href = script.replace('{game}', base);
+      } else {
+        // Provavelmente um link relativo, tenta abrir
+        window.open(script, '_blank');
+      }
+    }
+  }
 
-  // Botão fechar
-  const close = document.createElement('div');
-  close.innerHTML = "✖";
-  close.style = "position:absolute;top:4px;right:6px;font-size:16px;cursor:pointer;";
-  close.onclick = () => menu.remove();
-  menu.appendChild(close);
+  // Função para criar lista de scripts
+  function criarListaScripts(categoria) {
+    menu.innerHTML = '';
+    const header = document.createElement('div');
+    header.style = 'margin-bottom:10px;';
+    const voltarBtn = document.createElement('button');
+    voltarBtn.textContent = '← Voltar';
+    voltarBtn.style = 'margin-bottom:10px; cursor:pointer;';
+    voltarBtn.onclick = () => mostrarCategorias();
+    header.appendChild(voltarBtn);
+
+    const titulo = document.createElement('h3');
+    titulo.textContent = categoria.titulo;
+    titulo.style = 'margin:0 0 10px 0;';
+    header.appendChild(titulo);
+    menu.appendChild(header);
+
+    categoria.scripts.forEach(s => {
+      const [nome, img, script] = s;
+      const linha = document.createElement('div');
+      linha.style = 'display:flex; align-items:center; margin-bottom:6px; cursor:pointer; border:1px solid #ccc; padding:4px; border-radius:4px; transition: background-color 0.3s;';
+      linha.onmouseenter = () => linha.style.backgroundColor = '#eee';
+      linha.onmouseleave = () => linha.style.backgroundColor = 'transparent';
+      linha.onclick = () => executarScript(script);
+
+      const icone = document.createElement('img');
+      icone.src = img || iconePadrao;
+      icone.alt = nome;
+      icone.style = 'width:24px; height:24px; margin-right:8px;';
+      linha.appendChild(icone);
+
+      const texto = document.createElement('span');
+      texto.textContent = nome;
+      linha.appendChild(texto);
+
+      menu.appendChild(linha);
+    });
+  }
+
+  // Mostrar lista de categorias
+  function mostrarCategorias() {
+    menu.innerHTML = '';
+    const titulo = document.createElement('h3');
+    titulo.textContent = 'Categorias de Scripts';
+    titulo.style = 'margin:0 0 10px 0;';
+    menu.appendChild(titulo);
+
+    const container = document.createElement('div');
+    container.style = 'display:flex; flex-wrap:wrap; gap:10px; max-width:500px;';
+    categorias.forEach(c => {
+      const cat = document.createElement('div');
+      cat.style = `
+        display:flex;
+        flex-direction:column;
+        align-items:center;
+        width:70px;
+        cursor:pointer;
+        border:1px solid #ccc;
+        border-radius:6px;
+        padding:6px;
+        transition: background-color 0.3s;
+        user-select:none;
+      `;
+      cat.onmouseenter = () => cat.style.backgroundColor = '#eee';
+      cat.onmouseleave = () => cat.style.backgroundColor = 'transparent';
+      cat.title = c.titulo;
+      cat.onclick = () => criarListaScripts(c);
+
+      const img = document.createElement('img');
+      img.src = c.icone || iconePadrao;
+      img.alt = c.titulo;
+      img.style = 'width:40px; height:40px; margin-bottom:6px;';
+      cat.appendChild(img);
+
+      const nome = document.createElement('span');
+      nome.textContent = c.titulo;
+      nome.style = 'font-size:12px; text-align:center;';
+      cat.appendChild(nome);
+
+      container.appendChild(cat);
+    });
+
+    menu.appendChild(container);
+  }
+
+  mostrarCategorias();
 
   document.body.appendChild(menu);
 })();
