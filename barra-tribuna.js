@@ -56,16 +56,16 @@ const iconeCalc = "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-ico
       titulo: '🏰 Edifícios',
       icone: iconeEdificio,
       scripts: [
-        ["Bem Vindo", "https://icons.iconarchive.com/icons/be-os/be-box/32/Flash-Updater-icon.png", "{game}&screen=welcome&intro&oscreen=overview"],
-        ["Edifício Principal", iconeEdificio, "{game}&screen=main"],
-        ["Praça de Reunião", "https://icons.iconarchive.com/icons/icondigest/main-street/32/Pow-wow-icon.png", "{game}&screen=place"],
-        ["Ferreiro", "https://icons.iconarchive.com/icons/icondigest/main-street/32/Three-Mile-Island-icon.png", "{game}&screen=smith"],
-        ["Mercado", "https://icons.iconarchive.com/icons/calle/the-village/32/Joes-Bar-icon.png", "{game}&screen=market"],
-        ["Academia", "https://icons.iconarchive.com/icons/calle/royal-red-system/32/3817-icon.png", "{game}&screen=snob"],
-        ["Estátua", "https://icons.iconarchive.com/icons/iconfactory/copland-6/32/Statue-of-Liberty-icon.png", "{game}&screen=statue"],
-        ["Recrutar Tropas", "https://icons.iconarchive.com/icons/calle/black-knight/32/Swords-icon.png", "{game}&screen=train"],
-        ["Torre Simulator", "https://icons.iconarchive.com/icons/icondigest/main-street/32/In-days-of-yore-icon.png", "https://twscripts.dev/scripts/watchtowerEvolved.js"],
-        ["Treinar Paladinos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Flash-Updater-icon.png", "https://twdevtools.github.io/approved/scripts/training.js"]
+        ["Bem Vindo", "https://icons.iconarchive.com/icons/be-os/be-box/32/Flash-Updater-icon.png", "{game}?screen=welcome&intro=1&oscreen=overview"],
+["Edifício Principal", iconeEdificio, "{game}?screen=main"],
+["Praça de Reunião", "https://icons.iconarchive.com/icons/icondigest/main-street/32/Pow-wow-icon.png", "{game}?screen=place"],
+["Ferreiro", "https://icons.iconarchive.com/icons/icondigest/main-street/32/Three-Mile-Island-icon.png", "{game}?screen=smith"],
+["Mercado", "https://icons.iconarchive.com/icons/calle/the-village/32/Joes-Bar-icon.png", "{game}?screen=market"],
+["Academia", "https://icons.iconarchive.com/icons/calle/royal-red-system/32/3817-icon.png", "{game}?screen=snob"],
+["Estátua", "https://icons.iconarchive.com/icons/iconfactory/copland-6/32/Statue-of-Liberty-icon.png", "{game}?screen=statue"],
+["Recrutar Tropas", "https://icons.iconarchive.com/icons/calle/black-knight/32/Swords-icon.png", "{game}?screen=train"],
+["Torre Simulator", "https://icons.iconarchive.com/icons/icondigest/main-street/32/In-days-of-yore-icon.png", "https://twscripts.dev/scripts/watchtowerEvolved.js"],
+["Treinar Paladinos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Flash-Updater-icon.png", "https://twdevtools.github.io/approved/scripts/training.js"]
       ]
     },
     {
@@ -77,8 +77,6 @@ const iconeCalc = "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-ico
         ["Contador de Tropas", iconePadrao, "https://twscripts.dev/scripts/troopsCounterFixed.js"],
         ["Contador de Tropas 2", iconePadrao, "https://dl.dropboxusercontent.com/s/75jut7q397e03e5/troop_counter.js"],
         ["Adicionar Amigos", iconePadrao, "https://twscripts.dev/scripts/friendRequest.js"],
-        ["Mostrar Bandeiras Novas", iconePadrao, "https://marcelogpereira.github.io/TwPTScripts/WordFlagResume.js"],
-        ["UP Bandeiras em Massa", iconePadrao, "https://papajik.github.io/TW-Scripts/scripts/massFlagUpgrade.js"],
         ["Contador de Grupos", iconePadrao, "https://dl.dropboxusercontent.com/s/ry6d9uu2m0mcxsb/group%20counts.js"],
         ["Import Grupos Dinâmicos", iconePadrao, "https://twscripts.dev/scripts/importExportDynamicGroups.js"],
         ["Adicionar Grupo Manual", iconePadrao, "https://shinko-to-kuma.com/scripts/groupImport.js"],
@@ -98,7 +96,47 @@ const iconeCalc = "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-ico
         ["Análise de Tribos", iconeTribo, "https://twscripts.dev/scripts/tribeStatsTool.js"],
         ["Convidar P/ Tribo em Massa", iconeTribo, "https://twscripts.dev/scripts/inviteToTribe.js"],
         ["Gerar lista (Membros)", iconeTribo, "https://media.innogamescdn.com/com_DS_PL/skrypty/lista_mail.js"],
-        ["Noblagens ao VIVO", iconeTribo, "https://raw.githubusercontent.com/filipemiguel97/scriptsTW/main/noblagens-ao-vivo.js"]
+        ["Noblagens ao VIVO", iconeTribo, "javascript:
+var api = "https://api.codetabs.com/v1/proxy?quest=br.twstats.com/";
+var twstats = "/index.php?page=ennoblements&live=live";
+var url = api + game_data.world + twstats;
+var indexvillage = "index.php?page=village&id=";
+var indexplayer = "index.php?page=player&id=";
+var indextribe = "index.php?page=tribe&id=";
+var screenvillage = "&screen=info_village&id=";
+var screenplayer = "&screen=info_player&id=";
+var screenally = "&screen=info_ally&id=";
+var game = "/game.php?village=";
+
+    $.get(url, function(data) {
+        if ($(data).find("tr").hasClass("r1")) {
+            table = $(data).find(".widget").eq(1).find("tr");
+        } else {
+            table = "Ezen a szerveren most nincs élő foglalás.";
+        }
+
+        Dialog.show("foglalasok", function(container) { 
+            $(`<table class="vis" id="table"><tbody></tbody></table>`).appendTo(container);
+            $(table).appendTo("#table > tbody");
+        })
+        
+        $("#table").find("a").each(function(key,val) {
+            var value = $(val).attr("href");
+            /*village*/
+            if ($(val).is(`[href*="${indexvillage}"]`)) {
+                $(val).attr("href", value.replace(indexvillage, game + game_data.village.id + screenvillage));
+            }
+            /*player*/
+            if ($(val).is(`[href*="${indexplayer}"]`)) {
+                $(val).attr("href", value.replace(indexplayer, game + game_data.village.id + screenplayer));
+            }
+            /*tribe*/
+            if ($(val).is(`[href*="${indextribe}"]`)) {
+                $(val).attr("href", value.replace(indextribe, game + game_data.village.id + screenally));
+            }
+        })
+    })
+void(0);"]
       ]
     },
     {
@@ -159,9 +197,192 @@ const iconeCalc = "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-ico
         }],
         ["Devil DEF", iconeDefensivo, "https://media.innogames.com/com_DS_NL/scripts/Devils-Def-Pack_206163.js"],
         ["Renomear Comandos GL", iconeDefensivo, function(){
-          alert("Use o script Renomear Comandos GL diretamente na página ou via bookmark separado.");
-        }]
-      ]
+          javascript:
+// @name         Renomear Ataques Glivio
+// @version      Release
+// @author       Glivio (V7.0)
+// @include      https://*&screen=overview
+// @include      https://*&mode=incomings*
+// @include      https://*&screen=info_village&*
+// @include      https://*&screen=place*
+// @include      https://*?screen=place&t=*&village=*
+// @include      https://*?screen=place&village=*
+// @include      https://*?screen=overview&village=*
+// @include      https://*?village=*&screen=overview*
+// @include      https://*?t=*&village=*&screen=overview*
+// ==/UserScript==
+
+////* Preferêcias do script *////
+// O tamanho da letra influencia o tamanho do botao, caso seja 0 será utilizado o original do jogo, 12.
+var tamanho_letra = 10;
+var pagina_de_ataques = 'coluna'; //Modos: coluna, linha, nada
+
+// Para adicionar botões basta colocar os valores depois de uma virgula, o botÃ£o so aparece caso haja valor de nome de botÃ£o e nome de comando.
+// Caso nÃ£o coloque a cor do botao ou cor do texto serÃ¡ utilizado o valor original do jogo (botao castanho e letra branca)
+var settings = [
+    ['[OK]', '[Apoiar]', '[Desviar Tropas]', '[Tropas Desviadas]', '[Renoblar]', '[Renoble OK]', '[Paladino]', '[Snipar]', '[Snipado]', ' [Ficar de olho]', ' | Esperar Torre', '[Fake]', '[Colocar Bandeira DEF]', '[Fudeu]', '[Contra fatos não há argumentos]'], //Nome do comando
+    ['OK', 'APOIAR', 'Tirar Tropas', 'Tropas retiradas', 'Renoblar', 'Renoblado', 'Pala', 'Snipar NT', 'Snipado', 'Vigiar', 'Torre', 'Fake', 'Bandeira', 'F', 'Lívio é GOD'], //Nome do botÃ£o
+    ['green', 'brown', 'dorange', 'green', 'brown', 'green', 'blue', 'brown', 'green', 'black', 'orange', 'white', 'brown', '1blue', 'black'], //Cor do botÃ£o
+    ['white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'black', 'white', 'white', 'white']
+] //Cor do texto
+
+// Para adicionar cores basta acrescentar os valores apÃ³s uma virgula.
+var colors = [
+    ['red', 'green', 'blue', 'yellow', 'orange', 'lblue', 'lime', 'white', 'black', 'gray', 'dorange', 'black', 'Pink', 'brown'], // Nomes das cores
+    ['#e20606', '#31c908', '#0d83dd', '#ffd91c', '#ef8b10', '#22e5db', '#ffd400', '#ffffff', '#000000', '#adb6c6', '#9232a8', '#40434E', '#FFC0CB', '#892929',], // Cor de background de botÃ£o topo e letra
+    ['#f0e2be', '#228c05', '#0860a3', '#e8c30d', '#d3790a', '#0cd3c9', '#ffd400', '#dbdbdb', '#2b2b2b', '#828891', '#9232a8', '#40434E','#FFC0CB' , '#892929', ]
+] // Cor de background de botÃ£o fundo
+
+
+////* CÃ³digo do programa *////
+
+var world = String(location.href).split(/[/:.]+/)[1]
+var world_number = Number(world.substring(2))
+
+function iT(nr, linha) {
+    var html = '';
+    if (settings[0]) html += '<span style="float: right;">';
+    settings[1].forEach(function(nome, num) {
+        html += '<button type="button" id="opt' + nr + '_' + num + '" class="btn" title="' + settings[0][num] + '" style="color: ' + getFon(num) + '; font-size: ' + getSize() + 'px !important; background: linear-gradient(to bottom, ' + getTop(num) + ' 30%, ' + getBot(num) + ' 10%)">' + nome + '</button>';
+    })
+    html += '</span>';
+    $(linha).find('.quickedit-content').append(html);
+    settings[0].forEach(function(nome, num) {
+        if (nome.indexOf('|') == -1) {
+            $('#opt' + nr + '_' + num).click(function() {
+                $(linha).find('.rename-icon').click();
+                $(linha).find('input[type=text]').val($(linha).find('input[type=text]').val().split(" ")[0] + ' ' + settings[0][num]);
+                $(linha).find('input[type=button]').click();
+                iT(nr, linha);
+            });
+        } else if (nome.indexOf('|')) {
+            $('#opt' + nr + '_' + num).click(function() {
+                $(linha).find('.rename-icon').click();
+                $(linha).find('input[type=text]').val($(linha).find('input[type=text]').val() + settings[0][num]);
+                $(linha).find('input[type=button]').click();
+                iT(nr, linha);
+            });
+        }
+    });
+}
+
+function getTop(num) {
+    var index = colors[0].indexOf(settings[2][num])
+    if (settings[2][num]) {
+        return colors[1][index];
+    } else {
+        return '#b69471';
+    }
+}
+
+function getBot(num) {
+    var index = colors[0].indexOf(settings[2][num])
+    if (settings[2][num]) return colors[2][index];
+    else return '#6c4d2d';
+}
+
+function getFon(num) {
+    var index = colors[0].indexOf(settings[3][num])
+    if (settings[3][num]) return colors[1][index];
+    else return '#ffffff';
+}
+
+function getSize() {
+    if (tamanho_letra) return tamanho_letra;
+    else return 12;
+}
+
+if (location.href.indexOf("screen=overview_villages") == -1 && location.href.indexOf("mode=incomings&subtype=attacks") == -1) {
+    $('#commands_incomings .command-row').each(function(nr, linha) {
+        if (!isSupport(linha)) iT(nr, linha, true);
+    });
+} else {
+    setInterval(function() {
+        $('#incomings_table tr.nowrap').each(function(nr, linha) {
+            if (!isSupport(linha)) {
+                var name = $.trim($(linha).find('.quickedit-label').text())
+                var code = settings[0].indexOf(name.indexOf(" ") >= 0 ? name.substr(name.indexOf(" ") + 1) : name)
+                var dual = check(name)
+                var codes = []
+                codes[0] = check(name, 1);
+                codes[1] = check(name, 2);
+                if (code != -1) {
+                    var colorcode = settings[2][code]
+                    var color = colors[1][colors[0].indexOf(colorcode)]
+                    if (pagina_de_ataques === 'linha') {
+                        $(linha).find('td').each(function(nr, td) {
+                            $(td).attr('style', 'background: ' + color + ' !important;')
+                        })
+                    } else if (pagina_de_ataques === 'coluna') {
+                        $(linha).find('td:eq(0)').attr('style', 'background: ' + color + ' !important;')
+                        $(linha).find('a:eq(0)').attr('style', 'color: white !important; text-shadow:-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;')
+                    }
+                } else if (dual) {
+                    console.log(codes, nr)
+                    var colorcode1 = settings[2][codes[0]]
+                    var colorcode2 = settings[2][codes[1]]
+                    var color1 = colors[1][colors[0].indexOf(colorcode1)]
+                    var color2 = colors[1][colors[0].indexOf(colorcode2)]
+                    var textcolor = colors[1][colors[0].indexOf('white')]
+                    var strokecolor = colors[1][colors[0].indexOf('black')]
+                    if (pagina_de_ataques === 'linha') {
+                        $(linha).find('td').each(function(nr, td) {
+                            $(td).attr('style', 'background: repeating-linear-gradient(45deg, ' + color1 + ', ' + color1 + ' 10px, ' + color2 + ' 10px, ' + color2 + ' 20px) !important;')
+                        })
+                    } else if (pagina_de_ataques === 'coluna') {
+                        $(linha).find('td:eq(0)').attr('style', 'background: repeating-linear-gradient(45deg, ' + color1 + ', ' + color1 + ' 10px, ' + color2 + ' 10px, ' + color2 + ' 20px) !important;')
+                        $(linha).find('a:eq(0)').attr('style', 'color: ' + textcolor + ' !important; text-shadow:-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;')
+                    }
+                } else {
+                    if (pagina_de_ataques === 'linha') {
+                        $(linha).find('td').each(function(nr, td) {
+                            $(td).attr('style', 'background: ' + colors[2][colors[0].indexOf('red')] + ' !important;')
+                        })
+                        $(linha).find('a').each(function(nr, td) {
+                            $(td).attr('style', 'color: ' + colors[2][colors[0].indexOf('white')] + ' !important;')
+                        })
+                    } else if (pagina_de_ataques === 'coluna') {
+                        $(linha).find('td:eq(0)').attr('style', 'background: ' + colors[2][colors[0].indexOf('red')] + ' !important;')
+                        $(linha).find('a:eq(0)').attr('style', 'color: white !important; text-shadow:-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;')
+                    }
+                }
+            } else {
+                if (pagina_de_ataques === 'linha') {
+                    $(linha).find('td').each(function(nr, td) {
+                        $(td).attr('style', 'background: ' + colors[2][colors[0].indexOf('yellow')] + ' !important;')
+                    })
+                    $(linha).find('a').each(function(nr, td) {
+                        $(td).attr('style', 'color: ' + colors[2][colors[0].indexOf('white')] + ' !important;')
+                    })
+                } else if (pagina_de_ataques === 'coluna') {
+                    $(linha).find('td:eq(0)').attr('style', 'background: ' + colors[2][colors[0].indexOf('yellow')] + ' !important;')
+                    $(linha).find('a:eq(0)').attr('style', 'color: white !important; text-shadow:-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;')
+                }
+            }
+        })
+    }, 250)
+}
+
+function check(name, nr) {
+    var i, j;
+    for (i = 0; i < settings[0].length; i++) {
+        for (j = 0; j < settings[0].length; j++) {
+            if (name.indexOf(settings[0][i] + settings[0][j]) != -1) {
+                if (nr == 1) return i;
+                else if (nr == 2) return j;
+                else return true;
+            }
+        }
+    }
+    return false;
+}
+
+function isSupport(linha) {
+    var scr = $(linha).find('img:eq(0)').attr('src')
+    if (scr.indexOf('support') >= 0) return true;
+    return false;
+}
+          ]
     },
     {
       titulo: '⛏️ Scripts de Obter Recursos',
