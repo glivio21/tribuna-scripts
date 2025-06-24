@@ -1,14 +1,17 @@
 javascript:(function(){
-  // Carrega jQuery se não existir
+  // Carrega jQuery se não existir, usa noConflict para evitar conflito
   function loadjQuery(callback){
-    if(window.jQuery) return callback();
+    if(window.jQuery) return callback(window.jQuery);
     var script = document.createElement('script');
     script.src = 'https://code.jquery.com/jquery-3.6.0.min.js';
-    script.onload = callback;
+    script.onload = function(){
+      var jq = jQuery.noConflict(true);
+      callback(jq);
+    };
     document.head.appendChild(script);
   }
 
-  loadjQuery(function(){
+  loadjQuery(function($){
     const id = 'tw-scripts-unified-menu';
     if (document.getElementById(id)) return document.getElementById(id).remove();
 
@@ -19,22 +22,6 @@ javascript:(function(){
       dark:  { bg:'#000000', fg:'#ffffff', border:'#000000', hover:'#222222', panelBg:'#000000', panelBorder:'#444444' }
     };
     let theme = themes[currentTheme];
-
-    // ====== Cria menu ======
-    const menu = document.createElement('div');
-    menu.id = id;
-    applyMenuStyle();
-    function applyMenuStyle(){
-      menu.style = `
-        position: fixed; top: 100px; left: 100px;
-        background: ${theme.bg}; color: ${theme.fg};
-        border: 2px solid ${theme.border}; border-radius: 8px;
-        padding: 10px; z-index: 9999;
-        box-shadow: 0 0 10px rgba(0,0,0,0.4);
-        max-width: 520px; max-height: 85vh; overflow-y: auto;
-        font-family: sans-serif;
-      `;
-    }
 
     // ====== Ícones ======
     const iconePadrao   = "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png";
@@ -103,7 +90,7 @@ javascript:(function(){
           ["Exibir Comandos (Confirmar Ataque)", iconeOfensivo, "https://media.innogames.com/com_DS_NL/scripts/ConfirmEnhancer_206293.js"],
           ["Todos os Ataques Enviados (Perfil Player)", iconeOfensivo, "https://twscripts.dev/scripts/getIncsForPlayer.js"],
           ["Calculadora de MS (Confirmar Ataque)", iconeOfensivo, function(){
-            !function(){
+            (function(){
               function e(){
                 var e=$("#serverDate").text(),r=$("#serverTime").text(),t=e.match(/(..)\/(..)\/(....)/);
                 return t[3]+"-"+t[2]+"-"+t[1]+" "+r
@@ -127,7 +114,7 @@ javascript:(function(){
                   i=s
                 },20)
               }
-            }()
+            })();
           }],
           ["Coletar de Coordenadas (Perfil Player)", iconeOfensivo, "https://tylercamp.me/tw/get-coords.js"],
           ["Planejador de Ataques Individual", iconeOfensivo, "https://twscripts.dev/scripts/singleVillagePlanner.js"],
@@ -225,8 +212,9 @@ javascript:(function(){
             `;
             document.body.appendChild(div);
             document.getElementById('calcularBT').onclick=calcular;
-          }
-          ];
+          }]
+      }
+    ];
 
     // ====== Função para abrir scripts ======
     function abrirScript(script){
@@ -247,167 +235,249 @@ javascript:(function(){
           }
           return;
         }
-        if(script.startsWith("http")){
-          // Se for script JS, carregar com $.getScript, senão abrir nova aba
-          if(script.endsWith('.js')){
-            $.getScript(script).fail(() => alert('Erro ao carregar o script externo!'));
-          } else {
-            window.open(script,"_blank");
-          }
-          return;
-        }
-        // URL parcial com {game}
         if(script.includes("{game}")){
-          let url = '';
+          let baseUrl = '';
           if(window.game_data){
-            url = game_data.link_base_pure || game_data.link_base || window.location.origin + window.location.pathname + "?";
+            baseUrl = game_data.link_base_pure || game_data.link_base || (window.location.origin + window.location.pathname + "?");
           } else {
-            url = window.location.origin + window.location.pathname + "?";
+            baseUrl = window.location.origin + window.location.pathname + "?";
           }
-          url += script.replace("{game}", "");
-          window.open(url,"_blank");
+          let fullUrl = script.replace("{game}", baseUrl);
+          window.open(fullUrl,"_blank");
           return;
         }
+        if(script.endsWith(".js")){
+          $.getScript(script).fail(()=>alert('Erro ao carregar script externo!'));
+          return;
+        }
+        // Caso padrão: abre em nova aba
+        window.open(script,"_blank");
       }
-      alert("Script desconhecido ou inválido.");
     }
 
-    // ====== Construção do menu ======
-    // Cabeçalho com título, botão fechar e tema (sem reload)
+    // ====== Criação do menu ======
+    const menu = document.createElement('div');
+    menu.id = id;
+    menu.style.cssText = `
+      position: fixed;
+      top: 100px;
+      left: 100px;
+      width: 320px;
+      max-height: 600px;
+      overflow-y: auto;
+      background: ${theme.bg};
+      color: ${theme.fg};
+      border: 2px solid ${theme.border};
+      border-radius: 8px;
+      font-family: Arial, sans-serif;
+      font-size: 14px;
+      z-index: 999999;
+      box-shadow: 0 0 10px rgba(0,0,0,0.7);
+      user-select: none;
+    `;
+
+    // Cabeçalho do menu
     const header = document.createElement('div');
-    header.style = 'display:flex; justify-content:space-between; align-items:center; margin-bottom:8px; color:'+theme.fg;
-    const title = document.createElement('div');
-    title.textContent = 'Scripts Tribuna - Menu Unificado';
-    title.style = 'font-weight:bold; font-size:16px;';
-    const closeBtn = document.createElement('button');
-    closeBtn.textContent = '✖';
-    closeBtn.title = "Fechar menu";
-    closeBtn.style = 'background:none; border:none; color:'+theme.fg+'; font-size:16px; cursor:pointer;';
-    closeBtn.onclick = () => menu.remove();
+    header.textContent = 'Scripts Tribuna - Tribal Wars';
+    header.style.cssText = `
+      background: ${theme.border};
+      color: ${theme.fg};
+      font-weight: bold;
+      padding: 8px;
+      cursor: move;
+      text-align: center;
+      border-radius: 6px 6px 0 0;
+      user-select: none;
+    `;
 
+    // Botão para alternar tema
     const themeBtn = document.createElement('button');
-    themeBtn.textContent = currentTheme==='light' ? '🌙 Escuro' : '☀️ Claro';
-    themeBtn.title = "Alternar tema claro/escuro";
-    themeBtn.style = 'background:none; border:none; color:'+theme.fg+'; font-size:14px; cursor:pointer;';
-    themeBtn.onclick = () => {
-      currentTheme = currentTheme==='light' ? 'dark' : 'light';
-      localStorage.setItem('twScriptsTheme', currentTheme);
-      theme = themes[currentTheme];
-      // Atualiza as cores do menu sem reload:
-      menu.style.background = theme.bg;
-      menu.style.color = theme.fg;
-      menu.style.borderColor = theme.border;
-      header.style.color = theme.fg;
-      themeBtn.textContent = currentTheme==='light' ? '🌙 Escuro' : '☀️ Claro';
-      // Atualiza demais elementos se precisar (ex: botões)
-      // Aqui pode adicionar código para atualizar botão categoria e scripts se desejar
-    };
+    themeBtn.textContent = currentTheme === 'light' ? 'Tema Escuro' : 'Tema Claro';
+    themeBtn.style.cssText = `
+      position: absolute;
+      top: 8px;
+      right: 8px;
+      padding: 2px 8px;
+      font-size: 12px;
+      cursor: pointer;
+      background: transparent;
+      border: 1px solid ${theme.fg};
+      color: ${theme.fg};
+      border-radius: 4px;
+      user-select: none;
+    `;
+    themeBtn.title = 'Alternar tema claro/escuro';
 
-    header.appendChild(title);
     header.appendChild(themeBtn);
-    header.appendChild(closeBtn);
     menu.appendChild(header);
 
-    // Container categorias
-    const categoriasContainer = document.createElement('div');
-    categoriasContainer.style = 'display:flex; flex-wrap: wrap; gap:10px; max-height: 60vh; overflow-y: auto;';
-    // Botões de categoria
-    categorias.forEach(cat => {
-      const catBtn = document.createElement('button');
-      catBtn.style = `
-        flex: 0 0 80px;
-        display:flex; flex-direction: column; align-items:center;
+    // Container para categorias
+    const catContainer = document.createElement('div');
+    catContainer.style.padding = '6px';
+
+    // Lista para armazenar todos botões para mudança de tema
+    const allButtons = [];
+
+    // Função para criar botão com ícone e texto
+    function criarBotao(texto, icone){
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.style.cssText = `
+        width: 100%;
+        margin: 3px 0;
+        padding: 6px 6px 6px 32px;
+        font-size: 13px;
+        text-align: left;
+        border-radius: 4px;
         border: 1px solid ${theme.border};
-        border-radius: 8px;
-        padding: 8px 6px;
         background: ${theme.bg};
         color: ${theme.fg};
         cursor: pointer;
-        font-size: 11px;
+        position: relative;
         user-select: none;
-        transition: background-color 0.3s;
+        transition: background 0.3s ease;
       `;
-      catBtn.title = cat.titulo;
-      const img = document.createElement('img');
-      img.src = cat.icone || iconePadrao;
-      img.alt = cat.titulo;
-      img.style = 'width:32px; height:32px; margin-bottom: 6px;';
-      catBtn.appendChild(img);
+      btn.onmouseenter = () => { btn.style.background = theme.hover; };
+      btn.onmouseleave = () => { btn.style.background = theme.bg; };
+
+      if(icone){
+        const img = document.createElement('img');
+        img.src = icone;
+        img.alt = '';
+        img.style.cssText = `
+          width: 20px;
+          height: 20px;
+          position: absolute;
+          left: 6px;
+          top: 50%;
+          transform: translateY(-50%);
+          pointer-events: none;
+        `;
+        btn.appendChild(img);
+      }
+
       const span = document.createElement('span');
-      span.textContent = cat.titulo;
-      span.style = 'text-align:center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;';
-      catBtn.appendChild(span);
+      span.textContent = texto;
+      btn.appendChild(span);
 
-      catBtn.onmouseenter = () => catBtn.style.backgroundColor = theme.hover;
-      catBtn.onmouseleave = () => catBtn.style.backgroundColor = theme.bg;
+      allButtons.push(btn);
 
+      return btn;
+    }
+
+    // Função para criar categoria com título e lista de scripts
+    function criarCategoria(categoria){
+      const divCat = document.createElement('div');
+      divCat.style.marginBottom = '10px';
+
+      // Botão que mostra apenas o ícone da categoria inicialmente
+      const catBtn = criarBotao(categoria.titulo, categoria.icone);
+      catBtn.style.fontWeight = 'bold';
+      catBtn.style.textAlign = 'center';
+      catBtn.style.paddingLeft = '28px';
+      catBtn.style.userSelect = 'none';
+
+      // Container para scripts da categoria (inicialmente escondido)
+      const scriptsDiv = document.createElement('div');
+      scriptsDiv.style.cssText = `
+        margin-top: 4px;
+        padding-left: 16px;
+        display: none;
+        max-height: 250px;
+        overflow-y: auto;
+        border-left: 2px solid ${theme.border};
+      `;
+
+      // Toggle para mostrar/esconder scripts
       catBtn.onclick = () => {
-        mostrarScripts(cat);
+        if(scriptsDiv.style.display === 'none'){
+          scriptsDiv.style.display = 'block';
+        } else {
+          scriptsDiv.style.display = 'none';
+        }
       };
 
-      categoriasContainer.appendChild(catBtn);
+      // Adiciona os botões dos scripts dentro da categoria
+      categoria.scripts.forEach(([nome, icone, script]) => {
+        const btn = criarBotao(nome, icone || iconePadrao);
+        btn.style.fontWeight = 'normal';
+        btn.onclick = () => abrirScript(script);
+        scriptsDiv.appendChild(btn);
+      });
+
+      divCat.appendChild(catBtn);
+      divCat.appendChild(scriptsDiv);
+
+      return divCat;
+    }
+
+    categorias.forEach(cat => {
+      catContainer.appendChild(criarCategoria(cat));
     });
-    menu.appendChild(categoriasContainer);
 
-    // Área scripts
-    const scriptsPanel = document.createElement('div');
-    scriptsPanel.style = `
-      margin-top: 12px; 
-      border-top: 1px solid ${theme.panelBorder}; 
-      padding-top: 10px; 
-      max-height: 50vh; 
-      overflow-y: auto;
-      background: ${theme.panelBg};
-    `;
-    menu.appendChild(scriptsPanel);
+    menu.appendChild(catContainer);
+    document.body.appendChild(menu);
 
-    // Mostrar scripts
-    function mostrarScripts(cat){
-      scriptsPanel.innerHTML = '';
-      const titulo = document.createElement('div');
-      titulo.textContent = cat.titulo;
-      titulo.style = 'font-weight:bold; margin-bottom:8px; font-size:14px;';
-      scriptsPanel.appendChild(titulo);
+    // Atualiza tema de todos os botões e elementos ao trocar tema
+    function atualizarTema(novoTema){
+      theme = themes[novoTema];
+      menu.style.background = theme.bg;
+      menu.style.color = theme.fg;
+      menu.style.borderColor = theme.border;
+      header.style.background = theme.border;
+      header.style.color = theme.fg;
+      themeBtn.style.borderColor = theme.fg;
+      themeBtn.style.color = theme.fg;
+      themeBtn.textContent = novoTema === 'light' ? 'Tema Escuro' : 'Tema Claro';
 
-      cat.scripts.forEach(([nome, icone, script]) => {
-        const btn = document.createElement('button');
-        btn.style = `
-          width: 100%; 
-          display:flex; 
-          align-items:center; 
-          margin-bottom: 6px; 
-          background: ${theme.bg}; 
-          border: 1px solid ${theme.border}; 
-          border-radius: 6px;
-          color: ${theme.fg};
-          cursor:pointer;
-          padding: 6px 8px;
-          font-size: 13px;
-          transition: background-color 0.3s;
-        `;
-        btn.title = nome;
-        btn.onmouseenter = () => btn.style.backgroundColor = theme.hover;
-        btn.onmouseleave = () => btn.style.backgroundColor = theme.bg;
-
-        const img = document.createElement('img');
-        img.src = icone || iconePadrao;
-        img.alt = nome;
-        img.style = 'width:24px; height:24px; margin-right: 8px;';
-        btn.appendChild(img);
-
-        const span = document.createElement('span');
-        span.textContent = nome;
-        btn.appendChild(span);
-
-        btn.onclick = () => {
-          abrirScript(script);
-        };
-
-        scriptsPanel.appendChild(btn);
+      // Atualiza estilo dos botões
+      allButtons.forEach(btn => {
+        btn.style.background = theme.bg;
+        btn.style.color = theme.fg;
+        btn.style.borderColor = theme.border;
+        btn.onmouseenter = () => { btn.style.background = theme.hover; };
+        btn.onmouseleave = () => { btn.style.background = theme.bg; };
       });
     }
 
-    // Adiciona menu à página
-    document.body.appendChild(menu);
+    themeBtn.onclick = () => {
+      currentTheme = currentTheme === 'light' ? 'dark' : 'light';
+      localStorage.setItem('twScriptsTheme', currentTheme);
+      atualizarTema(currentTheme);
+    };
+
+    // ====== Drag and drop do menu ======
+    (function(){
+      let posX = 0, posY = 0, mouseX = 0, mouseY = 0;
+      header.style.cursor = 'move';
+
+      function dragMouseDown(e){
+        e = e || window.event;
+        e.preventDefault();
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        document.onmouseup = closeDragElement;
+        document.onmousemove = elementDrag;
+      }
+
+      function elementDrag(e){
+        e = e || window.event;
+        e.preventDefault();
+        posX = mouseX - e.clientX;
+        posY = mouseY - e.clientY;
+        mouseX = e.clientX;
+        mouseY = e.clientY;
+        menu.style.top = (menu.offsetTop - posY) + "px";
+        menu.style.left = (menu.offsetLeft - posX) + "px";
+      }
+
+      function closeDragElement(){
+        document.onmouseup = null;
+        document.onmousemove = null;
+      }
+
+      header.onmousedown = dragMouseDown;
+    })();
+
   });
 })();
