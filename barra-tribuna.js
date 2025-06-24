@@ -193,7 +193,7 @@ javascript:(function(){
       icone: "https://i.ibb.co/2YmvSFmb/logo-ttw-2.png",
       scripts: [
         ["🎓 Acessar Curso", "https://icons.iconarchive.com/icons/bokehlicia/captiva/32/rocket-icon.png", "https://hotmart.com/pt-br/marketplace/produtos/curso-de-tribal-wars/U96903865S"],
-    ["🧿 Obsidian Scripts", "https://icons.iconarchive.com/icons/simpleicons-team/simple/32/obsidian-icon.png", "https://www.obsidiantribal.com/"],
+    ["🧿 Obsidian Scripts", "https://www.obsidiantribal.com/images/IMG_3002.GIF", "https://www.obsidiantribal.com/"],
     ["📺 Canal Tribuna", "https://icons.iconarchive.com/icons/danleech/simple/32/youtube-icon.png", "https://www.youtube.com/@tribunatribalwars"],
     ["🛠️ Ver Serviços", "https://icons.iconarchive.com/icons/bokehlicia/captiva/32/steam-icon.png", "https://tribunatw.com/services"],
     ["💬 Entrar no Discord", "https://icons.iconarchive.com/icons/papirus-team/papirus-apps/32/discord-icon.png", "https://discord.gg/kwTUFCyFRA"],
