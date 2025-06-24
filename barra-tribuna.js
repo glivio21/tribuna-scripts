@@ -1,41 +1,56 @@
 javascript:(function(){
-  const id = 'tw-scripts-unified-menu';
-  if (document.getElementById(id)) return document.getElementById(id).remove();
-
-  // ====== Tema ======
-  let currentTheme = localStorage.getItem('twScriptsTheme') || 'light';
-  const themes = {
-    light: { bg:'#ffffff', fg:'#000000', border:'#333333', hover:'#eeeeee', panelBg:'#ffffff', panelBorder:'#cccccc' },
-    dark:  { bg:'#000000', fg:'#ffffff', border:'#000000', hover:'#222222', panelBg:'#000000', panelBorder:'#444444' }
-  };
-  const theme = themes[currentTheme];
-
-  // ====== Cria menu ======
-  const menu = document.createElement('div');
-  menu.id = id;
-  applyMenuStyle();
-  function applyMenuStyle(){
-    menu.style = `
-      position: fixed; top: 100px; left: 100px;
-      background: ${theme.bg}; color: ${theme.fg};
-      border: 2px solid ${theme.border}; border-radius: 8px;
-      padding: 10px; z-index: 9999;
-      box-shadow: 0 0 10px rgba(0,0,0,0.4);
-      max-width: 520px; max-height: 85vh; overflow-y: auto;
-      font-family: sans-serif;
-    `;
+  const SCRIPT_ID = 'tw-barra-tribuna';
+  if(document.getElementById(SCRIPT_ID)) {
+    document.getElementById(SCRIPT_ID).remove();
+    return;
   }
 
-  // ====== Ícones ======
-  const iconePadrao   = "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png";
-  const iconeEdificio = "https://icons.iconarchive.com/icons/icondigest/main-street/32/Cradle-of-learning-icon.png";
-  const iconeTribo    = "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png";
-  const iconeOfensivo = "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png";
-  const iconeDefensivo= "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png";
-  const iconeRecurso  = "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png";
-  const iconeCalc     = "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png";
+  // Temas
+  const themes = {
+    light: {
+      bg: '#ffffff',
+      fg: '#000000',
+      border: '#333333',
+      hover: '#eeeeee',
+      panelBg: '#ffffff',
+      panelBorder: '#cccccc'
+    },
+    dark: {
+      bg: '#000000',
+      fg: '#ffffff',
+      border: '#000000',
+      hover: '#222222',
+      panelBg: '#000000',
+      panelBorder: '#444444'
+    }
+  };
 
-  // ====== Categorias e scripts ======
+  // Obtem tema salvo ou padrão 'dark'
+  let currentTheme = localStorage.getItem('twBarraTheme') || 'dark';
+  const theme = themes[currentTheme];
+
+  // Ícones padrão
+  const icons = {
+    padrao: "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png",
+    edificios: "https://icons.iconarchive.com/icons/icondigest/main-street/32/Cradle-of-learning-icon.png",
+    tribo: "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png",
+    ofensivo: "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png",
+    defensivo: "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png",
+    recurso: "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png",
+    calc: "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png",
+    outrosServicos: "https://i.ibb.co/2YmvSFmb/logo-ttw-2.png"
+  };
+
+const iconePadrao = "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png";
+const iconeEdificio = "https://icons.iconarchive.com/icons/icondigest/main-street/32/Cradle-of-learning-icon.png";
+const iconeTribo = "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png";
+const iconeOfensivo = "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png";
+const iconeDefensivo = "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png";
+const iconeRecurso = "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png";
+const iconeCalc = "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png";
+
+
+ // ====== Categorias e scripts ======
   const categorias = [
     {
       titulo: '🏰 Edifícios',
@@ -236,129 +251,184 @@ javascript:(function(){
 }
   ];
 
-  // ====== Funções de renderização ======
-  function clearMenu(){ menu.innerHTML = ''; }
+  // Cria e estiliza o container do menu
+  const menu = document.createElement('div');
+  menu.id = SCRIPT_ID;
+  aplicarEstiloMenu();
+  
+  function aplicarEstiloMenu(){
+    menu.style = `
+      position: fixed; top: 100px; left: 100px;
+      background: ${theme.bg}; color: ${theme.fg};
+      border: 2px solid ${theme.border}; border-radius: 8px;
+      padding: 10px; z-index: 99999;
+      box-shadow: 0 0 10px rgba(0,0,0,0.5);
+      max-width: 520px; max-height: 85vh; overflow-y: auto;
+      font-family: sans-serif;
+      user-select: none;
+    `;
+  }
+
+  // Renderiza cabeçalho com título e botão fechar
   function renderHeader(){
-    const hdr = document.createElement('div');
-    hdr.style = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;';
-    const title = document.createElement('h2');
-    title.textContent = 'Tribuna Scripts';
-    title.style = `margin:0;color:${theme.fg};`;
+    const header = document.createElement('div');
+    header.style = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;';
+    
+    const titulo = document.createElement('h2');
+    titulo.textContent = 'Tribuna Scripts';
+    titulo.style = `margin:0; color:${theme.fg};`;
+    
     const btnClose = document.createElement('span');
     btnClose.textContent = '✖';
-    btnClose.style = `cursor:pointer;font-size:18px;color:${theme.fg};`;
+    btnClose.style = `cursor:pointer; font-weight:bold; font-size:18px; color:${theme.fg};`;
+    btnClose.title = 'Fechar menu';
     btnClose.onclick = () => menu.remove();
-    hdr.appendChild(title);
-    hdr.appendChild(btnClose);
-    menu.appendChild(hdr);
+
+    header.appendChild(titulo);
+    header.appendChild(btnClose);
+    menu.appendChild(header);
   }
+
+  // Botão para alternar tema
   function renderThemeToggle(){
-    const ctr = document.createElement('div');
-    ctr.style = 'display:flex;gap:6px;margin-bottom:10px;';
-    ['light','dark'].forEach(t => {
-      const b = document.createElement('button');
-      b.textContent = t==='light'?'Modo Claro':'Modo Escuro';
-      b.style = `
-        flex:1; padding:4px;
-        background:${currentTheme===t?theme.fg:theme.panelBg};
-        color:${currentTheme===t?theme.bg:theme.fg};
-        border:1px solid ${theme.panelBorder};
-        cursor:pointer;
+    const container = document.createElement('div');
+    container.style = 'display:flex; gap:10px; margin-bottom:12px;';
+    ['light', 'dark'].forEach(t => {
+      const btn = document.createElement('button');
+      btn.textContent = t === 'light' ? 'Modo Claro' : 'Modo Escuro';
+      btn.style = `
+        flex: 1; padding: 6px; border: 1px solid ${theme.panelBorder};
+        cursor: pointer; background: ${currentTheme === t ? theme.fg : theme.panelBg};
+        color: ${currentTheme === t ? theme.bg : theme.fg};
+        border-radius: 5px;
+        user-select: none;
       `;
-      b.onclick = () => {
-        localStorage.setItem('twScriptsTheme', t);
+      btn.onclick = () => {
+        localStorage.setItem('twBarraTheme', t);
         location.reload();
       };
-      ctr.appendChild(b);
+      container.appendChild(btn);
     });
-    menu.appendChild(ctr);
+    menu.appendChild(container);
   }
-  function renderCategories(){
-    clearMenu(); renderHeader(); renderThemeToggle();
-    const grid = document.createElement('div');
-    grid.style = 'display:flex;flex-wrap:wrap;gap:10px;';
+
+  // Renderiza lista de categorias (com ícones clicáveis)
+  function renderCategorias(){
+    limparMenu();
+    renderHeader();
+    renderThemeToggle();
+
+    const container = document.createElement('div');
+    container.style = 'display:flex; flex-wrap: wrap; gap: 12px;';
     categorias.forEach(cat => {
       const box = document.createElement('div');
       box.style = `
-        display:flex;flex-direction:column;align-items:center;
-        width:80px;padding:6px;border:1px solid ${theme.panelBorder};
-        border-radius:6px;cursor:pointer;background:${theme.panelBg};
+        width: 80px; text-align: center; cursor: pointer;
+        background: ${theme.panelBg}; border: 1px solid ${theme.panelBorder};
+        border-radius: 6px; padding: 6px; user-select: none;
+        display: flex; flex-direction: column; align-items: center;
       `;
+      box.title = cat.titulo;
       box.onclick = () => renderScripts(cat);
+
       const img = document.createElement('img');
-      img.src = cat.icone; img.style = 'width:40px;height:40px;margin-bottom:4px;'; 
-      const lbl = document.createElement('span');
-      lbl.textContent = cat.titulo;
-      lbl.style = `font-size:12px;color:${theme.fg};text-align:center;`;
+      img.src = cat.icone;
+      img.style = 'width: 40px; height: 40px; margin-bottom: 6px;';
+      img.alt = cat.titulo;
+
+      const label = document.createElement('span');
+      label.textContent = cat.titulo;
+      label.style = `font-size: 12px; color: ${theme.fg};`;
+
       box.appendChild(img);
-      box.appendChild(lbl);
-      grid.appendChild(box);
+      box.appendChild(label);
+      container.appendChild(box);
     });
-    menu.appendChild(grid);
+
+    menu.appendChild(container);
   }
+
+  // Renderiza scripts da categoria com botão voltar
   function renderScripts(cat){
-    clearMenu(); renderHeader(); renderThemeToggle();
-    const backBtn = document.createElement('button');
-    backBtn.textContent = '← Voltar';
-    backBtn.style = 'margin-bottom:8px;padding:4px;cursor:pointer;';
-    backBtn.onclick = renderCategories;
-    menu.appendChild(backBtn);
-    const heading = document.createElement('h3');
-    heading.textContent = cat.titulo;
-    heading.style = `margin:4px 0 10px 0;color:${theme.fg};`;
-    menu.appendChild(heading);
-    cat.scripts.forEach(s => {
-      const row = document.createElement('div');
-      row.style = `
-        display:flex;align-items:center;padding:4px;margin-bottom:6px;
-        border:1px solid ${theme.panelBorder};border-radius:4px;
-        cursor:pointer;background:${theme.panelBg};
+    limparMenu();
+    renderHeader();
+    renderThemeToggle();
+
+    const btnVoltar = document.createElement('button');
+    btnVoltar.textContent = '← Voltar';
+    btnVoltar.style = `
+      margin-bottom: 12px; padding: 6px 10px; cursor: pointer;
+      background: ${theme.panelBg}; border: 1px solid ${theme.panelBorder};
+      color: ${theme.fg}; border-radius: 5px;
+    `;
+    btnVoltar.onclick = renderCategorias;
+    menu.appendChild(btnVoltar);
+
+    const titulo = document.createElement('h3');
+    titulo.textContent = cat.titulo;
+    titulo.style = `margin: 4px 0 12px 0; color: ${theme.fg};`;
+    menu.appendChild(titulo);
+
+    cat.scripts.forEach(script => {
+      const linha = document.createElement('div');
+      linha.style = `
+        display: flex; align-items: center; padding: 6px; margin-bottom: 8px;
+        cursor: pointer; border-radius: 5px;
+        background: ${theme.panelBg}; border: 1px solid ${theme.panelBorder};
+        user-select: none;
       `;
-      row.onmouseenter = () => row.style.background = theme.hover;
-      row.onmouseleave = () => row.style.background = theme.panelBg;
-      row.onclick = () => executarScript(s);
-      const ico = document.createElement('img');
-      ico.src = s[1] || iconePadrao;
-      ico.style = 'width:24px;height:24px;margin-right:8px;';
-      const txt = document.createElement('span');
-      txt.textContent = s[0];
-      txt.style = `color:${theme.fg};`;
-      row.appendChild(ico);
-      row.appendChild(txt);
-      menu.appendChild(row);
+      linha.onmouseenter = () => linha.style.backgroundColor = theme.hover;
+      linha.onmouseleave = () => linha.style.backgroundColor = theme.panelBg;
+
+      linha.onclick = () => executarScript(script);
+
+      const img = document.createElement('img');
+      img.src = script[1] || icons.padrao;
+      img.alt = script[0];
+      img.style = 'width: 24px; height: 24px; margin-right: 10px;';
+      linha.appendChild(img);
+
+      const texto = document.createElement('span');
+      texto.textContent = script[0];
+      texto.style = `color: ${theme.fg}; font-size: 14px;`;
+      linha.appendChild(texto);
+
+      menu.appendChild(linha);
     });
   }
 
-  // ====== Função para executar scripts ======
-function executarScript(script){
-  if (typeof script[2] === "function") {
+  // Limpa todo conteúdo do menu
+  function limparMenu(){
+    menu.innerHTML = '';
+  }
+
+  // Executa script, aceitando string (url), javascript embutido, ou função
+  function executarScript(script){
     try {
-      script[2]();
-    } catch (e) {
-      alert("Erro ao executar o script (função): " + e.message);
-    }
-    return;
-  }
-
-  if (typeof script[2] === "string") {
-    const url = script[2];
-
-    if (url.startsWith("javascript:")) {
-      try {
-        eval(url.slice(11));
-      } catch (e) {
-        alert("Erro ao executar script embutido: " + e.message);
+      if(typeof script[2] === 'function'){
+        script[2]();
+      } else if(typeof script[2] === 'string'){
+        const url = script[2];
+        if(url.startsWith('javascript:')){
+          eval(url.slice(11));
+        } else if(url.endsWith('.js')){
+          $.getScript(url).fail(() => alert('Erro ao carregar o script!'));
+        } else if(url.startsWith('http')){
+          window.open(url, '_blank');
+        } else if(url.includes('{game}')){
+          let base = window.location.href.split('?')[0];
+          window.location.href = url.replace('{game}', base);
+        } else {
+          alert('Formato de script inválido.');
+        }
       }
-    } else if (url.endsWith(".js")) {
-      $.getScript(url).fail(() => alert("Erro ao carregar o script externo!"));
-    } else if (url.startsWith("http")) {
-      window.open(url, "_blank");
-    } else {
-      alert("Formato de script inválido.");
+    } catch(e){
+      alert('Erro ao executar o script: ' + e.message);
     }
   }
-}
 
-// ====== Inicia ======
-renderCategories();
-document.body.appendChild(menu);
+  // Iniciar menu
+  renderCategorias();
+  document.body.appendChild(menu);
+
+})();
