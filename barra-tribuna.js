@@ -212,8 +212,7 @@ javascript:(function(){
             `;
             document.body.appendChild(div);
             document.getElementById('calcularBT').onclick=calcular;
-          }]
-      }
+                }
     ];
 
     // ====== Função para abrir scripts ======
