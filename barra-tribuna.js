@@ -344,7 +344,36 @@ javascript:(function(){
     });
   }
 
-  // ====== Inicia ======
-  renderCategories();
-  document.body.appendChild(menu);
-})();
+  // ====== Função para executar scripts ======
+function executarScript(script){
+  if (typeof script[2] === "function") {
+    try {
+      script[2]();
+    } catch (e) {
+      alert("Erro ao executar o script (função): " + e.message);
+    }
+    return;
+  }
+
+  if (typeof script[2] === "string") {
+    const url = script[2];
+
+    if (url.startsWith("javascript:")) {
+      try {
+        eval(url.slice(11));
+      } catch (e) {
+        alert("Erro ao executar script embutido: " + e.message);
+      }
+    } else if (url.endsWith(".js")) {
+      $.getScript(url).fail(() => alert("Erro ao carregar o script externo!"));
+    } else if (url.startsWith("http")) {
+      window.open(url, "_blank");
+    } else {
+      alert("Formato de script inválido.");
+    }
+  }
+}
+
+// ====== Inicia ======
+renderCategories();
+document.body.appendChild(menu);
