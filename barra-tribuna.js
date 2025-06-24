@@ -214,7 +214,7 @@ javascript:(function(){
               return $("#resultado").html("Insira horários válidos (HH:MM:SS).");
             }
             let [h1,m1,s1]=v1.split(':'),[h2,m2,s2]=v2.split(':');
-            h1=+h1; m1=+m1; s1=+s1; h2=+h2; m2=+m2; s2=+s2;
+            h1=+h1;m1=+m1;s1=+s1;h2=+h2;m2=+m2;s2=+s2;
             let backH=h1+h2, backM=m1+m2, backS=s1+s2;
             if(backS>=60){backM++; backS-=60;} if(backM>=60){backH++; backM-=60;} if(backH>=24){backH-=24;}
             backH=('0'+backH).slice(-2); backM=('0'+backM).slice(-2); backS=('0'+backS).slice(-2);
@@ -289,7 +289,7 @@ javascript:(function(){
       `;
       box.onclick = () => renderScripts(cat);
       const img = document.createElement('img');
-      img.src = cat.icone; img.style = 'width:40px;height:40px;margin-bottom:4px;';
+      img.src = cat.icone; img.style = 'width:40px;height:40px;margin-bottom:4px;'; 
       const lbl = document.createElement('span');
       lbl.textContent = cat.titulo;
       lbl.style = `font-size:12px;color:${theme.fg};text-align:center;`;
