@@ -84,19 +84,21 @@ const iconeCalc = "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-ico
       ]
     },
     {
-      titulo: '🤝 Scripts para Tribo',
-      icone: iconeTribo,
-      scripts: [
-        ["Aristocracia", iconeTribo, "https://shinko-to-kuma.com/scripts/overwatch.js"],
-        ["Ver ataques na tribo", iconeTribo, "https://dl.dropboxusercontent.com/s/ikunxd5d59059b4/scriptMostrarAtaquesACaminho.js"],
-        ["Ataques (Tribo) - Membros", iconeTribo, "https://dl.dropboxusercontent.com/s/oy16zihcrmtul4k/tribeinc.js"],
-        ["Evolução (Tribo) - Membros", iconeTribo, "https://shinko-to-kuma.com/scripts/tribeStats.js"],
-        ["Evolução Players Rank", iconeTribo, "https://twscripts.dev/scripts/rankingGraphs.js"],
-        ["Calcular Tropas da Tribo", iconeTribo, "https://shinko-to-kuma.com/scripts/tribeMembersTroopCalculator.js"],
-        ["Análise de Tribos", iconeTribo, "https://twscripts.dev/scripts/tribeStatsTool.js"],
-        ["Convidar P/ Tribo em Massa", iconeTribo, "https://twscripts.dev/scripts/inviteToTribe.js"],
-        ["Gerar lista (Membros)", iconeTribo, "https://media.innogamescdn.com/com_DS_PL/skrypty/lista_mail.js"],           
-    },
+  titulo: '🤝 Scripts para Tribo',
+  icone: iconeTribo,
+  scripts: [
+    ["Aristocracia", iconeTribo, "https://shinko-to-kuma.com/scripts/overwatch.js"],
+    ["Ver ataques na tribo", iconeTribo, "https://dl.dropboxusercontent.com/s/ikunxd5d59059b4/scriptMostrarAtaquesACaminho.js"],
+    ["Ataques (Tribo) - Membros", iconeTribo, "https://dl.dropboxusercontent.com/s/oy16zihcrmtul4k/tribeinc.js"],
+    ["Evolução (Tribo) - Membros", iconeTribo, "https://shinko-to-kuma.com/scripts/tribeStats.js"],
+    ["Evolução Players Rank", iconeTribo, "https://twscripts.dev/scripts/rankingGraphs.js"],
+    ["Calcular Tropas da Tribo", iconeTribo, "https://shinko-to-kuma.com/scripts/tribeMembersTroopCalculator.js"],
+    ["Análise de Tribos", iconeTribo, "https://twscripts.dev/scripts/tribeStatsTool.js"],
+    ["Convidar P/ Tribo em Massa", iconeTribo, "https://twscripts.dev/scripts/inviteToTribe.js"],
+    ["Gerar lista (Membros)", iconeTribo, "https://media.innogamescdn.com/com_DS_PL/skrypty/lista_mail.js"]
+  ]  // <-- Fechou array de scripts aqui
+},    // <-- Fechou objeto da categoria aqui
+
     {
       titulo: '🎯 Scripts Ofensivos',
       icone: iconeOfensivo,
@@ -140,171 +142,172 @@ const iconeCalc = "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-ico
       ]
     },
     {
-      titulo: '🛑 Scripts Defensivos',
-      icone: iconeDefensivo,
-      scripts: [
-        ["Remover Tropas de Apoio", iconeDefensivo, "https://twscripts.dev/scripts/supportCounterEvolved.js"],
-        ["Apoio em Massa", iconeDefensivo, function(){
-          window.heavyCav=4;$.getScript('https://dl.dropboxusercontent.com/s/idwa7mmpn6nxl3l/supportSender.js?dl=0');
-        }],
-        ["Simulador Defensor de Ataques", iconeDefensivo, "https://twscripts.dev/scripts/defenseHealthCheck.js"],
-        ["Ver Todos os Ataques", iconeDefensivo, "https://dl.dropbox.com/s/flt8iokmg7pomow/IncomingOpSpotter.js"],
-        ["Visão Geral de Ataques", iconeDefensivo, function(){
-          window.NOBLE_GAP=100;window.FORMAT='%unit% | %sent%';
-          $.getScript('https://twscripts.dev/scripts/incomingsOverview.js');
-        }],
-        ["Devil DEF", iconeDefensivo, "https://media.innogames.com/com_DS_NL/scripts/Devils-Def-Pack_206163.js"],
-        
-////* CÃ³digo do programa *////
+  titulo: '🛑 Scripts Defensivos',
+  icone: iconeDefensivo,
+  scripts: [
+    ["Remover Tropas de Apoio", iconeDefensivo, "https://twscripts.dev/scripts/supportCounterEvolved.js"],
+    ["Apoio em Massa", iconeDefensivo, function(){
+      window.heavyCav=4;
+      $.getScript('https://dl.dropboxusercontent.com/s/idwa7mmpn6nxl3l/supportSender.js?dl=0');
+    }],
+    ["Simulador Defensor de Ataques", iconeDefensivo, "https://twscripts.dev/scripts/defenseHealthCheck.js"],
+    ["Ver Todos os Ataques", iconeDefensivo, "https://dl.dropbox.com/s/flt8iokmg7pomow/IncomingOpSpotter.js"],
+    ["Visão Geral de Ataques", iconeDefensivo, function(){
+      window.NOBLE_GAP = 100;
+      window.FORMAT = '%unit% | %sent%';
+      $.getScript('https://twscripts.dev/scripts/incomingsOverview.js');
+    }],
+    ["Devil DEF", iconeDefensivo, "https://media.innogames.com/com_DS_NL/scripts/Devils-Def-Pack_206163.js"],
+    ["Colorir Ataques", iconeDefensivo, function(){
+      // Começo do script Colorir Ataques
+      var world = String(location.href).split(/[/:.]+/)[1];
+      var world_number = Number(world.substring(2));
 
-var world = String(location.href).split(/[/:.]+/)[1]
-var world_number = Number(world.substring(2))
+      function iT(nr, linha) {
+        var html = '';
+        if (settings[0]) html += '<span style="float: right;">';
+        settings[1].forEach(function(nome, num) {
+          html += '<button type="button" id="opt' + nr + '_' + num + '" class="btn" title="' + settings[0][num] + '" style="color: ' + getFon(num) + '; font-size: ' + getSize() + 'px !important; background: linear-gradient(to bottom, ' + getTop(num) + ' 30%, ' + getBot(num) + ' 10%)">' + nome + '</button>';
+        });
+        html += '</span>';
+        $(linha).find('.quickedit-content').append(html);
+        settings[0].forEach(function(nome, num) {
+          if (nome.indexOf('|') == -1) {
+            $('#opt' + nr + '_' + num).click(function() {
+              $(linha).find('.rename-icon').click();
+              $(linha).find('input[type=text]').val($(linha).find('input[type=text]').val().split(" ")[0] + ' ' + settings[0][num]);
+              $(linha).find('input[type=button]').click();
+              iT(nr, linha);
+            });
+          } else if (nome.indexOf('|')) {
+            $('#opt' + nr + '_' + num).click(function() {
+              $(linha).find('.rename-icon').click();
+              $(linha).find('input[type=text]').val($(linha).find('input[type=text]').val() + settings[0][num]);
+              $(linha).find('input[type=button]').click();
+              iT(nr, linha);
+            });
+          }
+        });
+      }
 
-function iT(nr, linha) {
-    var html = '';
-    if (settings[0]) html += '<span style="float: right;">';
-    settings[1].forEach(function(nome, num) {
-        html += '<button type="button" id="opt' + nr + '_' + num + '" class="btn" title="' + settings[0][num] + '" style="color: ' + getFon(num) + '; font-size: ' + getSize() + 'px !important; background: linear-gradient(to bottom, ' + getTop(num) + ' 30%, ' + getBot(num) + ' 10%)">' + nome + '</button>';
-    })
-    html += '</span>';
-    $(linha).find('.quickedit-content').append(html);
-    settings[0].forEach(function(nome, num) {
-        if (nome.indexOf('|') == -1) {
-            $('#opt' + nr + '_' + num).click(function() {
-                $(linha).find('.rename-icon').click();
-                $(linha).find('input[type=text]').val($(linha).find('input[type=text]').val().split(" ")[0] + ' ' + settings[0][num]);
-                $(linha).find('input[type=button]').click();
-                iT(nr, linha);
-            });
-        } else if (nome.indexOf('|')) {
-            $('#opt' + nr + '_' + num).click(function() {
-                $(linha).find('.rename-icon').click();
-                $(linha).find('input[type=text]').val($(linha).find('input[type=text]').val() + settings[0][num]);
-                $(linha).find('input[type=button]').click();
-                iT(nr, linha);
-            });
+      function getTop(num) {
+        var index = colors[0].indexOf(settings[2][num]);
+        if (settings[2][num]) {
+          return colors[1][index];
+        } else {
+          return '#b69471';
         }
-    });
-}
+      }
 
-function getTop(num) {
-    var index = colors[0].indexOf(settings[2][num])
-    if (settings[2][num]) {
-        return colors[1][index];
-    } else {
-        return '#b69471';
-    }
-}
+      function getBot(num) {
+        var index = colors[0].indexOf(settings[2][num]);
+        if (settings[2][num]) return colors[2][index];
+        else return '#6c4d2d';
+      }
 
-function getBot(num) {
-    var index = colors[0].indexOf(settings[2][num])
-    if (settings[2][num]) return colors[2][index];
-    else return '#6c4d2d';
-}
+      function getFon(num) {
+        var index = colors[0].indexOf(settings[3][num]);
+        if (settings[3][num]) return colors[1][index];
+        else return '#ffffff';
+      }
 
-function getFon(num) {
-    var index = colors[0].indexOf(settings[3][num])
-    if (settings[3][num]) return colors[1][index];
-    else return '#ffffff';
-}
+      function getSize() {
+        if (tamanho_letra) return tamanho_letra;
+        else return 12;
+      }
 
-function getSize() {
-    if (tamanho_letra) return tamanho_letra;
-    else return 12;
-}
-
-if (location.href.indexOf("screen=overview_villages") == -1 && location.href.indexOf("mode=incomings&subtype=attacks") == -1) {
-    $('#commands_incomings .command-row').each(function(nr, linha) {
-        if (!isSupport(linha)) iT(nr, linha, true);
-    });
-} else {
-    setInterval(function() {
-        $('#incomings_table tr.nowrap').each(function(nr, linha) {
+      if (location.href.indexOf("screen=overview_villages") == -1 && location.href.indexOf("mode=incomings&subtype=attacks") == -1) {
+        $('#commands_incomings .command-row').each(function(nr, linha) {
+          if (!isSupport(linha)) iT(nr, linha, true);
+        });
+      } else {
+        setInterval(function() {
+          $('#incomings_table tr.nowrap').each(function(nr, linha) {
             if (!isSupport(linha)) {
-                var name = $.trim($(linha).find('.quickedit-label').text())
-                var code = settings[0].indexOf(name.indexOf(" ") >= 0 ? name.substr(name.indexOf(" ") + 1) : name)
-                var dual = check(name)
-                var codes = []
-                codes[0] = check(name, 1);
-                codes[1] = check(name, 2);
-                if (code != -1) {
-                    var colorcode = settings[2][code]
-                    var color = colors[1][colors[0].indexOf(colorcode)]
-                    if (pagina_de_ataques === 'linha') {
-                        $(linha).find('td').each(function(nr, td) {
-                            $(td).attr('style', 'background: ' + color + ' !important;')
-                        })
-                    } else if (pagina_de_ataques === 'coluna') {
-                        $(linha).find('td:eq(0)').attr('style', 'background: ' + color + ' !important;')
-                        $(linha).find('a:eq(0)').attr('style', 'color: white !important; text-shadow:-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;')
-                    }
-                } else if (dual) {
-                    console.log(codes, nr)
-                    var colorcode1 = settings[2][codes[0]]
-                    var colorcode2 = settings[2][codes[1]]
-                    var color1 = colors[1][colors[0].indexOf(colorcode1)]
-                    var color2 = colors[1][colors[0].indexOf(colorcode2)]
-                    var textcolor = colors[1][colors[0].indexOf('white')]
-                    var strokecolor = colors[1][colors[0].indexOf('black')]
-                    if (pagina_de_ataques === 'linha') {
-                        $(linha).find('td').each(function(nr, td) {
-                            $(td).attr('style', 'background: repeating-linear-gradient(45deg, ' + color1 + ', ' + color1 + ' 10px, ' + color2 + ' 10px, ' + color2 + ' 20px) !important;')
-                        })
-                    } else if (pagina_de_ataques === 'coluna') {
-                        $(linha).find('td:eq(0)').attr('style', 'background: repeating-linear-gradient(45deg, ' + color1 + ', ' + color1 + ' 10px, ' + color2 + ' 10px, ' + color2 + ' 20px) !important;')
-                        $(linha).find('a:eq(0)').attr('style', 'color: ' + textcolor + ' !important; text-shadow:-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;')
-                    }
-                } else {
-                    if (pagina_de_ataques === 'linha') {
-                        $(linha).find('td').each(function(nr, td) {
-                            $(td).attr('style', 'background: ' + colors[2][colors[0].indexOf('red')] + ' !important;')
-                        })
-                        $(linha).find('a').each(function(nr, td) {
-                            $(td).attr('style', 'color: ' + colors[2][colors[0].indexOf('white')] + ' !important;')
-                        })
-                    } else if (pagina_de_ataques === 'coluna') {
-                        $(linha).find('td:eq(0)').attr('style', 'background: ' + colors[2][colors[0].indexOf('red')] + ' !important;')
-                        $(linha).find('a:eq(0)').attr('style', 'color: white !important; text-shadow:-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;')
-                    }
-                }
-            } else {
+              var name = $.trim($(linha).find('.quickedit-label').text());
+              var code = settings[0].indexOf(name.indexOf(" ") >= 0 ? name.substr(name.indexOf(" ") + 1) : name);
+              var dual = check(name);
+              var codes = [];
+              codes[0] = check(name, 1);
+              codes[1] = check(name, 2);
+              if (code != -1) {
+                var colorcode = settings[2][code];
+                var color = colors[1][colors[0].indexOf(colorcode)];
                 if (pagina_de_ataques === 'linha') {
-                    $(linha).find('td').each(function(nr, td) {
-                        $(td).attr('style', 'background: ' + colors[2][colors[0].indexOf('yellow')] + ' !important;')
-                    })
-                    $(linha).find('a').each(function(nr, td) {
-                        $(td).attr('style', 'color: ' + colors[2][colors[0].indexOf('white')] + ' !important;')
-                    })
+                  $(linha).find('td').each(function(nr, td) {
+                    $(td).attr('style', 'background: ' + color + ' !important;');
+                  });
                 } else if (pagina_de_ataques === 'coluna') {
-                    $(linha).find('td:eq(0)').attr('style', 'background: ' + colors[2][colors[0].indexOf('yellow')] + ' !important;')
-                    $(linha).find('a:eq(0)').attr('style', 'color: white !important; text-shadow:-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;')
+                  $(linha).find('td:eq(0)').attr('style', 'background: ' + color + ' !important;');
+                  $(linha).find('a:eq(0)').attr('style', 'color: white !important; text-shadow:-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;');
                 }
+              } else if (dual) {
+                var colorcode1 = settings[2][codes[0]];
+                var colorcode2 = settings[2][codes[1]];
+                var color1 = colors[1][colors[0].indexOf(colorcode1)];
+                var color2 = colors[1][colors[0].indexOf(colorcode2)];
+                var textcolor = colors[1][colors[0].indexOf('white')];
+                if (pagina_de_ataques === 'linha') {
+                  $(linha).find('td').each(function(nr, td) {
+                    $(td).attr('style', 'background: repeating-linear-gradient(45deg, ' + color1 + ', ' + color1 + ' 10px, ' + color2 + ' 10px, ' + color2 + ' 20px) !important;');
+                  });
+                } else if (pagina_de_ataques === 'coluna') {
+                  $(linha).find('td:eq(0)').attr('style', 'background: repeating-linear-gradient(45deg, ' + color1 + ', ' + color1 + ' 10px, ' + color2 + ' 10px, ' + color2 + ' 20px) !important;');
+                  $(linha).find('a:eq(0)').attr('style', 'color: ' + textcolor + ' !important; text-shadow:-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;');
+                }
+              } else {
+                if (pagina_de_ataques === 'linha') {
+                  $(linha).find('td').each(function(nr, td) {
+                    $(td).attr('style', 'background: ' + colors[2][colors[0].indexOf('red')] + ' !important;');
+                  });
+                  $(linha).find('a').each(function(nr, td) {
+                    $(td).attr('style', 'color: ' + colors[2][colors[0].indexOf('white')] + ' !important;');
+                  });
+                } else if (pagina_de_ataques === 'coluna') {
+                  $(linha).find('td:eq(0)').attr('style', 'background: ' + colors[2][colors[0].indexOf('red')] + ' !important;');
+                  $(linha).find('a:eq(0)').attr('style', 'color: white !important; text-shadow:-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;');
+                }
+              }
+            } else {
+              if (pagina_de_ataques === 'linha') {
+                $(linha).find('td').each(function(nr, td) {
+                  $(td).attr('style', 'background: ' + colors[2][colors[0].indexOf('yellow')] + ' !important;');
+                });
+                $(linha).find('a').each(function(nr, td) {
+                  $(td).attr('style', 'color: ' + colors[2][colors[0].indexOf('white')] + ' !important;');
+                });
+              } else if (pagina_de_ataques === 'coluna') {
+                $(linha).find('td:eq(0)').attr('style', 'background: ' + colors[2][colors[0].indexOf('yellow')] + ' !important;');
+                $(linha).find('a:eq(0)').attr('style', 'color: white !important; text-shadow:-1px -1px 0 #000,  1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;');
+              }
             }
-        })
-    }, 250)
-}
+          });
+        }, 250);
+      }
 
-function check(name, nr) {
-    var i, j;
-    for (i = 0; i < settings[0].length; i++) {
-        for (j = 0; j < settings[0].length; j++) {
+      function check(name, nr) {
+        var i, j;
+        for (i = 0; i < settings[0].length; i++) {
+          for (j = 0; j < settings[0].length; j++) {
             if (name.indexOf(settings[0][i] + settings[0][j]) != -1) {
-                if (nr == 1) return i;
-                else if (nr == 2) return j;
-                else return true;
+              if (nr == 1) return i;
+              else if (nr == 2) return j;
+              else return true;
             }
+          }
         }
-    }
-    return false;
-}
+        return false;
+      }
 
-function isSupport(linha) {
-    var scr = $(linha).find('img:eq(0)').attr('src')
-    if (scr.indexOf('support') >= 0) return true;
-    return false;
+      function isSupport(linha) {
+        var scr = $(linha).find('img:eq(0)').attr('src');
+        if (scr.indexOf('support') >= 0) return true;
+        return false;
+      }
+      // Fim do script Colorir Ataques
+    }]
+  ]
 }
-          ]
-    },
     {
       titulo: '⛏️ Scripts de Obter Recursos',
       icone: iconeRecurso,
