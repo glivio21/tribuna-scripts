@@ -125,21 +125,6 @@ javascript:(function(){
         ["Planejador de Ataques em Massa", iconeOfensivo, "https://twscripts.dev/scripts/massCommandTimer.js"],
         ["Planejador de Ataques em Massa 2", iconeOfensivo, "https://twscripts.dev/scripts/massAttackPlanner.js"],
         ["Planejador de Ataques -", iconeOfensivo, "https://twdevtools.github.io/approved/scripts/planner.js"],
-        ["Fakes (Configurar Coords)", iconeOfensivo, function(){
-          var coords='492|450';var doc=document;
-          if(window.frames.length>0&&window.main!=null)doc=window.main.document;
-          var url=doc.URL; if(url.indexOf('screen=place')==-1) alert('Use o script na página do posto de comando!');
-          coords=coords.split(' ');var index=0;
-          var farmcookie=document.cookie.match('(^|;) ?farm=([^;]*)(;|$)');
-          if(farmcookie!=null)index=parseInt(farmcookie[2]);
-          if(index>=coords.length){alert('Todas as aldeias foram usadas, voltando para a primeira!');index=0;}
-          coords=coords[index].split('|');index++;
-          var cookie_date=new Date(2025,3,27);
-          document.cookie='farm='+index+';expires='+cookie_date.toGMTString();
-          doc.forms[0].x.value=coords[0];doc.forms[0].y.value=coords[1];
-          $('#place_target').find('input').val(coords[0]+'|'+coords[1]);
-          doc.forms[0].spy.value=5;end();
-        }],
         ["Fake NT (Confirmar Ataque)", iconeOfensivo, "https://twscripts.dev/scripts/evolvedFakeTrain.js"]
       ]
     },
@@ -219,132 +204,170 @@ javascript:(function(){
             if(backS>=60){backM++; backS-=60;} if(backM>=60){backH++; backM-=60;} if(backH>=24){backH-=24;}
             backH=('0'+backH).slice(-2); backM=('0'+backM).slice(-2); backS=('0'+backS).slice(-2);
             $("#resultado").html("Back: "+backH+":"+backM+":"+backS+" (Tropas retornam)");
-            let outH=h1-h2, outM=m1-m2, outS=s1-s2;
-            if(outS<0){outM--; outS+=60;} if(outM<0){outH--; outM+=60;} if(outH<0){outH+=24;}
-            outH=('0'+outH).slice(-2); outM=('0'+outM).slice(-2); outS=('0'+outS).slice(-2);
-            $("#resultado").append("<br>Out: "+outH+":"+outM+":"+outS+" (Tempo até sair)");
           }
-          if(!document.getElementById('btCalc')){
-            $("body").append(`
-              <div style="padding:10px; background:${theme.panelBg}; color:${theme.fg}; border:1px solid ${theme.panelBorder}; border-radius:4px; margin:10px;">
-                <label>Hora Chegada: <input id="bt1" type="text" placeholder="HH:MM:SS"></label><br>
-                <label>Tempo Viagem: <input id="bt2" type="text" placeholder="HH:MM:SS"></label><br>
-                <button id="btCalc">Calcular</button><br>
-                <div id="resultado" style="margin-top:10px;"></div>
-              </div>`);
-            $("#btCalc").click(calcular);
-          }
+          const div = document.createElement('div');
+          div.style.padding = '10px';
+          div.innerHTML = `
+            <label>BT1 (HH:MM:SS): <input id="bt1" type="text" value="01:00:00" /></label><br/>
+            <label>BT2 (HH:MM:SS): <input id="bt2" type="text" value="01:00:00" /></label><br/>
+            <button id="calcularBT">Calcular Back</button>
+            <div id="resultado" style="margin-top:10px;"></div>
+          `;
+          document.body.appendChild(div);
+          document.getElementById('calcularBT').onclick=calcular;
         }]
-      ],
-    },
-    {
-  titulo: '📢 Tribuna Links',
-  icone: 'https://icons.iconarchive.com/icons/custom-icon-design/pretty-office-11/32/internet-icon.png',
-  scripts: [
-    ["🎓 Acessar Curso", "https://icons.iconarchive.com/icons/graphicloads/education/32/graduation-icon.png", "https://hotmart.com/pt-br/marketplace/produtos/curso-de-tribal-wars/U96903865S"],
-    ["🧿 Obsidian Scripts", "https://icons.iconarchive.com/icons/3xhumed/mega-games-pack-25/32/Obsidian-icon.png", "https://www.obsidiantribal.com/"],
-    ["📺 Canal Tribuna", "https://icons.iconarchive.com/icons/danleech/simple/32/youtube-icon.png", "https://www.youtube.com/@tribunatribalwars"],
-    ["🛠️ Ver Serviços", "https://icons.iconarchive.com/icons/custom-icon-design/flatastic-2/32/tools-icon.png", "https://tribunatw.com/services"],
-    ["💬 Entrar no Discord", "https://icons.iconarchive.com/icons/papirus-team/papirus-apps/32/discord-icon.png", "https://discord.gg/kwTUFCyFRA"],
-    ["📱 Grupo WhatsApp", "https://icons.iconarchive.com/icons/papirus-team/papirus-apps/32/whatsapp-icon.png", "https://chat.whatsapp.com/LJf55XqXUC6CgURf1dPBkM"]
-  ]
-}
+    }
   ];
 
-  // ====== Funções de renderização ======
-  function clearMenu(){ menu.innerHTML = ''; }
-  function renderHeader(){
-    const hdr = document.createElement('div');
-    hdr.style = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;';
-    const title = document.createElement('h2');
-    title.textContent = 'Tribuna Scripts';
-    title.style = `margin:0;color:${theme.fg};`;
-    const btnClose = document.createElement('span');
-    btnClose.textContent = '✖';
-    btnClose.style = `cursor:pointer;font-size:18px;color:${theme.fg};`;
-    btnClose.onclick = () => menu.remove();
-    hdr.appendChild(title);
-    hdr.appendChild(btnClose);
-    menu.appendChild(hdr);
+  // ====== Função para abrir scripts ======
+  function abrirScript(script){
+    if(typeof script === "function"){
+      script();
+      return;
+    }
+    if(script.startsWith("javascript:")){
+      try { eval(script.slice(11)); } catch(e){ alert('Erro no script: '+e.message); }
+      return;
+    }
+    if(script.startsWith("http")){
+      window.open(script,"_blank");
+      return;
+    }
+    // Caso seja URL parcial (como {game}&screen=main), tenta formar URL
+    if(script.includes("{game}")){
+      let url = game_data ? game_data.link_base_pure || game_data.link_base || '' : '';
+      if(!url) url = window.location.origin + window.location.pathname + "?";
+      url += script.replace("{game}", "");
+      window.open(url,"_blank");
+      return;
+    }
+    alert("Script desconhecido ou inválido.");
   }
-  function renderThemeToggle(){
-    const ctr = document.createElement('div');
-    ctr.style = 'display:flex;gap:6px;margin-bottom:10px;';
-    ['light','dark'].forEach(t => {
-      const b = document.createElement('button');
-      b.textContent = t==='light'?'Modo Claro':'Modo Escuro';
-      b.style = `
-        flex:1; padding:4px;
-        background:${currentTheme===t?theme.fg:theme.panelBg};
-        color:${currentTheme===t?theme.bg:theme.fg};
-        border:1px solid ${theme.panelBorder};
+
+  // ====== Construção do menu ======
+  // Botão de fechar e alternar tema
+  const header = document.createElement('div');
+  header.style = 'display:flex; justify-content:space-between; align-items:center; margin-bottom:8px;';
+  const title = document.createElement('div');
+  title.textContent = 'Scripts Tribuna - Menu Unificado';
+  title.style = 'font-weight:bold; font-size:16px;';
+  const closeBtn = document.createElement('button');
+  closeBtn.textContent = '✖';
+  closeBtn.title = "Fechar menu";
+  closeBtn.style = 'background:none; border:none; color:'+theme.fg+'; font-size:16px; cursor:pointer;';
+  closeBtn.onclick = () => menu.remove();
+
+  // Botão de alternar tema
+  const themeBtn = document.createElement('button');
+  themeBtn.textContent = currentTheme==='light' ? '🌙 Escuro' : '☀️ Claro';
+  themeBtn.title = "Alternar tema claro/escuro";
+  themeBtn.style = 'background:none; border:none; color:'+theme.fg+'; font-size:14px; cursor:pointer;';
+  themeBtn.onclick = () => {
+    currentTheme = currentTheme==='light' ? 'dark' : 'light';
+    localStorage.setItem('twScriptsTheme', currentTheme);
+    location.reload();
+  };
+
+  header.appendChild(title);
+  header.appendChild(themeBtn);
+  header.appendChild(closeBtn);
+  menu.appendChild(header);
+
+  // Container das categorias
+  const categoriasContainer = document.createElement('div');
+  categoriasContainer.style = 'display:flex; flex-wrap: wrap; gap:10px; max-height: 60vh; overflow-y: auto;';
+
+  // Criar botão de categoria (só ícone e título abaixo)
+  categorias.forEach(cat => {
+    const catBtn = document.createElement('button');
+    catBtn.style = `
+      flex: 0 0 80px;
+      display:flex; flex-direction: column; align-items:center;
+      border: 1px solid ${theme.border};
+      border-radius: 8px;
+      padding: 8px 6px;
+      background: ${theme.bg};
+      color: ${theme.fg};
+      cursor: pointer;
+      font-size: 11px;
+      user-select: none;
+    `;
+    catBtn.title = cat.titulo;
+    const img = document.createElement('img');
+    img.src = cat.icone || iconePadrao;
+    img.alt = cat.titulo;
+    img.style = 'width:32px; height:32px; margin-bottom: 6px;';
+    catBtn.appendChild(img);
+    const span = document.createElement('span');
+    span.textContent = cat.titulo;
+    span.style = 'text-align:center; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; width: 100%;';
+    catBtn.appendChild(span);
+
+    catBtn.onclick = () => {
+      mostrarScripts(cat);
+    };
+
+    categoriasContainer.appendChild(catBtn);
+  });
+  menu.appendChild(categoriasContainer);
+
+  // Área para mostrar scripts da categoria selecionada
+  const scriptsPanel = document.createElement('div');
+  scriptsPanel.style = `
+    margin-top: 12px; 
+    border-top: 1px solid ${theme.panelBorder}; 
+    padding-top: 10px; 
+    max-height: 50vh; 
+    overflow-y: auto;
+    background: ${theme.panelBg};
+  `;
+  menu.appendChild(scriptsPanel);
+
+  // Função para mostrar scripts da categoria clicada
+  function mostrarScripts(cat){
+    scriptsPanel.innerHTML = '';
+    const titulo = document.createElement('div');
+    titulo.textContent = cat.titulo;
+    titulo.style = 'font-weight:bold; margin-bottom:8px; font-size:14px;';
+    scriptsPanel.appendChild(titulo);
+
+    cat.scripts.forEach(([nome, icone, script]) => {
+      const btn = document.createElement('button');
+      btn.style = `
+        width: 100%; 
+        display:flex; 
+        align-items:center; 
+        margin-bottom: 6px; 
+        background: ${theme.bg}; 
+        border: 1px solid ${theme.border}; 
+        border-radius: 6px;
+        color: ${theme.fg};
         cursor:pointer;
+        padding: 6px 8px;
+        font-size: 13px;
       `;
-      b.onclick = () => {
-        localStorage.setItem('twScriptsTheme', t);
-        location.reload();
-      };
-      ctr.appendChild(b);
-    });
-    menu.appendChild(ctr);
-  }
-  function renderCategories(){
-    clearMenu(); renderHeader(); renderThemeToggle();
-    const grid = document.createElement('div');
-    grid.style = 'display:flex;flex-wrap:wrap;gap:10px;';
-    categorias.forEach(cat => {
-      const box = document.createElement('div');
-      box.style = `
-        display:flex;flex-direction:column;align-items:center;
-        width:80px;padding:6px;border:1px solid ${theme.panelBorder};
-        border-radius:6px;cursor:pointer;background:${theme.panelBg};
-      `;
-      box.onclick = () => renderScripts(cat);
+      btn.title = nome;
+      btn.onmouseenter = () => btn.style.backgroundColor = theme.hover;
+      btn.onmouseleave = () => btn.style.backgroundColor = theme.bg;
+
       const img = document.createElement('img');
-      img.src = cat.icone; img.style = 'width:40px;height:40px;margin-bottom:4px;'; 
-      const lbl = document.createElement('span');
-      lbl.textContent = cat.titulo;
-      lbl.style = `font-size:12px;color:${theme.fg};text-align:center;`;
-      box.appendChild(img);
-      box.appendChild(lbl);
-      grid.appendChild(box);
-    });
-    menu.appendChild(grid);
-  }
-  function renderScripts(cat){
-    clearMenu(); renderHeader(); renderThemeToggle();
-    const backBtn = document.createElement('button');
-    backBtn.textContent = '← Voltar';
-    backBtn.style = 'margin-bottom:8px;padding:4px;cursor:pointer;';
-    backBtn.onclick = renderCategories;
-    menu.appendChild(backBtn);
-    const heading = document.createElement('h3');
-    heading.textContent = cat.titulo;
-    heading.style = `margin:4px 0 10px 0;color:${theme.fg};`;
-    menu.appendChild(heading);
-    cat.scripts.forEach(s => {
-      const row = document.createElement('div');
-      row.style = `
-        display:flex;align-items:center;padding:4px;margin-bottom:6px;
-        border:1px solid ${theme.panelBorder};border-radius:4px;
-        cursor:pointer;background:${theme.panelBg};
-      `;
-      row.onmouseenter = () => row.style.background = theme.hover;
-      row.onmouseleave = () => row.style.background = theme.panelBg;
-      row.onclick = () => executarScript(s);
-      const ico = document.createElement('img');
-      ico.src = s[1] || iconePadrao;
-      ico.style = 'width:24px;height:24px;margin-right:8px;';
-      const txt = document.createElement('span');
-      txt.textContent = s[0];
-      txt.style = `color:${theme.fg};`;
-      row.appendChild(ico);
-      row.appendChild(txt);
-      menu.appendChild(row);
+      img.src = icone || iconePadrao;
+      img.alt = nome;
+      img.style = 'width:24px; height:24px; margin-right: 8px;';
+      btn.appendChild(img);
+
+      const span = document.createElement('span');
+      span.textContent = nome;
+      btn.appendChild(span);
+
+      btn.onclick = () => {
+        abrirScript(script);
+      };
+
+      scriptsPanel.appendChild(btn);
     });
   }
 
-  // ====== Inicia ======
-  renderCategories();
+  // Adiciona o menu na página
   document.body.appendChild(menu);
 })();
