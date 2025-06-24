@@ -125,21 +125,6 @@ javascript:(function(){
         ["Planejador de Ataques em Massa", iconeOfensivo, "https://twscripts.dev/scripts/massCommandTimer.js"],
         ["Planejador de Ataques em Massa 2", iconeOfensivo, "https://twscripts.dev/scripts/massAttackPlanner.js"],
         ["Planejador de Ataques -", iconeOfensivo, "https://twdevtools.github.io/approved/scripts/planner.js"],
-        ["Fakes (Configurar Coords)", iconeOfensivo, function(){
-          var coords='492|450';var doc=document;
-          if(window.frames.length>0&&window.main!=null)doc=window.main.document;
-          var url=doc.URL; if(url.indexOf('screen=place')==-1) alert('Use o script na página do posto de comando!');
-          coords=coords.split(' ');var index=0;
-          var farmcookie=document.cookie.match('(^|;) ?farm=([^;]*)(;|$)');
-          if(farmcookie!=null)index=parseInt(farmcookie[2]);
-          if(index>=coords.length){alert('Todas as aldeias foram usadas, voltando para a primeira!');index=0;}
-          coords=coords[index].split('|');index++;
-          var cookie_date=new Date(2025,3,27);
-          document.cookie='farm='+index+';expires='+cookie_date.toGMTString();
-          doc.forms[0].x.value=coords[0];doc.forms[0].y.value=coords[1];
-          $('#place_target').find('input').val(coords[0]+'|'+coords[1]);
-          doc.forms[0].spy.value=5;end();
-        }],
         ["Fake NT (Confirmar Ataque)", iconeOfensivo, "https://twscripts.dev/scripts/evolvedFakeTrain.js"]
       ]
     },
