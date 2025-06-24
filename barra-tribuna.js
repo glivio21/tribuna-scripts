@@ -95,49 +95,7 @@ const iconeCalc = "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-ico
         ["Calcular Tropas da Tribo", iconeTribo, "https://shinko-to-kuma.com/scripts/tribeMembersTroopCalculator.js"],
         ["Análise de Tribos", iconeTribo, "https://twscripts.dev/scripts/tribeStatsTool.js"],
         ["Convidar P/ Tribo em Massa", iconeTribo, "https://twscripts.dev/scripts/inviteToTribe.js"],
-        ["Gerar lista (Membros)", iconeTribo, "https://media.innogamescdn.com/com_DS_PL/skrypty/lista_mail.js"],
-        ["Noblagens ao VIVO", iconeTribo, "javascript:
-var api = "https://api.codetabs.com/v1/proxy?quest=br.twstats.com/";
-var twstats = "/index.php?page=ennoblements&live=live";
-var url = api + game_data.world + twstats;
-var indexvillage = "index.php?page=village&id=";
-var indexplayer = "index.php?page=player&id=";
-var indextribe = "index.php?page=tribe&id=";
-var screenvillage = "&screen=info_village&id=";
-var screenplayer = "&screen=info_player&id=";
-var screenally = "&screen=info_ally&id=";
-var game = "/game.php?village=";
-
-    $.get(url, function(data) {
-        if ($(data).find("tr").hasClass("r1")) {
-            table = $(data).find(".widget").eq(1).find("tr");
-        } else {
-            table = "Ezen a szerveren most nincs élő foglalás.";
-        }
-
-        Dialog.show("foglalasok", function(container) { 
-            $(`<table class="vis" id="table"><tbody></tbody></table>`).appendTo(container);
-            $(table).appendTo("#table > tbody");
-        })
-        
-        $("#table").find("a").each(function(key,val) {
-            var value = $(val).attr("href");
-            /*village*/
-            if ($(val).is(`[href*="${indexvillage}"]`)) {
-                $(val).attr("href", value.replace(indexvillage, game + game_data.village.id + screenvillage));
-            }
-            /*player*/
-            if ($(val).is(`[href*="${indexplayer}"]`)) {
-                $(val).attr("href", value.replace(indexplayer, game + game_data.village.id + screenplayer));
-            }
-            /*tribe*/
-            if ($(val).is(`[href*="${indextribe}"]`)) {
-                $(val).attr("href", value.replace(indextribe, game + game_data.village.id + screenally));
-            }
-        })
-    })
-void(0);"]
-      ]
+        ["Gerar lista (Membros)", iconeTribo, "https://media.innogamescdn.com/com_DS_PL/skrypty/lista_mail.js"],           
     },
     {
       titulo: '🎯 Scripts Ofensivos',
@@ -196,44 +154,7 @@ void(0);"]
           $.getScript('https://twscripts.dev/scripts/incomingsOverview.js');
         }],
         ["Devil DEF", iconeDefensivo, "https://media.innogames.com/com_DS_NL/scripts/Devils-Def-Pack_206163.js"],
-        ["Renomear Comandos GL", iconeDefensivo, function(){
-          javascript:
-// @name         Renomear Ataques Glivio
-// @version      Release
-// @author       Glivio (V7.0)
-// @include      https://*&screen=overview
-// @include      https://*&mode=incomings*
-// @include      https://*&screen=info_village&*
-// @include      https://*&screen=place*
-// @include      https://*?screen=place&t=*&village=*
-// @include      https://*?screen=place&village=*
-// @include      https://*?screen=overview&village=*
-// @include      https://*?village=*&screen=overview*
-// @include      https://*?t=*&village=*&screen=overview*
-// ==/UserScript==
-
-////* Preferêcias do script *////
-// O tamanho da letra influencia o tamanho do botao, caso seja 0 será utilizado o original do jogo, 12.
-var tamanho_letra = 10;
-var pagina_de_ataques = 'coluna'; //Modos: coluna, linha, nada
-
-// Para adicionar botões basta colocar os valores depois de uma virgula, o botÃ£o so aparece caso haja valor de nome de botÃ£o e nome de comando.
-// Caso nÃ£o coloque a cor do botao ou cor do texto serÃ¡ utilizado o valor original do jogo (botao castanho e letra branca)
-var settings = [
-    ['[OK]', '[Apoiar]', '[Desviar Tropas]', '[Tropas Desviadas]', '[Renoblar]', '[Renoble OK]', '[Paladino]', '[Snipar]', '[Snipado]', ' [Ficar de olho]', ' | Esperar Torre', '[Fake]', '[Colocar Bandeira DEF]', '[Fudeu]', '[Contra fatos não há argumentos]'], //Nome do comando
-    ['OK', 'APOIAR', 'Tirar Tropas', 'Tropas retiradas', 'Renoblar', 'Renoblado', 'Pala', 'Snipar NT', 'Snipado', 'Vigiar', 'Torre', 'Fake', 'Bandeira', 'F', 'Lívio é GOD'], //Nome do botÃ£o
-    ['green', 'brown', 'dorange', 'green', 'brown', 'green', 'blue', 'brown', 'green', 'black', 'orange', 'white', 'brown', '1blue', 'black'], //Cor do botÃ£o
-    ['white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'white', 'black', 'white', 'white', 'white']
-] //Cor do texto
-
-// Para adicionar cores basta acrescentar os valores apÃ³s uma virgula.
-var colors = [
-    ['red', 'green', 'blue', 'yellow', 'orange', 'lblue', 'lime', 'white', 'black', 'gray', 'dorange', 'black', 'Pink', 'brown'], // Nomes das cores
-    ['#e20606', '#31c908', '#0d83dd', '#ffd91c', '#ef8b10', '#22e5db', '#ffd400', '#ffffff', '#000000', '#adb6c6', '#9232a8', '#40434E', '#FFC0CB', '#892929',], // Cor de background de botÃ£o topo e letra
-    ['#f0e2be', '#228c05', '#0860a3', '#e8c30d', '#d3790a', '#0cd3c9', '#ffd400', '#dbdbdb', '#2b2b2b', '#828891', '#9232a8', '#40434E','#FFC0CB' , '#892929', ]
-] // Cor de background de botÃ£o fundo
-
-
+        
 ////* CÃ³digo do programa *////
 
 var world = String(location.href).split(/[/:.]+/)[1]
