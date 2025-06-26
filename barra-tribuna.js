@@ -52,20 +52,21 @@ javascript:(function(){
       ]
     },
     {
-      titulo: '⚙️ Scripts de Configuração',
-      icone: "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png",
-      scripts: [
-        ["Mostrar Pontos dos Edifícios", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://almis90.github.io/tw-scripts/building-points.js"],
-        ["Renomeador de Aldeias", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/TsalkaponeVillageRenamer.js"],
-        ["Contador de Tropas", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://twscripts.dev/scripts/troopsCounterFixed.js"],
-        ["Contador de Tropas 2", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://dl.dropboxusercontent.com/s/75jut7q397e03e5/troop_counter.js"],
-        ["Adicionar Amigos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://twscripts.dev/scripts/friendRequest.js"],
-        ["Contador de Grupos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://dl.dropboxusercontent.com/s/ry6d9uu2m0mcxsb/group%20counts.js"],
-        ["Import Grupos Dinâmicos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://twscripts.dev/scripts/importExportDynamicGroups.js"],
-        ["Adicionar Grupo Manual", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://shinko-to-kuma.com/scripts/groupImport.js"],
-        ["Histórico PPs", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/PPPurchaseHistoryScript.js"]
-      ]
-    },
+  titulo: '⚙️ Scripts de Configuração',
+  icone: "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png",
+  scripts: [
+    ["Mostrar Pontos dos Edifícios", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://almis90.github.io/tw-scripts/building-points.js"],
+    ["Renomeador de Aldeias", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/TsalkaponeVillageRenamer.js"],
+    ["Contador de Tropas", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://twscripts.dev/scripts/troopsCounterFixed.js"],
+    ["Contador de Tropas 2", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://dl.dropboxusercontent.com/s/75jut7q397e03e5/troop_counter.js"],
+    ["Adicionar Amigos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://twscripts.dev/scripts/friendRequest.js"],
+    ["Contador de Grupos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://dl.dropboxusercontent.com/s/ry6d9uu2m0mcxsb/group%20counts.js"],
+    ["Import Grupos Dinâmicos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://twscripts.dev/scripts/importExportDynamicGroups.js"],
+    ["Adicionar Grupo Manual", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://shinko-to-kuma.com/scripts/groupImport.js"],
+    ["Histórico PPs", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/PPPurchaseHistoryScript.js"],
+    ["Filtrar Coordenadas", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://raw.githubusercontent.com/glivio21/Filtrar-Coordenadas/main/coord-filter.js"]
+  ]
+},
     {
       titulo: '🤝 Scripts para Tribo',
       icone: "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png",
