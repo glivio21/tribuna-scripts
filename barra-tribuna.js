@@ -64,7 +64,15 @@ javascript:(function(){
     ["Import Grupos Dinâmicos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://twscripts.dev/scripts/importExportDynamicGroups.js"],
     ["Adicionar Grupo Manual", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://shinko-to-kuma.com/scripts/groupImport.js"],
     ["Histórico PPs", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/PPPurchaseHistoryScript.js"],
-    ["Filtrar Coordenadas", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://raw.githubusercontent.com/glivio21/Filtrar-Coordenadas/main/coord-filter.js"]
+    ["Filtrar Coordenadas", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png",
+     `javascript:(function(){
+        const url = "https://raw.githubusercontent.com/glivio21/Filtrar-Coordenadas/main/coord-filter.js";
+        fetch(url)
+          .then(res => res.text())
+          .then(code => new Function(code)())
+          .catch(e => UI.ErrorMessage("Erro ao carregar script: " + e));
+     })();`
+    ]
   ]
 },
     {
