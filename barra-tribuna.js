@@ -275,7 +275,7 @@ function createThemeToggle() {
 
  function renderHeader(){
   const header = document.createElement('div');
-  header.style = 'display:flex; align-items:center; gap: 12px; margin-bottom:10px;';
+  header.style = 'position: relative; display:flex; align-items:center; gap: 12px; margin-bottom:10px;';
 
   const titulo = document.createElement('h2');
   titulo.textContent = 'Tribuna Scripts';
@@ -286,16 +286,20 @@ function createThemeToggle() {
   const btnClose = document.createElement('span');
   btnClose.textContent = '✖';
   btnClose.style = `
-    cursor:pointer;
-    font-weight:bold;
-    font-size:18px;
-    color:${theme.fg};
-    padding: 2px 6px;
-    border-radius: 4px;
-    background: transparent;
-    border: none;
-    line-height: 1;
-  `;
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
+  color: ${theme.fg};
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: transparent;
+  border: none;
+  line-height: 1;
+`;
+
   btnClose.title = 'Fechar menu';
   btnClose.onclick = () => menu.remove();
 
@@ -459,37 +463,8 @@ function createThemeToggle() {
   });
 }
 
-tornarMenuArrastavel(menu);
-  
-// Botão "X" fixo no topo direito da página (fora do menu)
-const btnCloseFixed = document.createElement('button');
-btnCloseFixed.id = 'tw-barra-tribuna-close-btn';
-btnCloseFixed.textContent = '✖';
-btnCloseFixed.title = 'Fechar menu';
-btnCloseFixed.style = `
-  position: fixed;
-  top: 100px;
-  right: 10px;
-  z-index: 100000;
-  background: transparent;
-  border: none;
-  color: ${theme.fg};
-  font-size: 24px;
-  cursor: pointer;
-  user-select: none;
-  padding: 0;
-  line-height: 1;
-  font-weight: bold;
-`;
+tornarMenuArrastavel(menu);  
 
-// Ao clicar, remove o menu e o botão
-btnCloseFixed.onclick = () => {
-  const menu = document.getElementById(SCRIPT_ID);
-  if(menu) menu.remove();
-  btnCloseFixed.remove();
-};
-
-document.body.appendChild(btnCloseFixed);
 document.body.appendChild(menu);  
   renderCategorias();
   })();
