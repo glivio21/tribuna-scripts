@@ -412,35 +412,54 @@ function createThemeToggle() {
       alert('Erro ao executar o script: ' + e.message);
     }
   }
-  // Torna o menu todo arrastável
-  function tornarMenuArrastavel(el) {
-    let isMouseDown = false;
-    let offsetX = 0;
-    let offsetY = 0;
+ function tornarMenuArrastavel(el) {
+  let isMouseDown = false;
+  let offsetX = 0;
+  let offsetY = 0;
 
-    el.addEventListener('mousedown', function(e) {
-      // Evita arrastar ao clicar em botões ou links
-      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || e.target.tagName === 'INPUT') return;
-
-      isMouseDown = true;
-      offsetX = e.clientX - el.offsetLeft;
-      offsetY = e.clientY - el.offsetTop;
-      e.preventDefault();
-    });
-
-    document.addEventListener('mouseup', function() {
-      isMouseDown = false;
-    });
-
-    document.addEventListener('mousemove', function(e) {
-      if (!isMouseDown) return;
-      el.style.left = (e.clientX - offsetX) + 'px';
-      el.style.top = (e.clientY - offsetY) + 'px';
-    });
+  // Restaura a posição salva (se existir)
+  const posSalva = localStorage.getItem('twBarraPos');
+  if (posSalva) {
+    try {
+      const pos = JSON.parse(posSalva);
+      if (pos.left && pos.top) {
+        el.style.left = pos.left;
+        el.style.top = pos.top;
+      }
+    } catch(e) {
+      // Ignora erros e mantém posição padrão
+    }
   }
 
-  tornarMenuArrastavel(menu);
+  el.addEventListener('mousedown', function(e) {
+    // Evita arrastar se clicou em botão, link ou input
+    if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || e.target.tagName === 'INPUT') return;
 
+    isMouseDown = true;
+    offsetX = e.clientX - el.offsetLeft;
+    offsetY = e.clientY - el.offsetTop;
+    e.preventDefault();
+  });
+
+  document.addEventListener('mouseup', function() {
+    if (isMouseDown) {
+      // Salva posição no localStorage ao soltar o mouse
+      localStorage.setItem('twBarraPos', JSON.stringify({
+        left: el.style.left,
+        top: el.style.top
+      }));
+    }
+    isMouseDown = false;
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!isMouseDown) return;
+    el.style.left = (e.clientX - offsetX) + 'px';
+    el.style.top = (e.clientY - offsetY) + 'px';
+  });
+}
+
+tornarMenuArrastavel(menu);
   
 // Botão "X" fixo no topo direito da página (fora do menu)
 const btnCloseFixed = document.createElement('button');
