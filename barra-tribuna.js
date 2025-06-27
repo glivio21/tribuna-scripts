@@ -441,8 +441,7 @@ function createThemeToggle() {
 
   tornarMenuArrastavel(menu);
 
-  document.body.appendChild(menu);  
-  renderCategorias();
+  
 // Botão "X" fixo no topo direito da página (fora do menu)
 const btnCloseFixed = document.createElement('button');
 btnCloseFixed.id = 'tw-barra-tribuna-close-btn';
@@ -472,4 +471,6 @@ btnCloseFixed.onclick = () => {
 };
 
 document.body.appendChild(btnCloseFixed);
+document.body.appendChild(menu);  
+  renderCategorias();
   })();
