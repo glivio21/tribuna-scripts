@@ -371,6 +371,34 @@ javascript:(function(){
       alert('Erro ao executar o script: ' + e.message);
     }
   }
+  // Torna o menu todo arrastável
+  function tornarMenuArrastavel(el) {
+    let isMouseDown = false;
+    let offsetX = 0;
+    let offsetY = 0;
+
+    el.addEventListener('mousedown', function(e) {
+      // Evita arrastar ao clicar em botões ou links
+      if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || e.target.tagName === 'INPUT') return;
+
+      isMouseDown = true;
+      offsetX = e.clientX - el.offsetLeft;
+      offsetY = e.clientY - el.offsetTop;
+      e.preventDefault();
+    });
+
+    document.addEventListener('mouseup', function() {
+      isMouseDown = false;
+    });
+
+    document.addEventListener('mousemove', function(e) {
+      if (!isMouseDown) return;
+      el.style.left = (e.clientX - offsetX) + 'px';
+      el.style.top = (e.clientY - offsetY) + 'px';
+    });
+  }
+
+  tornarMenuArrastavel(menu);
 
   document.body.appendChild(menu);
   renderCategorias();
