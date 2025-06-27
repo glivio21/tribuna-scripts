@@ -278,7 +278,7 @@ function createThemeToggle() {
   header.style = 'position: relative; display:flex; align-items:center; gap: 12px; margin-bottom:10px;';
 
   const titulo = document.createElement('h2');
-  titulo.textContent = 'Tribuna Scripts';
+  titulo.textContent = 'Tribuna Scripts - Versão 0.0.1';
   titulo.style = `margin:0; color:${theme.fg}; flex-shrink: 0;`;
 
   const toggle = createThemeToggle();
