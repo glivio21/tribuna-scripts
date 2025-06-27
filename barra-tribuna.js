@@ -240,28 +240,62 @@ javascript:(function(){
     menu.appendChild(header);
   }
 
-  function renderThemeToggle(){
-    const container = document.createElement('div');
-    container.style = 'display:flex; gap:10px; margin-bottom:12px;';
-    ['light', 'dark'].forEach(t => {
-      const btn = document.createElement('button');
-      btn.textContent = t === 'light' ? 'Modo Claro' : 'Modo Escuro';
-      btn.style = `
-        flex: 1; padding: 6px; border: 1px solid ${theme.panelBorder};
-        cursor: pointer; background: ${currentTheme === t ? theme.fg : theme.panelBg};
-        color: ${currentTheme === t ? theme.bg : theme.fg};
-        border-radius: 5px;
-        user-select: none;
-      `;
-      btn.onclick = () => {
-        localStorage.setItem('twBarraTheme', t);
-        location.reload();
-      };
-      container.appendChild(btn);
-    });
-    menu.appendChild(container);
-  }
+  function renderThemeToggle() {
+  const container = document.createElement('div');
+  container.style = 'display: flex; justify-content: flex-end; margin-bottom: 12px;';
 
+  const label = document.createElement('label');
+  label.style = `
+    position: relative;
+    display: inline-block;
+    width: 50px;
+    height: 26px;
+  `;
+
+  const input = document.createElement('input');
+  input.type = 'checkbox';
+  input.checked = currentTheme === 'dark';
+  input.style = `
+    opacity: 0;
+    width: 0;
+    height: 0;
+  `;
+
+  const slider = document.createElement('span');
+  slider.style = `
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: ${currentTheme === 'dark' ? '#00ff66' : '#555'};
+    transition: .4s;
+    border-radius: 34px;
+    box-shadow: 0 0 6px ${currentTheme === 'dark' ? '#00ff66' : '#333'};
+  `;
+
+  const circle = document.createElement('span');
+  circle.style = `
+    position: absolute;
+    height: 18px; width: 18px;
+    left: ${currentTheme === 'dark' ? '26px' : '4px'};
+    bottom: 4px;
+    background-color: ${currentTheme === 'dark' ? '#000' : '#222'};
+    transition: .4s;
+    border-radius: 50%;
+  `;
+
+  slider.appendChild(circle);
+  label.appendChild(input);
+  label.appendChild(slider);
+  container.appendChild(label);
+
+  input.onchange = () => {
+    const newTheme = input.checked ? 'dark' : 'light';
+    localStorage.setItem('twBarraTheme', newTheme);
+    location.reload();
+  };
+
+  menu.appendChild(container);
+}
   // Renderiza categorias como ícones clicáveis
   function renderCategorias(){
     limparMenu();
