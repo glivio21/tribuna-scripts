@@ -441,8 +441,9 @@ function createThemeToggle() {
 
   tornarMenuArrastavel(menu);
 
-  document.body.appendChild(menu);
-  // Criar botão "X" fixo na lateral direita da página
+  document.body.appendChild(menu);  
+  renderCategorias();
+// Botão "X" fixo no topo direito da página (fora do menu)
 const btnCloseFixed = document.createElement('button');
 btnCloseFixed.id = 'tw-barra-tribuna-close-btn';
 btnCloseFixed.textContent = '✖';
@@ -463,7 +464,7 @@ btnCloseFixed.style = `
   font-weight: bold;
 `;
 
-// Ao clicar, remove o menu e o próprio botão
+// Ao clicar, remove o menu e o botão
 btnCloseFixed.onclick = () => {
   const menu = document.getElementById(SCRIPT_ID);
   if(menu) menu.remove();
@@ -471,6 +472,4 @@ btnCloseFixed.onclick = () => {
 };
 
 document.body.appendChild(btnCloseFixed);
-
-  renderCategorias();
-})();
+  })();
