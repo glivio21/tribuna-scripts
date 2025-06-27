@@ -220,46 +220,22 @@ javascript:(function(){
   function limparMenu(){
     menu.innerHTML = '';
   }
-
-  function renderHeader(){
-    const header = document.createElement('div');
-    header.style = 'display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;';
-
-    const titulo = document.createElement('h2');
-    titulo.textContent = 'Tribuna Scripts';
-    titulo.style = `margin:0; color:${theme.fg};`;
-
-    const btnClose = document.createElement('span');
-    btnClose.textContent = '✖';
-    btnClose.style = `cursor:pointer; font-weight:bold; font-size:18px; color:${theme.fg};`;
-    btnClose.title = 'Fechar menu';
-    btnClose.onclick = () => menu.remove();
-
-    header.appendChild(titulo);
-    header.appendChild(btnClose);
-    menu.appendChild(header);
-  }
-
-  function renderThemeToggle() {
+function createThemeToggle() {
   const container = document.createElement('div');
-  container.style = 'display: flex; justify-content: flex-end; margin-bottom: 12px;';
+  container.style = 'display: flex; align-items: center;';
 
   const label = document.createElement('label');
   label.style = `
-    position: relative;
-    display: inline-block;
-    width: 50px;
-    height: 26px;
-  `;
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 22px;
+`;
 
   const input = document.createElement('input');
   input.type = 'checkbox';
   input.checked = currentTheme === 'dark';
-  input.style = `
-    opacity: 0;
-    width: 0;
-    height: 0;
-  `;
+  input.style = 'opacity: 0; width: 0; height: 0;';
 
   const slider = document.createElement('span');
   slider.style = `
@@ -274,14 +250,14 @@ javascript:(function(){
 
   const circle = document.createElement('span');
   circle.style = `
-    position: absolute;
-    height: 18px; width: 18px;
-    left: ${currentTheme === 'dark' ? '26px' : '4px'};
-    bottom: 4px;
-    background-color: ${currentTheme === 'dark' ? '#000' : '#222'};
-    transition: .4s;
-    border-radius: 50%;
-  `;
+  position: absolute;
+  height: 16px; width: 16px;
+  left: ${currentTheme === 'dark' ? '24px' : '4px'};
+  bottom: 3px;
+  background-color: ${currentTheme === 'dark' ? '#000' : '#222'};
+  transition: .4s;
+  border-radius: 50%;
+`;
 
   slider.appendChild(circle);
   label.appendChild(input);
@@ -294,13 +270,45 @@ javascript:(function(){
     location.reload();
   };
 
-  menu.appendChild(container);
+  return container;
 }
+
+ function renderHeader(){
+  const header = document.createElement('div');
+  header.style = 'display:flex; align-items:center; gap: 12px; margin-bottom:10px;';
+
+  const titulo = document.createElement('h2');
+  titulo.textContent = 'Tribuna Scripts';
+  titulo.style = `margin:0; color:${theme.fg}; flex-shrink: 0;`;
+
+  const toggle = createThemeToggle();
+
+  const btnClose = document.createElement('span');
+  btnClose.textContent = '✖';
+  btnClose.style = `
+    cursor:pointer;
+    font-weight:bold;
+    font-size:18px;
+    color:${theme.fg};
+    padding: 2px 6px;
+    border-radius: 4px;
+    background: transparent;
+    border: none;
+    line-height: 1;
+  `;
+  btnClose.title = 'Fechar menu';
+  btnClose.onclick = () => menu.remove();
+
+  header.appendChild(titulo);
+  header.appendChild(toggle);
+  header.appendChild(btnClose);
+  menu.appendChild(header);
+}
+  
   // Renderiza categorias como ícones clicáveis
   function renderCategorias(){
     limparMenu();
-    renderHeader();
-    renderThemeToggle();
+    renderHeader();    
 
     const container = document.createElement('div');
     container.style = 'display:flex; flex-wrap: wrap; gap: 12px;';
@@ -335,8 +343,7 @@ javascript:(function(){
   // Renderiza scripts da categoria
   function renderScripts(cat){
     limparMenu();
-    renderHeader();
-    renderThemeToggle();
+    renderHeader();    
 
     const btnVoltar = document.createElement('button');
     btnVoltar.textContent = '← Voltar';
