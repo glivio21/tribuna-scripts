@@ -66,18 +66,20 @@ javascript:(function(){
 ]
 },
     {
-      titulo: '🤝 Scripts para Tribo',
-      icone: "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png",
+      titulo: '🧮 Scripts de Calculadora',
+      icone: "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png",
       scripts: [
-        ["Aristocracia", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://shinko-to-kuma.com/scripts/overwatch.js"],
-        ["Ver ataques na tribo", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://dl.dropboxusercontent.com/s/ikunxd5d59059b4/scriptMostrarAtaquesACaminho.js"],
-        ["Ataques (Tribo) - Membros", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://dl.dropboxusercontent.com/s/oy16zihcrmtul4k/tribeinc.js"],
-        ["Evolução (Tribo) - Membros", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://shinko-to-kuma.com/scripts/tribeStats.js"],
-        ["Evolução Players Rank", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://twscripts.dev/scripts/rankingGraphs.js"],
-        ["Calcular Tropas da Tribo", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://shinko-to-kuma.com/scripts/tribeMembersTroopCalculator.js"],
-        ["Análise de Tribos", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://twscripts.dev/scripts/tribeStatsTool.js"],
-        ["Convidar P/ Tribo em Massa", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://twscripts.dev/scripts/inviteToTribe.js"],
-        ["Gerar lista (Membros)", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://media.innogamescdn.com/com_DS_PL/skrypty/lista_mail.js"]
+        ["Calculadora de Ataques nas Bárbaras", "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png", "https://twscripts.dev/scripts/lastTimeAttacked.js"],
+        ["Calculadora de Snip Individual", "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png", "https://twscripts.dev/scripts/singleVillageSnipe.js"],
+        ["Calculadora de Snip 2", "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png", "https://shinko-to-kuma.com/scripts/massSnipe.js"],
+        ["Calculadora de Snip 3", "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png", function(){
+          window.ezsSettings={minimumSnipeDefense:{infantry:2000,cavalry:2000,archer:0},offensiveSnipes:false,maximumTimeUntilLaunch:4};
+          $.getScript('https://tylercamp.me/tw/ez-snipe.js');
+        }],
+        ["Calculadora de Snip (Mapa)", "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png", "https://twscripts.dev/scripts/villagesInRange.js"],
+        ["Calculadora de Lealdade", "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png", "https://twscripts.dev/scripts/loyaltyCalculator.js"],
+        ["Calculadora Snip e BT", "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png", "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/TsalkaponeCalculatorCompilation.js"],
+        ["Calculadora de BT", "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png", "https://twscripts.dev/scripts/bigTrainCalculator.js"]
       ]
     },
     {
@@ -171,23 +173,20 @@ javascript:(function(){
       ]
     },
     {
-      titulo: '🧮 Scripts de Calculadora',
-      icone: "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png",
+      titulo: '🤝 Scripts para Tribo',
+      icone: "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png",
       scripts: [
-        ["Calculadora de Ataques nas Bárbaras", "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png", "https://twscripts.dev/scripts/lastTimeAttacked.js"],
-        ["Calculadora de Snip Individual", "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png", "https://twscripts.dev/scripts/singleVillageSnipe.js"],
-        ["Calculadora de Snip 2", "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png", "https://shinko-to-kuma.com/scripts/massSnipe.js"],
-        ["Calculadora de Snip 3", "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png", function(){
-          window.ezsSettings={minimumSnipeDefense:{infantry:2000,cavalry:2000,archer:0},offensiveSnipes:false,maximumTimeUntilLaunch:4};
-          $.getScript('https://tylercamp.me/tw/ez-snipe.js');
-        }],
-        ["Calculadora de Snip (Mapa)", "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png", "https://twscripts.dev/scripts/villagesInRange.js"],
-        ["Calculadora de Lealdade", "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png", "https://twscripts.dev/scripts/loyaltyCalculator.js"],
-        ["Calculadora Snip e BT", "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png", "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/TsalkaponeCalculatorCompilation.js"],
-        ["Calculadora de BT", "https://icons.iconarchive.com/icons/be-os/be-box/32/Clock-icon.png", "https://twscripts.dev/scripts/bigTrainCalculator.js"]
+        ["Aristocracia", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://shinko-to-kuma.com/scripts/overwatch.js"],
+        ["Ver ataques na tribo", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://dl.dropboxusercontent.com/s/ikunxd5d59059b4/scriptMostrarAtaquesACaminho.js"],
+        ["Ataques (Tribo) - Membros", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://dl.dropboxusercontent.com/s/oy16zihcrmtul4k/tribeinc.js"],
+        ["Evolução (Tribo) - Membros", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://shinko-to-kuma.com/scripts/tribeStats.js"],
+        ["Calcular Tropas da Tribo", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://shinko-to-kuma.com/scripts/tribeMembersTroopCalculator.js"],
+        ["Análise de Tribos", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://twscripts.dev/scripts/tribeStatsTool.js"],
+        ["Convidar P/ Tribo em Massa", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://twscripts.dev/scripts/inviteToTribe.js"],
+        ["Gerar lista (Membros)", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://media.innogamescdn.com/com_DS_PL/skrypty/lista_mail.js"]
       ]
     },
-    {
+        {
       titulo: '📢 Serviços',
       icone: "https://i.ibb.co/2YmvSFmb/logo-ttw-2.png",
       scripts: [
