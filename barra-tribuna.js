@@ -47,7 +47,7 @@ javascript:(function(){
       ]
     },
     {
-  titulo: '⚙️ Scripts de Configuração',
+  titulo: '⚙️ Configuração',
   icone: "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png",
   scripts: [
     ["Mostrar Pontos dos Edifícios", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://almis90.github.io/tw-scripts/building-points.js"],
@@ -65,19 +65,9 @@ javascript:(function(){
     ["Filtrar Aldeias Front", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/findFrontlineVillages.js');"],
     ["Template de Tropas (GC)", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/findFrontlineVillages.js');"],
     ]
-},
+},    
     {
-  titulo: '⚙️ Scripts de Configuração 2',
-  icone: "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png",
-  scripts: [
-    ["Filtrar Coordenadas", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:(function(){fetch('https://raw.githubusercontent.com/glivio21/Filtrar-Coordenadas/main/coord-filter.js').then(r=>r.text()).then(t=>Function(t)()).catch(e=>alert('Erro ao carregar script: '+e.message));})();"],
-    ["Filtrar Relatórios", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/advancedReportFilters.js');"],
-    ["Filtrar Aldeias Front", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/findFrontlineVillages.js');"],
-    ["Template de Tropas (GC)", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/findFrontlineVillages.js');"],
-  ]
-},
-    {
-      titulo: '🎯 Scripts Ofensivos',
+      titulo: '🎯 Ofensivos',
       icone: "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png",
       scripts: [
         ["Calculadora de Ataques nas Bárbaras", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twscripts.dev/scripts/lastTimeAttacked.js"],
@@ -123,7 +113,7 @@ javascript:(function(){
       ]
     },
     {
-      titulo: '🛑 Scripts Defensivos',
+      titulo: '🛑 Defensivos',
       icone: "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png",
       scripts: [
         ["Calculadora de Snip Individual", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://twscripts.dev/scripts/singleVillageSnipe.js"],
@@ -144,7 +134,7 @@ javascript:(function(){
       ]
     },
     {
-      titulo: '⛏️ Scripts de Obter Recursos',
+      titulo: '⛏️ Recursos',
       icone: "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png",
       scripts: [
         ["Coleta em Massa", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function(){
@@ -172,7 +162,7 @@ javascript:(function(){
       ]
     },
     {
-      titulo: '🤝 Scripts para Tribo',
+      titulo: '🤝 Tribo',
       icone: "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png",
       scripts: [
         ["Aristocracia", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://shinko-to-kuma.com/scripts/overwatch.js"],
