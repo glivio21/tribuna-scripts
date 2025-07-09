@@ -60,6 +60,10 @@ javascript:(function(){
     ["Contador de Tropas 3", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://dl.dropboxusercontent.com/s/75jut7q397e03e5/troop_counter.js"],
     ["Contador de Grupos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://dl.dropboxusercontent.com/s/ry6d9uu2m0mcxsb/group%20counts.js"],
     ["Histórico PPs", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/PPPurchaseHistoryScript.js"],
+    ["Filtrar Coordenadas", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:(function(){fetch('https://raw.githubusercontent.com/glivio21/Filtrar-Coordenadas/main/coord-filter.js').then(r=>r.text()).then(t=>Function(t)()).catch(e=>alert('Erro ao carregar script: '+e.message));})();"],
+    ["Filtrar Relatórios", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/advancedReportFilters.js');"],
+    ["Filtrar Aldeias Front", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/findFrontlineVillages.js');"],
+    ["Template de Tropas (GC)", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/findFrontlineVillages.js');"],
     ]
 },
     {
@@ -301,6 +305,17 @@ function createThemeToggle() {
   menu.appendChild(header);
 }
   
+  // Estilos para rolagem das categorias
+const style = document.createElement('style');
+style.textContent = `
+  .scripts-scroll {
+    max-height: 300px; /* altura para cerca de 10 itens — ajuste conforme seu layout */
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+`;
+document.head.appendChild(style);
+  
   // Renderiza categorias como ícones clicáveis
   function renderCategorias(){
     limparMenu();
@@ -356,32 +371,40 @@ function createThemeToggle() {
     titulo.style = `margin: 4px 0 12px 0; color: ${theme.fg};`;
     menu.appendChild(titulo);
 
-    cat.scripts.forEach(script => {
-      const linha = document.createElement('div');
-      linha.style = `
-        display: flex; align-items: center; padding: 6px; margin-bottom: 8px;
-        cursor: pointer; border-radius: 5px;
-        background: ${theme.panelBg}; border: 1px solid ${theme.panelBorder};
-        user-select: none;
-      `;
-      linha.onmouseenter = () => linha.style.backgroundColor = theme.hover;
-      linha.onmouseleave = () => linha.style.backgroundColor = theme.panelBg;
+    // Cria container com scroll para os scripts
+const scrollHost = document.createElement('div');
+scrollHost.classList.add('scripts-scroll');
 
-      linha.onclick = () => executarScript(script);
+// Adiciona cada script dentro do container
+cat.scripts.forEach(script => {
+  const linha = document.createElement('div');
+  linha.style = `
+    display: flex; align-items: center; padding: 6px; margin-bottom: 8px;
+    cursor: pointer; border-radius: 5px;
+    background: ${theme.panelBg}; border: 1px solid ${theme.panelBorder};
+    user-select: none;
+  `;
+  linha.onmouseenter = () => linha.style.backgroundColor = theme.hover;
+  linha.onmouseleave = () => linha.style.backgroundColor = theme.panelBg;
+  linha.onclick = () => executarScript(script);
 
-      const img = document.createElement('img');
-      img.src = script[1] || icons.padrao;
-      img.alt = script[0];
-      img.style = 'width: 24px; height: 24px; margin-right: 10px;';
-      linha.appendChild(img);
+  const img = document.createElement('img');
+  img.src = script[1] || icons.padrao;
+  img.alt = script[0];
+  img.style = 'width: 24px; height: 24px; margin-right: 10px;';
+  linha.appendChild(img);
 
-      const texto = document.createElement('span');
-      texto.textContent = script[0];
-      texto.style = `color: ${theme.fg}; font-size: 14px;`;
-      linha.appendChild(texto);
+  const texto = document.createElement('span');
+  texto.textContent = script[0];
+  texto.style = `color: ${theme.fg}; font-size: 14px;`;
+  linha.appendChild(texto);
 
-      menu.appendChild(linha);
-    });
+  scrollHost.appendChild(linha);
+});
+
+// Finalmente, anexa o container com scroll ao menu
+menu.appendChild(scrollHost);
+
   }
 
   // Executa o script
