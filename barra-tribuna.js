@@ -63,6 +63,7 @@ javascript:(function(){
     ["Filtrar Coordenadas", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:(function(){fetch('https://raw.githubusercontent.com/glivio21/Filtrar-Coordenadas/main/coord-filter.js').then(r=>r.text()).then(t=>Function(t)()).catch(e=>alert('Erro ao carregar script: '+e.message));})();"]
     ["Filtrar Relatórios", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/advancedReportFilters.js');"],
     ["Filtrar Aldeias Front", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/findFrontlineVillages.js');"],
+    ["Template de Tropas (GC)", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/findFrontlineVillages.js');"],
   ]
 },
     {
@@ -263,7 +264,7 @@ function createThemeToggle() {
   header.style = 'position: relative; display:flex; align-items:center; gap: 12px; margin-bottom:10px;';
 
   const titulo = document.createElement('h2');
-  titulo.textContent = 'Tribuna Scripts - Versão 0.0.1';
+  titulo.textContent = 'Tribuna Scripts - Versão 0.0.2';
   titulo.style = `margin:0; color:${theme.fg}; flex-shrink: 0;`;
 
   const toggle = createThemeToggle();
