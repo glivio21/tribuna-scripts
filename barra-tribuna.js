@@ -52,7 +52,6 @@ javascript:(function(){
   scripts: [
     ["Mostrar Pontos dos Edifícios", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://almis90.github.io/tw-scripts/building-points.js"],
     ["Notas Manager", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/ownNotesManager.js');"],
-    ["Adicionar Notas", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/setVillageNotes.js');"],
     ["Adicionar Amigos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://twscripts.dev/scripts/friendRequest.js"],
     ["Renomeador de Aldeias", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/TsalkaponeVillageRenamer.js"],
     ["Contador de Tropas 1", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/countHomeTroops.js');"],
@@ -104,9 +103,9 @@ javascript:(function(){
         ["Planejador de Ataques em Massa", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twscripts.dev/scripts/massCommandTimer.js"],
         ["Planejador de Ataques em Massa 2", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twscripts.dev/scripts/massAttackPlanner.js"],
         ["Planejador de Ataques -", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twdevtools.github.io/approved/scripts/planner.js"],
-        ["Fake NT (Confirmar Ataque)", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twscripts.dev/scripts/evolvedFakeTrain.js"]
+        ["Fake NT (Confirmar Ataque)", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twscripts.dev/scripts/evolvedFakeTrain.js"],
         ["Exibir Comandos (Confirmar Ataque)", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://media.innogames.com/com_DS_NL/scripts/ConfirmEnhancer_206293.js"],
-        ["Temporizador (Confirmar Ataque)", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/obfsucated/commandTimer.min.js');"]
+        ["Temporizador (Confirmar Ataque)", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/obfsucated/commandTimer.min.js');"],
         ["Quebrar Muralha", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/clearBarbarianWalls.js');"],
         ["Barbs Finder", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/barbsFinder.js');"],
         ["Bônus Finder", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/bonusFinderEvolved.js');"],
