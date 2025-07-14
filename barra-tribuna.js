@@ -144,15 +144,16 @@ javascript:(function(){
           $.ajaxSetup({dataType:'script'});$.getScript('https://www.minecraft.as/tw_scripts/outstanding_organizer.js');
         }],
         ["Calcular Recursos para Nobre", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/nobleCalculator.js');"],
-        ["Enviar Recursos Shinko", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function(){
-          $.getScript('https://shinko-to-kuma.com/scripts/res-senderV2.js'); 
+        ["Enviar Recursos", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function(){
+          $.getScript('https://shinko-to-kuma.com/scripts/res-senderV2.js');
         }],
-        ["Enviar Recursos GOD", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function(){
-          $.getScript('https://dl.dropboxusercontent.com/s/bytvle86lj6230c/resBalancer.js?dl=0');void(0)'); 
-        }],
-        ["Balanceador de Recursos", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function(){
+        ["Balanceador de Recursos Shinko", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function(){
           window.settings={highFarm:23000,lowPoints:2000,builtOutPercentage:0.25,needsMorePercentage:0.85};
           $.getScript("https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/WarehouseBalancer.js");
+        }],
+        ["Balanceador de Recursos GOD", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function( ){
+  window.settings={highFarm:23000,lowPoints:2000,builtOutPercentage:0.25,needsMorePercentage:0.85};
+  $.getScript("https://dl.dropboxusercontent.com/s/bytvle86lj6230c/resBalancer.js?dl=0" );void(0);
         }],
         ["Eficiência do Farm (Relatórios)", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", "https://twscripts.dev/scripts/farmingEfficiencyCalculator.js"],
         ["Mint Helper", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", "https://twscripts.dev/scripts/mintHelper.js"],
