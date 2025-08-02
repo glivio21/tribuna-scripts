@@ -216,7 +216,7 @@ javascript:(function(){
             popup.document.write(S); popup.document.close();
           }
         })();`],         
-  ["Auto Envio de Tropas", "https://icons.iconarchive.com/icons/etherbrian/space-bits/32/Torpedo-icon.png", `javascript:(function(){ /* (function () {
+  ["Ataque em Massa", "https://icons.iconarchive.com/icons/etherbrian/space-bits/32/Torpedo-icon.png", `javascript:(function(){
   if (!document.querySelector('[name="csrf_token"]')) {
     alert("Token CSRF não encontrado. Abra uma aldeia ou tela de envio de tropas.");
     return;
@@ -234,7 +234,7 @@ javascript:(function(){
   }
 
   const container = document.createElement('div');
-  container.innerHTML = `
+  container.innerHTML = \`
     <div style="position:fixed;top:20px;right:20px;background:#222;padding:10px;color:#fff;z-index:9999;border:2px solid #0f0;border-radius:10px;">
       <h3>Auto Envio</h3>
       <label>Alvo: <input id="alvo" type="text" placeholder="000|000"></label><br>
@@ -242,14 +242,14 @@ javascript:(function(){
       <label><input id="tipo2" type="radio" name="cmd" value="support"> Apoio</label><br>
       <button id="enviar">Enviar</button>
     </div>
-  `;
+  \`;
   document.body.appendChild(container);
 
   document.querySelector('#enviar').addEventListener('click', () => {
     const alvo = document.querySelector('#alvo').value.trim();
     const tipo = document.querySelector('input[name="cmd"]:checked').value;
 
-    if (!/^\d{3}\|\d{3}$/.test(alvo)) {
+    if (!/^\\d{3}\\|\\d{3}$/.test(alvo)) {
       alert("Coordenada inválida!");
       return;
     }
@@ -262,7 +262,7 @@ javascript:(function(){
         const celulas = tr.querySelectorAll('td');
         const link = tr.querySelector('a[href*="screen=place"]');
         if (!link) return null;
-        const coords = link.textContent.match(/\d+\|\d+/);
+        const coords = link.textContent.match(/\\d+\\|\\d+/);
         if (!coords) return null;
 
         const [x, y] = coords[0].split('|').map(Number);
@@ -304,16 +304,15 @@ javascript:(function(){
       setTimeout(() => {
         $.ajax({
           type: 'POST',
-          url: `/game.php?village=${aldeiaAtual.id}&screen=place&ajax=command`,
+          url: \`/game.php?village=\${aldeiaAtual.id}&screen=place&ajax=command\`,
           data: dados.toString(),
-          success: (res) => console.log(`Enviado de ${aldeia.coord}`, res),
-          error: (err) => console.error(`Erro ao enviar de ${aldeia.coord}`, err)
+          success: (res) => console.log(\`Enviado de \${aldeia.coord}\`, res),
+          error: (err) => console.error(\`Erro ao enviar de \${aldeia.coord}\`, err)
         });
       }, i * 200);
     });
   });
-})();
- */ })();`]
+})();`]
 ]            
     },
         {
