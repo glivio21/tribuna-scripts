@@ -5,7 +5,7 @@ javascript:(function(){
     return;
   }
 
-  // Temas
+  //Temas
   const themes = {
     light: {
       bg: '#ffffff',
