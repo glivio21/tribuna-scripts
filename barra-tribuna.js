@@ -216,7 +216,42 @@ javascript:(function(){
             popup.document.write(S); popup.document.close();
           }
         })();`],
-         ["Ataque em Massa", "https://icons.iconarchive.com/icons/etherbrian/space-bits/32/Torpedo-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/redirector.js');"]
+         ["Auto Envio de Tropas", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", function() {
+  const configKey = "tribo_auto_envio_tropas_config";
+
+  const salvarConfig = (config) => localStorage.setItem(configKey, JSON.stringify(config));
+  const carregarConfig = () => JSON.parse(localStorage.getItem(configKey) || "{}");
+
+  const csrf = document.querySelector('[name="csrf_token"]').value;
+  const aldeias = Array.from(document.querySelectorAll('#combined_table tbody tr'))
+    .map(tr => {
+      const celulas = tr.querySelectorAll('td');
+      const coords = celulas[1]?.textContent?.match(/\d+\|\d+/)?.[0];
+      return coords ? { coords } : null;
+    })
+    .filter(Boolean);
+
+  if (!aldeias.length) return alert("Nenhuma aldeia encontrada.");
+
+  const origem = prompt("Coord. origem?");
+  const tropas = prompt("Tropas a enviar? Ex: spear=50&axe=30");
+
+  aldeias.forEach((alvo, i) => {
+    setTimeout(() => {
+      $.ajax({
+        url: "/game.php?village=" + game_data.village.id + "&screen=place",
+        method: "POST",
+        data: {
+          ajax: "1",
+          target: alvo.coords,
+          ...Object.fromEntries(new URLSearchParams(tropas)),
+          csrf_token: csrf,
+        },
+        success: (r) => console.log("Enviado para", alvo.coords),
+      });
+    }, i * 500);
+  });
+}]
       ]        
     },
         {
@@ -308,7 +343,7 @@ function createThemeToggle() {
   header.style = 'position: relative; display:flex; align-items:center; gap: 12px; margin-bottom:10px;';
 
   const titulo = document.createElement('h2');
-  titulo.textContent = 'Tribuna Scripts - Versão 0.0.2';
+  titulo.textContent = 'Tribuna Scripts - Versão 0.0.3';
   titulo.style = `margin:0; color:${theme.fg}; flex-shrink: 0;`;
 
   const toggle = createThemeToggle();
