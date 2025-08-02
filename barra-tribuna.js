@@ -179,6 +179,46 @@ javascript:(function(){
         ["Gerar lista (Membros)", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://media.innogamescdn.com/com_DS_PL/skrypty/lista_mail.js"]
       ]
     },
+     {
+      titulo: '⚡ Speed',
+      icone: "https://icons.iconarchive.com/icons/etherbrian/space-bits/32/Comet-icon.png",
+      scripts: [
+        ['Coletor de Coordenadas', 'https://icons.iconarchive.com/icons/etherbrian/space-bits/32/Torpedo-icon.png',
+        `javascript:(function(){
+          if(typeof bb==='undefined') var bb=false;
+          if(document.URL.indexOf('screen=info_player')===-1){
+            alert('Você deve executar o script no perfil de algum jogador!');
+          } else {
+            var tds=document.getElementsByTagName('TD'), K=[], C=[];
+            for(var idx=0;idx<100;idx++) K[idx]=[];
+            for(var i=0;i<tds.length;i++){
+              var xy=tds[i].innerHTML;
+              if(/^\\d+\\|\\d+$/.test(xy)){
+                var id=$(tds[i]).parent().find('span.village_anchor.contexted').attr('data-id');
+                var aux=id+'&'+xy; C.push(aux);
+                var xys=xy.split('|');
+                K[Math.floor(parseInt(xys[0])/100)+Math.floor(parseInt(xys[1])/100)*10].push(aux);
+              }
+            }
+            if(bb) C='Esta aldeia não existe Esta aldeia não existe';
+            else C=C.join(',');
+            var prefix='<textarea cols=80 rows=10>', postfix='</textarea>';
+            var S='<html><head><title>Coletor de Coordenadas</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/></head><body><b>Coletor de Coordenadas</b><hr>Todas as Aldeias do Jogador:<br>'+prefix+C+postfix;
+            for(var j=0;j<100;j++){
+              if(K[j].length>0){
+                var Ks=bb?'Esta aldeia não existe Esta aldeia não existe':K[j].join(',');
+                S+='<br><br> Aldeias do Continente '+j+' <br>'+prefix+Ks+postfix;
+              }
+            }
+            S+='</body></html>';
+            var popup=window.open('about:blank','twcc','width=720,height=480,scrollbars=1');
+            popup.document.open('text/html','replace');
+            popup.document.write(S); popup.document.close();
+          }
+        })();`],
+         ["Ataque em Massa", "https://icons.iconarchive.com/icons/etherbrian/space-bits/32/Torpedo-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/redirector.js');"]
+      ]        
+    },
         {
       titulo: '📢 Serviços',
       icone: "https://i.ibb.co/2YmvSFmb/logo-ttw-2.png",
