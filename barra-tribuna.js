@@ -216,7 +216,7 @@ javascript:(function(){
             popup.document.write(S); popup.document.close();
           }
         })();`],         
-         ["Ataque em Massa", "https://icons.iconarchive.com/icons/etherbrian/space-bits/32/Torpedo-icon.png", "javascript:$.getScript('https://raw.githubusercontent.com/glivio21/ataque-em-massa/main/ataque-em-massa.js');"]
+         ["Ataque em Massa", "https://icons.iconarchive.com/icons/etherbrian/space-bits/32/Torpedo-icon.png", "$.getScript('https://raw.githack.com/glivio21/ataque-em-massa/main/ataque-em-massa.js');"]
 ]
         },
         {
