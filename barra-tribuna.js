@@ -216,43 +216,106 @@ javascript:(function(){
             popup.document.write(S); popup.document.close();
           }
         })();`],
-         ["Auto Envio de Tropas", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", function() {
-  const configKey = "tribo_auto_envio_tropas_config";
-
-  const salvarConfig = (config) => localStorage.setItem(configKey, JSON.stringify(config));
-  const carregarConfig = () => JSON.parse(localStorage.getItem(configKey) || "{}");
+         scripts: [
+  ["Auto Envio de Tropas", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", `javascript:(function(){ /* (function () {
+  if (!document.querySelector('[name="csrf_token"]')) {
+    alert("Token CSRF não encontrado. Abra uma aldeia ou tela de envio de tropas.");
+    return;
+  }
 
   const csrf = document.querySelector('[name="csrf_token"]').value;
-  const aldeias = Array.from(document.querySelectorAll('#combined_table tbody tr'))
-    .map(tr => {
-      const celulas = tr.querySelectorAll('td');
-      const coords = celulas[1]?.textContent?.match(/\d+\|\d+/)?.[0];
-      return coords ? { coords } : null;
-    })
-    .filter(Boolean);
+  const Timing = window.Timing || window.GameData.time;
+  const triboId = game_data.player.tribe;
+  const aldeiaAtual = game_data.village;
+  const mundo = game_data.world;
 
-  if (!aldeias.length) return alert("Nenhuma aldeia encontrada.");
+  if (!document.querySelector('#combined_table')) {
+    alert("Você precisa estar na visão geral de aldeias com modo combinado.");
+    return;
+  }
 
-  const origem = prompt("Coord. origem?");
-  const tropas = prompt("Tropas a enviar? Ex: spear=50&axe=30");
+  const container = document.createElement('div');
+  container.innerHTML = `
+    <div style="position:fixed;top:20px;right:20px;background:#222;padding:10px;color:#fff;z-index:9999;border:2px solid #0f0;border-radius:10px;">
+      <h3>Auto Envio</h3>
+      <label>Alvo: <input id="alvo" type="text" placeholder="000|000"></label><br>
+      <label><input id="tipo" type="radio" name="cmd" value="attack" checked> Ataque</label>
+      <label><input id="tipo2" type="radio" name="cmd" value="support"> Apoio</label><br>
+      <button id="enviar">Enviar</button>
+    </div>
+  `;
+  document.body.appendChild(container);
 
-  aldeias.forEach((alvo, i) => {
-    setTimeout(() => {
-      $.ajax({
-        url: "/game.php?village=" + game_data.village.id + "&screen=place",
-        method: "POST",
-        data: {
-          ajax: "1",
-          target: alvo.coords,
-          ...Object.fromEntries(new URLSearchParams(tropas)),
-          csrf_token: csrf,
-        },
-        success: (r) => console.log("Enviado para", alvo.coords),
+  document.querySelector('#enviar').addEventListener('click', () => {
+    const alvo = document.querySelector('#alvo').value.trim();
+    const tipo = document.querySelector('input[name="cmd"]:checked').value;
+
+    if (!/^\d{3}\|\d{3}$/.test(alvo)) {
+      alert("Coordenada inválida!");
+      return;
+    }
+
+    const [xAlvo, yAlvo] = alvo.split('|').map(Number);
+
+    const aldeias = Array.from(document.querySelectorAll('#combined_table tr'))
+      .slice(1)
+      .map(tr => {
+        const celulas = tr.querySelectorAll('td');
+        const link = tr.querySelector('a[href*="screen=place"]');
+        if (!link) return null;
+        const coords = link.textContent.match(/\d+\|\d+/);
+        if (!coords) return null;
+
+        const [x, y] = coords[0].split('|').map(Number);
+        const dist = Math.hypot(x - xAlvo, y - yAlvo);
+
+        return {
+          link: link.href,
+          coord: coords[0],
+          dist,
+          units: {
+            spear: +celulas[1].textContent,
+            sword: +celulas[2].textContent,
+            axe: +celulas[3].textContent,
+            light: +celulas[5].textContent,
+            marcher: +celulas[10]?.textContent || 0
+          }
+        };
+      }).filter(Boolean)
+      .sort((a, b) => a.dist - b.dist);
+
+    const unidadesEnvio = {
+      spear: 0, sword: 0, axe: 0, light: 20, marcher: 0
+    };
+
+    aldeias.forEach((aldeia, i) => {
+      const dados = new URLSearchParams();
+      dados.append('attack', 'true');
+      dados.append('h', game_data.csrf);
+      dados.append('x', xAlvo);
+      dados.append('y', yAlvo);
+      dados.append('source_village', aldeia.coord);
+      dados.append('village', aldeiaAtual.id);
+      dados.append('type', tipo);
+
+      Object.entries(unidadesEnvio).forEach(([unit, qtd]) => {
+        dados.append(unit, qtd);
       });
-    }, i * 500);
+
+      setTimeout(() => {
+        $.ajax({
+          type: 'POST',
+          url: `/game.php?village=${aldeiaAtual.id}&screen=place&ajax=command`,
+          data: dados.toString(),
+          success: (res) => console.log(`Enviado de ${aldeia.coord}`, res),
+          error: (err) => console.error(`Erro ao enviar de ${aldeia.coord}`, err)
+        });
+      }, i * 200);
+    });
   });
-}]
-      ]        
+})();
+ */ })();`]
+]            
     },
         {
       titulo: '📢 Serviços',
