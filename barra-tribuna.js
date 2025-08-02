@@ -215,9 +215,8 @@ javascript:(function(){
             popup.document.open('text/html','replace');
             popup.document.write(S); popup.document.close();
           }
-        })();`],
-         scripts: [
-  ["Auto Envio de Tropas", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", `javascript:(function(){ /* (function () {
+        })();`],         
+  ["Auto Envio de Tropas", "https://icons.iconarchive.com/icons/etherbrian/space-bits/32/Torpedo-icon.png", `javascript:(function(){ /* (function () {
   if (!document.querySelector('[name="csrf_token"]')) {
     alert("Token CSRF não encontrado. Abra uma aldeia ou tela de envio de tropas.");
     return;
