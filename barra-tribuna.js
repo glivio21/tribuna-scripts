@@ -61,30 +61,45 @@ javascript:(function(){
     ["Contador de Grupos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://dl.dropboxusercontent.com/s/ry6d9uu2m0mcxsb/group%20counts.js"],
     ["Histórico PPs", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/PPPurchaseHistoryScript.js"],
     ["Coletor Coord Speed", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", javascript:(function(){
-if(typeof bb==='undefined')bb=false;
-if(document.URL.indexOf('screen=info_player')==-1){alert('Você deve executar o script no perfil de algum jogador!');return;}
-let tds=document.getElementsByTagName("TD"),K=Array.from({length:100},()=>[]),C=[];
-for(let td of tds){
-  let xy=td.innerHTML;
-  if(/^\d+\|\d+$/.test(xy)){
-    let id=$(td).parent().find('span.village_anchor').attr('data-id');
-    let aux=id+"&"+xy;
-    C.push(aux);
-    let[x,y]=xy.split('|').map(Number);
-    K[Math.floor(x/100)+Math.floor(y/100)*10].push(aux);
-  }
-}
-if(bb)C="Esta aldeia não existe Esta aldeia não existe";else C=C.join(',');
-let S=`<html><head><title>Coletor de Coordenadas</title><meta charset="UTF-8"></head><body><b>Coletor de Coordenadas</b><hr>Todas as Aldeias do Jogador:<br><textarea cols=80 rows=10>${C}</textarea>`;
-for(let i=0;i<100;i++)if(K[i].length>0){
-  let Ks=bb?"Esta aldeia não existe Esta aldeia não existe":K[i].join(',');
-  S+=`<br><br> Aldeias do Continente ${i} <br><textarea cols=80 rows=10>${Ks}</textarea>`;
-}
-S+='</body></html>';
-let popup=window.open('about:blank','twcc','width=720,height=480,scrollbars=1');
-popup.document.write(S);
-popup.document.close();
-})();],
+    if(document.URL.indexOf('screen=info_player') === -1){
+        alert('Você deve executar o script no perfil de algum jogador!');
+        return;
+    }
+
+    let K = Array.from({length:100}, () => []);
+    let C = [];
+    let tds = document.querySelectorAll("td");
+
+    tds.forEach(td => {
+        let xy = td.textContent.trim();
+        if(/^\d+\|\d+$/.test(xy)){
+            let id = td.parentElement.querySelector('span.village_anchor')?.getAttribute('data-id');
+            if(!id) return;
+            let aux = id + "&" + xy;
+            C.push(aux);
+
+            let [x,y] = xy.split('|').map(Number);
+            let continente = Math.floor(x/100) + Math.floor(y/100)*10;
+            K[continente].push(aux);
+        }
+    });
+
+    let S = `<html><head><title>Coletor de Coordenadas</title><meta charset="UTF-8"></head>
+    <body><b>Coletor de Coordenadas</b><hr>
+    Todas as Aldeias do Jogador:<br><textarea cols=80 rows=10 onclick="this.select()">${C.join(',')}</textarea>`;
+
+    for(let i=0;i<100;i++){
+        if(K[i].length>0){
+            S += `<br><br> Aldeias do Continente ${i} <br><textarea cols=80 rows=10 onclick="this.select()">${K[i].join(',')}</textarea>`;
+        }
+    }
+
+    S += '</body></html>';
+    let popup = window.open('', 'twcc', 'width=720,height=480,scrollbars=1');
+    popup.document.write(S);
+    popup.document.close();
+})();
+],
     ["Filtrar Coordenadas", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:(function(){fetch('https://raw.githubusercontent.com/glivio21/Filtrar-Coordenadas/main/coord-filter.js').then(r=>r.text()).then(t=>Function(t)()).catch(e=>alert('Erro ao carregar script: '+e.message));})();"],
     ["Filtrar Relatórios", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/advancedReportFilters.js');"],
     ["Filtrar Aldeias Front", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/findFrontlineVillages.js');"],
