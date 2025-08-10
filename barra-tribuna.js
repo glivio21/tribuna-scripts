@@ -60,7 +60,64 @@ javascript:(function(){
     ["Contador de Tropas 3", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://dl.dropboxusercontent.com/s/75jut7q397e03e5/troop_counter.js"],
     ["Contador de Grupos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://dl.dropboxusercontent.com/s/ry6d9uu2m0mcxsb/group%20counts.js"],
     ["Histórico PPs", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/PPPurchaseHistoryScript.js"],
-    ["Coletor Coord Speed", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", `javascript: /* Tribuna Tribal Wars */ if (typeof bb === 'undefined') var bb = false; if (document.URL.indexOf('screen=info_player') == -1) { alert('Você deve executar o script no perfil de algum jogador!'); } else { var tds = document.getElementsByTagName("TD"); var K = new Array(); for (var idx = 0; idx < 100; idx++) K[idx] = new Array(); var C = new Array(); for (var idx = 0; idx < tds.length; idx++) { var xy = tds[idx].innerHTML; if (/^\d+\|\d+$/.test(xy)) { var id = $(tds[idx]).parent().find('span[class="village_anchor contexted"]').attr('data-id'); var aux = id + "&" + xy; C.push(aux); var xys = xy.split('|'); K[Math.floor(parseInt(xys[0]) / 100) + Math.floor(parseInt(xys[1]) / 100) * 10].push(aux); } } if (bb == true) { C = "Esta aldeia não existe Esta aldeia não existe"; } if (bb == false) { C = C.join(','); } var prefix = '<textarea cols=80 rows=10>'; var postfix = '<\/textarea>'; var S = '<html>' + '<head>' + '<title>Coletor de Coordenadas</title>' + '<meta http-equiv=\"content-type\" content=\"text/html; charset=UTF-8\" />' + '</head>' + '<body>' + '<b>Coletor de Coordenadas</b><hr>Todas as Aldeias do Jogador:<br>' + prefix + C + postfix; for (var idx = 0; idx < 100; idx++) if (K[idx].length > 0) { if (bb == true) { var Ks = "Esta aldeia não existe Esta aldeia não existe"; } if (bb == false) { var Ks = K[idx].join(','); } S += '<br><br> Aldeias do Continente ' + idx + ' <br>' + prefix + Ks + postfix; } S += '</body></html>'; var popup = window.open('about:blank', 'twcc', 'width=720,height=480,scrollbars=1'); popup.document.open('text/html', 'replace'); popup.document.write(S); popup.document.close(); }; void(0);`],
+    ["Coletor Coord Speed", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", `javascript:
+    /* Tribuna Tribal Wars */
+    if (typeof bb === 'undefined') var bb = false;
+
+    if (document.URL.indexOf('screen=info_player') === -1) {
+        alert('Você deve executar o script no perfil de algum jogador!');
+    } else {
+        var K = new Array();
+        for (var idx = 0; idx < 100; idx++) K[idx] = [];
+
+        var C = [];
+
+        // Novo método para capturar aldeias no layout atual
+        document.querySelectorAll('span.village_anchor .village_coords').forEach(function(el) {
+            var xy = el.textContent.trim();
+            if (/^\d+\|\d+$/.test(xy)) {
+                var id = el.closest('span.village_anchor').getAttribute('data-id');
+                var aux = id + "&" + xy;
+                C.push(aux);
+                var xys = xy.split('|');
+                var continente = Math.floor(parseInt(xys[0]) / 100) + Math.floor(parseInt(xys[1]) / 100) * 10;
+                K[continente].push(aux);
+            }
+        });
+
+        if (bb) {
+            C = "Esta aldeia não existe Esta aldeia não existe";
+        } else {
+            C = C.join(',');
+        }
+
+        var prefix = '<textarea cols=80 rows=10>';
+        var postfix = '</textarea>';
+        var S = '<html>' +
+                '<head>' +
+                '<title>Coletor de Coordenadas</title>' +
+                '<meta http-equiv="content-type" content="text/html; charset=UTF-8" />' +
+                '</head>' +
+                '<body>' +
+                '<b>Coletor de Coordenadas</b><hr>' +
+                'Todas as Aldeias do Jogador:<br>' + prefix + C + postfix;
+
+        for (var idx = 0; idx < 100; idx++) {
+            if (K[idx].length > 0) {
+                var Ks = bb ? "Esta aldeia não existe Esta aldeia não existe" : K[idx].join(',');
+                S += '<br><br> Aldeias do Continente ' + idx + ' <br>' + prefix + Ks + postfix;
+            }
+        }
+
+        S += '</body></html>';
+
+        var popup = window.open('about:blank', 'twcc', 'width=720,height=480,scrollbars=1');
+        popup.document.open('text/html', 'replace');
+        popup.document.write(S);
+        popup.document.close();
+    }
+    void(0);
+`],
     ["Filtrar Coordenadas", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:(function(){fetch('https://raw.githubusercontent.com/glivio21/Filtrar-Coordenadas/main/coord-filter.js').then(r=>r.text()).then(t=>Function(t)()).catch(e=>alert('Erro ao carregar script: '+e.message));})();"],
     ["Filtrar Relatórios", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/advancedReportFilters.js');"],
     ["Filtrar Aldeias Front", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/findFrontlineVillages.js');"],
@@ -269,7 +326,7 @@ function createThemeToggle() {
   header.style = 'position: relative; display:flex; align-items:center; gap: 12px; margin-bottom:10px;';
 
   const titulo = document.createElement('h2');
-  titulo.textContent = 'Tribuna Scripts - Versão 0.0.2';
+  titulo.textContent = 'Tribuna Scripts - Versão 0.0.3';
   titulo.style = `margin:0; color:${theme.fg}; flex-shrink: 0;`;
 
   const toggle = createThemeToggle();
