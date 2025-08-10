@@ -60,7 +60,7 @@ javascript:(function(){
     ["Contador de Tropas 3", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://dl.dropboxusercontent.com/s/75jut7q397e03e5/troop_counter.js"],
     ["Contador de Grupos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://dl.dropboxusercontent.com/s/ry6d9uu2m0mcxsb/group%20counts.js"],
     ["Histórico PPs", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/PPPurchaseHistoryScript.js"],
-    ['Coletor Coords Speed', 'https://icons.iconarchive.com/icons/custom-icon-design/pretty-office-11/32/binoculars-icon.png',
+    ['Coletor Coords Speed', "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png",
         `javascript:(function(){
           if(typeof bb==='undefined') var bb=false;
           if(document.URL.indexOf('screen=info_player')===-1){
