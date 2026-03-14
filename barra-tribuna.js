@@ -33,7 +33,7 @@ javascript:(function(){
     padrao: "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png"
   };
 
- // Categorias e scripts
+// Categorias e scripts
   const categorias = [
     {
       titulo: '🏰 Edifícios',
@@ -153,6 +153,7 @@ javascript:(function(){
       titulo: '🛑 Defensivos',
       icone: "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png",
       scripts: [
+        ["Calculadora de Snip + Aflição", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://dl.dropboxusercontent.com/s/5f0ewzcwkh39pau/TESTE12.js"],
         ["Calculadora de Snip Individual", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://twscripts.dev/scripts/singleVillageSnipe.js"],
         ["Calculadora de Snip Coletivo", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://twscripts.dev/scripts/villagesInRange.js"],
         ["Remover Tropas de Apoio", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://twscripts.dev/scripts/supportCounterEvolved.js"],
@@ -205,7 +206,7 @@ javascript:(function(){
     {
       titulo: '🤝 Tribo',
       icone: "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png",
-      scripts: [
+      scripts: [       
         ["Aristocracia", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://shinko-to-kuma.com/scripts/overwatch.js"],
         ["Ver ataques na tribo", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://dl.dropboxusercontent.com/s/ikunxd5d59059b4/scriptMostrarAtaquesACaminho.js"],
         ["Ataques (Tribo) - Membros", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://dl.dropboxusercontent.com/s/oy16zihcrmtul4k/tribeinc.js"],
@@ -220,12 +221,14 @@ javascript:(function(){
       titulo: '📢 Serviços',
       icone: "https://i.ibb.co/2YmvSFmb/logo-ttw-2.png",
       scripts: [
-    ["🎓 Acessar Curso", "https://icons.iconarchive.com/icons/bokehlicia/captiva/32/rocket-icon.png", "https://hotmart.com/pt-br/marketplace/produtos/curso-de-tribal-wars/U96903865S"],
-    ["🧿 Obsidian Scripts", "https://www.obsidiantribal.com/images/IMG_3002.GIF", "https://www.obsidiantribal.com/"],
     ["📺 Tribuna", "https://icons.iconarchive.com/icons/danleech/simple/32/youtube-icon.png", "https://www.youtube.com/@tribunatribalwars"],
     ["🛠️ Serviços", "https://icons.iconarchive.com/icons/bokehlicia/captiva/32/steam-icon.png", "https://tribunatw.com/services"],
     ["💬 Discord", "https://icons.iconarchive.com/icons/papirus-team/papirus-apps/32/discord-icon.png", "https://discord.gg/kwTUFCyFRA"],
-    ["📱  WhatsApp", "https://icons.iconarchive.com/icons/papirus-team/papirus-apps/32/whatsapp-icon.png", "https://chat.whatsapp.com/LJf55XqXUC6CgURf1dPBkM"]
+    ["📱  WhatsApp", "https://icons.iconarchive.com/icons/papirus-team/papirus-apps/32/whatsapp-icon.png", "https://chat.whatsapp.com/LJf55XqXUC6CgURf1dPBkM"],
+    ["🎓 Acessar Curso", "https://icons.iconarchive.com/icons/bokehlicia/captiva/32/rocket-icon.png", "https://hotmart.com/pt-br/marketplace/produtos/curso-de-tribal-wars/U96903865S"],
+    ["🧿 Obsidian Scripts", "https://www.obsidiantribal.com/images/IMG_3002.GIF", "https://www.obsidiantribal.com/"],
+    ["💎 Multi PRO", "https://www.multiprotribal.com/icon.png", "https://www.multiprotribal.com/"],
+    ["🔋 Naga PPs", "https://nagastore.gg/wp-content/uploads/2025/12/Logo-Render.png", "https://nagastore.gg/"]
       ]
     }
   ];
@@ -305,7 +308,7 @@ function createThemeToggle() {
   header.style = 'position: relative; display:flex; align-items:center; gap: 12px; margin-bottom:10px;';
 
   const titulo = document.createElement('h2');
-  titulo.textContent = 'Tribuna Scripts - Versão 0.0.3';
+  titulo.textContent = 'Tribuna Scripts - Versão 0.0.4';
   titulo.style = `margin:0; color:${theme.fg}; flex-shrink: 0;`;
 
   const toggle = createThemeToggle();
