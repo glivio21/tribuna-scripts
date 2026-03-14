@@ -1,4 +1,4 @@
-javascript:(function(){
+(function(){
 
 const SCRIPT_ID='tw-barra-2026';
 
