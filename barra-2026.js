@@ -23,226 +23,488 @@ const icons={
 padrao:"https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png"
 };
 
-/* ---------- CATEGORIAS ---------- */
+// Categorias e scripts
+  const categorias = [
+    {
+      titulo: '🏰 Edifícios',
+      icone: "https://icons.iconarchive.com/icons/icondigest/main-street/32/Cradle-of-learning-icon.png",
+      scripts: [
+        ["Bem Vindo", "https://icons.iconarchive.com/icons/be-os/be-box/32/Flash-Updater-icon.png", "{game}?screen=welcome&intro=1&oscreen=overview"],
+        ["Edifícios", "https://icons.iconarchive.com/icons/icondigest/main-street/32/Cradle-of-learning-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/redirector.js');"],
+        ["Recrutar Tropas", "https://icons.iconarchive.com/icons/calle/black-knight/32/Swords-icon.png", "{game}?screen=train"],
+        ["Torre Simulator", "https://icons.iconarchive.com/icons/icondigest/main-street/32/In-days-of-yore-icon.png", "https://twscripts.dev/scripts/watchtowerEvolved.js"],
+        ["Treinar Paladinos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Flash-Updater-icon.png", "https://twdevtools.github.io/approved/scripts/training.js"]
+      ]
+    },
+    {
+  titulo: '⚙️ Configuração',
+  icone: "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png",
+  scripts: [
+    ["Mostrar Pontos dos Edifícios", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://almis90.github.io/tw-scripts/building-points.js"],
+    ["Notas Manager", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/ownNotesManager.js');"],
+    ["ADD/DEL Grupos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://toxicdonut.dev:8080/js/Toxic_Donut_s_Group_Placer.js');"],
+    ["Adicionar Amigos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://twscripts.dev/scripts/friendRequest.js"],
+    ["Renomeador de Aldeias", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/TsalkaponeVillageRenamer.js"],
+    ["Renomeador GOD de Aldeias", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:(function(){if(!window.location.href.includes('mode=prod')){if(confirm('Você não está na tela certa. Ir agora para a Visualização de Produção?')){window.location.href='game.php?screen=overview_villages&mode=prod';}return;}if(document.getElementById('renameGui')){return;}let gui=document.createElement('div');gui.id='renameGui';gui.style.position='fixed';gui.style.top='100px';gui.style.left='50%';gui.style.transform='translateX(-50%)';gui.style.background='#222';gui.style.padding='10px';gui.style.border='2px solid #666';gui.style.borderRadius='10px';gui.style.zIndex=9999;gui.style.boxShadow='0px 0px 15px rgba(0,0,0,0.8)';gui.innerHTML=`<label style=\"color:#eee;\"><b>Nome da aldeia:</b></label><input id=\"villageBaseName\" type=\"text\" style=\"width:150px;margin:5px 0;background:#333;color:#eee;border:1px solid #555;\"><br><label style=\"color:#eee;\"><input type=\"checkbox\" id=\"seqCheck\"> Adicionar numeração sequencial</label><br><label style=\"color:#eee;\"><b>Velocidade:</b></label><br><select id=\"speedSelect\" style=\"margin-top:5px;background:#333;color:#eee;border:1px solid #555;\"><option value=\"300\">🐢 Devagar</option><option value=\"150\" selected>⚖️ Médio</option><option value=\"50\">⚡ Rápido</option></select><br><button id=\"startRename\" style=\"margin-top:10px;padding:5px 10px;background:#555;color:#eee;border:1px solid #777;\">▶️ START</button><button id=\"closeGui\" style=\"margin-left:10px;padding:5px 10px;background:#555;color:#eee;border:1px solid #777;\">❌ Fechar</button><div style=\"margin-top:10px;font-size:11px;color:#aaa;\">Tribuna Tribal Wars</div>`;document.body.appendChild(gui);document.getElementById('closeGui').onclick=function(){gui.remove();};document.getElementById('startRename').onclick=function(){let name=document.getElementById('villageBaseName').value.trim();let useSeq=document.getElementById('seqCheck').checked;let speed=parseInt(document.getElementById('speedSelect').value);if(!name||name.length<3){alert('Nome deve ter ao menos 3 letras.');return;}let delay=0;document.querySelectorAll('#production_table tr').forEach((row,i)=>{if(i===0)return;setTimeout(()=>{let icon=row.querySelector('.rename-icon');if(icon)icon.click();let input=row.querySelector('.quickedit-edit input[type=text]');let btn=row.querySelector('.quickedit-edit input[type=button]');if(input&&btn){input.value=name+(useSeq?(' '+String(i).padStart(2,'')):'');btn.click();}},delay+=speed);delay+=speed;});gui.remove();};})();"],
+    ["Contador de Tropas 1", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/countHomeTroops.js');"],
+    ["Contador de Tropas 2", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://twscripts.dev/scripts/troopsCounterFixed.js"],
+    ["Contador de Tropas 3", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://dl.dropboxusercontent.com/s/75jut7q397e03e5/troop_counter.js"],
+    ["Contador de Grupos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://dl.dropboxusercontent.com/s/ry6d9uu2m0mcxsb/group%20counts.js"],
+    ["Histórico PPs", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/PPPurchaseHistoryScript.js"],
+    ["Coletor Coords Perfil", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://shinko-to-kuma.com/scripts/findNonAttackedVillages.js');"],
+    ["Coletor Coords Mapa", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://media.innogames.com/com_DS_NL/scripts/Multicollor-Coordgrab_207233_f7gcp9yt.js');"],
+    ['Coletor Coords Speed', "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png",
+        `javascript:(function(){
+          if(typeof bb==='undefined') var bb=false;
+          if(document.URL.indexOf('screen=info_player')===-1){
+            alert('Você deve executar o script no perfil de algum jogador!');
+          } else {
+            var tds=document.getElementsByTagName('TD'), K=[], C=[];
+            for(var idx=0;idx<100;idx++) K[idx]=[];
+            for(var i=0;i<tds.length;i++){
+              var xy=tds[i].innerHTML;
+              if(/^\\d+\\|\\d+$/.test(xy)){
+                var id=$(tds[i]).parent().find('span.village_anchor.contexted').attr('data-id');
+                var aux=id+'&'+xy; C.push(aux);
+                var xys=xy.split('|');
+                K[Math.floor(parseInt(xys[0])/100)+Math.floor(parseInt(xys[1])/100)*10].push(aux);
+              }
+            }
+            if(bb) C='Esta aldeia não existe Esta aldeia não existe';
+            else C=C.join(',');
+            var prefix='<textarea cols=80 rows=10>', postfix='</textarea>';
+            var S='<html><head><title>Coletor de Coordenadas</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/></head><body><b>Coletor de Coordenadas</b><hr>Todas as Aldeias do Jogador:<br>'+prefix+C+postfix;
+            for(var j=0;j<100;j++){
+              if(K[j].length>0){
+                var Ks=bb?'Esta aldeia não existe Esta aldeia não existe':K[j].join(',');
+                S+='<br><br> Aldeias do Continente '+j+' <br>'+prefix+Ks+postfix;
+              }
+            }
+            S+='</body></html>';
+            var popup=window.open('about:blank','twcc','width=720,height=480,scrollbars=1');
+            popup.document.open('text/html','replace');
+            popup.document.write(S); popup.document.close();
+          }
+        })();`
+      ],
+    ["Filtrar Coordenadas", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:(function(){fetch('https://raw.githubusercontent.com/glivio21/Filtrar-Coordenadas/main/coord-filter.js').then(r=>r.text()).then(t=>Function(t)()).catch(e=>alert('Erro ao carregar script: '+e.message));})();"],
+    ["Filtrar Relatórios", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/advancedReportFilters.js');"],
+    ["Filtrar Aldeias Front", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/findFrontlineVillages.js');"],
+    ["Template de Tropas (GC)", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/troopTemplatesManager.js');"],
+    ]
+},    
+    {
+      titulo: '🎯 Ofensivos',
+      icone: "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png",
+      scripts: [
+        ["Calculadora de Ataques nas Bárbaras", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twscripts.dev/scripts/lastTimeAttacked.js"],
+        ["Calculadora de MS (Confirmar Ataque)", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", function(){
+          !function(){
+            function e(){
+              var e=$("#serverDate").text(),r=$("#serverTime").text(),t=e.match(/(..)\/(..)\/(....)/);
+              return t[3]+"-"+t[2]+"-"+t[1]+" "+r
+            }
+            function r(e){
+              var r=(new Date).getMilliseconds();
+              return(1e3+r-e) - (1e3 * Math.floor((1e3+r-e)/1e3))
+            }
+            function t(e){
+              var t=setInterval(function(){
+                var t=r(e);
+                $("#serverMs").text(":"+("00"+t).substr(-3))
+              },80);
+              return t
+            }
+            if(!$("#serverMs").length){
+              $("#date_arrival").append('<span id="serverMs"></span>');
+              $("#serverMs").css({color:"black","font-weight":"Bold"});
+              var n,s=e(),i=s,a=setInterval(function(){
+                s=e(),s!==i&&(n=(new Date).getMilliseconds(),clearInterval(a),t(n)),
+                i=s
+              },20)
+            }
+          }()
+        }],
+        ["Coletar de Coordenadas (Perfil Player)", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://tylercamp.me/tw/get-coords.js"],
+        ["Todos os Ataques Enviados (Perfil Player)", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twscripts.dev/scripts/getIncsForPlayer.js"],
+        ["Planejador de Ataques Individual", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twscripts.dev/scripts/singleVillagePlanner.js"],
+        ["Planejador de Ataques em Massa", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twscripts.dev/scripts/massCommandTimer.js"],
+        ["Planejador de Ataques em Massa 2", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twscripts.dev/scripts/massAttackPlanner.js"],
+        ["Planejador de Ataques -", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twdevtools.github.io/approved/scripts/planner.js"],
+        ["Fake NT (Confirmar Ataque)", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twscripts.dev/scripts/evolvedFakeTrain.js"],
+        ["Exibir Comandos (Confirmar Ataque)", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://media.innogames.com/com_DS_NL/scripts/ConfirmEnhancer_206293.js"],
+        ["Temporizador (Confirmar Ataque)", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/obfsucated/commandTimer.min.js');"],
+        ["Quebrar Muralha", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/clearBarbarianWalls.js');"],
+        ["Barbs Finder", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/barbsFinder.js');"],
+        ["Bônus Finder", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/bonusFinderEvolved.js');"],
+      ]
+    },
+    {
+      titulo: '🛑 Defensivos',
+      icone: "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png",
+      scripts: [
+        ["Calculadora de Snip + Aflição", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://dl.dropboxusercontent.com/s/5f0ewzcwkh39pau/TESTE12.js"],
+        ["Calculadora de Snip Individual", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://twscripts.dev/scripts/singleVillageSnipe.js"],
+        ["Calculadora de Snip Coletivo", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://twscripts.dev/scripts/villagesInRange.js"],
+        ["Calculadora de Lealdade", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://twscripts.dev/scripts/loyaltyCalculator.js"],
+        ["Remover Tropas de Apoio", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://twscripts.dev/scripts/supportCounterEvolved.js"],
+        ["Apoio em Massa", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", function(){
+          window.heavyCav=4;
+          $.getScript('https://dl.dropboxusercontent.com/s/idwa7mmpn6nxl3l/supportSender.js?dl=0');
+        }],
+        ["Simulador Defensor de Ataques", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://twscripts.dev/scripts/defenseHealthCheck.js"],
+        ["Ver Todos os Ataques", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://dl.dropbox.com/s/flt8iokmg7pomow/IncomingOpSpotter.js"],
+        ["Visão Geral de Ataques", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", function(){
+          window.NOBLE_GAP = 100;
+          window.FORMAT = '%unit% | %sent%';
+          $.getScript('https://twscripts.dev/scripts/incomingsOverview.js');
+        }],
+        ["Devil DEF", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://media.innogames.com/com_DS_NL/scripts/Devils-Def-Pack_206163.js"]
+      ]
+    },
+    {
+      titulo: '⛏️ Recursos',
+      icone: "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png",
+      scripts: [
+        ["Coleta em Massa", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function(){
+          window.premiumBtnEnabled=false;$.getScript('https://shinko-to-kuma.com/scripts/massScavenge.js');
+        }],
+        ["Desbloqueador de Coleta", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", "https://twscripts.dev/scripts/massUnlockScav.js"],
+        ["Organizador de Recursos", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function(){
+          $.ajaxSetup({dataType:'script'});$.getScript('https://www.minecraft.as/tw_scripts/outstanding_organizer.js');
+        }],
+        ["Calcular Recursos para Nobre", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/nobleCalculator.js');"],
+        ["Enviar Recursos", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function(){
+          $.getScript('https://shinko-to-kuma.com/scripts/res-senderV2.js');
+        }],
+        ["Balanceador de Recursos Shinko", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function(){
+          window.settings={highFarm:23000,lowPoints:2000,builtOutPercentage:0.25,needsMorePercentage:0.85};
+          $.getScript("https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/WarehouseBalancer.js");
+        }],
+        ["Balanceador de Recursos GOD", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function( ){
+  window.settings={highFarm:23000,lowPoints:2000,builtOutPercentage:0.25,needsMorePercentage:0.85};
+  $.getScript("https://dl.dropboxusercontent.com/s/bytvle86lj6230c/resBalancer.js?dl=0" );void(0);
+        }],
+        ["Eficiência do Farm (Relatórios)", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", "https://twscripts.dev/scripts/farmingEfficiencyCalculator.js"],
+        ["Mint Helper", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", "https://twscripts.dev/scripts/mintHelper.js"],
+        ["Farm A/B/C", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function(){
+          window.cookieName='fakeypress';$.getScript('https://media.innogamescdn.com/com_DS_FR/Scripts/Pillage/fakeypress_lau.js');
+        }],
+        ["Farm LA (Assistente de Saque)", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", "https://scripts.ibragonza.nl/enhancer/enhancer.js"],
+        ["Farm GOD", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", "https://higamy.github.io/TW/Scripts/Approved/FarmGodCopy.js"]
+      ]
+    },
+    {
+      titulo: '🤝 Tribo',
+      icone: "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png",
+      scripts: [
+        ["Aristocracia", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://shinko-to-kuma.com/scripts/overwatch.js"],
+        ["Ver ataques na tribo", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://dl.dropboxusercontent.com/s/ikunxd5d59059b4/scriptMostrarAtaquesACaminho.js"],
+        ["Ataques (Tribo) - Membros", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://dl.dropboxusercontent.com/s/oy16zihcrmtul4k/tribeinc.js"],
+        ["Evolução (Tribo) - Membros", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://shinko-to-kuma.com/scripts/tribeStats.js"],
+        ["Calcular Tropas da Tribo", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://shinko-to-kuma.com/scripts/tribeMembersTroopCalculator.js"],
+        ["Análise de Tribos", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://twscripts.dev/scripts/tribeStatsTool.js"],
+        ["Convidar P/ Tribo em Massa", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://twscripts.dev/scripts/inviteToTribe.js"],
+        ["Gerar lista (Membros)", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://media.innogamescdn.com/com_DS_PL/skrypty/lista_mail.js"]
+      ]
+    },     
+        {
+      titulo: '📢 Serviços',
+      icone: "https://i.ibb.co/2YmvSFmb/logo-ttw-2.png",
+      scripts: [
+    ["📺 Tribuna", "https://icons.iconarchive.com/icons/danleech/simple/32/youtube-icon.png", "https://www.youtube.com/@tribunatribalwars"],
+    ["🛠️ Serviços", "https://icons.iconarchive.com/icons/bokehlicia/captiva/32/steam-icon.png", "https://tribunatw.com/services"],
+    ["💬 Discord", "https://icons.iconarchive.com/icons/papirus-team/papirus-apps/32/discord-icon.png", "https://discord.gg/kwTUFCyFRA"],
+    ["📱  WhatsApp", "https://icons.iconarchive.com/icons/papirus-team/papirus-apps/32/whatsapp-icon.png", "https://chat.whatsapp.com/LJf55XqXUC6CgURf1dPBkM"],
+    ["🎓 Acessar Curso", "https://icons.iconarchive.com/icons/bokehlicia/captiva/32/rocket-icon.png", "https://hotmart.com/pt-br/marketplace/produtos/curso-de-tribal-wars/U96903865S"],
+    ["🧿 Obsidian Scripts", "https://www.obsidiantribal.com/images/IMG_3002.GIF", "https://www.obsidiantribal.com/"],
+    ["💎 Multi PRO", "https://www.multiprotribal.com/icon.png", "https://www.multiprotribal.com/"]
+    ["🔋 Naga PPs", "https://nagastore.gg/wp-content/uploads/2025/12/Logo-Render.png", "https://nagastore.gg/"]
+      ]
+    }
+  ];
 
-const categorias=[
+// Cria o container do menu e estiliza
+  const menu = document.createElement('div');
+  menu.id = SCRIPT_ID;
+  menu.style = `
+    position: fixed; top: 100px; left: 100px;
+    background: ${theme.bg}; color: ${theme.fg};
+    border: 2px solid ${theme.border}; border-radius: 8px;
+    padding: 10px; z-index: 99999;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
+    max-width: 520px; max-height: 85vh; overflow-y: auto;
+    font-family: sans-serif;
+    user-select: none;
+  `;
 
-/* EDIFICIOS */
+  function limparMenu(){
+    menu.innerHTML = '';
+  }
+function createThemeToggle() {
+  const container = document.createElement('div');
+  container.style = 'display: flex; align-items: center;';
 
-{
-titulo:'🏰 Edifícios',
-icone:"https://icons.iconarchive.com/icons/icondigest/main-street/32/Cradle-of-learning-icon.png",
-scripts:[
-["Bem Vindo","https://icons.iconarchive.com/icons/be-os/be-box/32/Flash-Updater-icon.png","{game}?screen=welcome&intro=1&oscreen=overview"],
-["Edifícios","https://icons.iconarchive.com/icons/icondigest/main-street/32/Cradle-of-learning-icon.png","javascript:$.getScript('https://twscripts.dev/scripts/redirector.js');"],
-["Recrutar Tropas","https://icons.iconarchive.com/icons/calle/black-knight/32/Swords-icon.png","{game}?screen=train"],
-["Torre Simulator","https://icons.iconarchive.com/icons/icondigest/main-street/32/In-days-of-yore-icon.png","https://twscripts.dev/scripts/watchtowerEvolved.js"],
-["Treinar Paladinos","https://icons.iconarchive.com/icons/be-os/be-box/32/Flash-Updater-icon.png","https://twdevtools.github.io/approved/scripts/training.js"]
-]
-},
-
-/* CONFIG */
-
-{
-titulo:'⚙️ Configuração',
-icone:"https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png",
-scripts:[
-["Mostrar Pontos dos Edifícios",icons.padrao,"https://almis90.github.io/tw-scripts/building-points.js"],
-["Notas Manager",icons.padrao,"javascript:$.getScript('https://twscripts.dev/scripts/ownNotesManager.js');"],
-["ADD/DEL Grupos",icons.padrao,"javascript:$.getScript('https://toxicdonut.dev:8080/js/Toxic_Donut_s_Group_Placer.js');"],
-["Adicionar Amigos",icons.padrao,"https://twscripts.dev/scripts/friendRequest.js"],
-["Renomeador de Aldeias",icons.padrao,"https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/TsalkaponeVillageRenamer.js"]
-]
-},
-
-/* OFENSIVOS */
-
-{
-titulo:'🎯 Ofensivos',
-icone:"https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png",
-scripts:[
-["Planejador Individual",icons.padrao,"https://twscripts.dev/scripts/singleVillagePlanner.js"],
-["Planejador Massa",icons.padrao,"https://twscripts.dev/scripts/massCommandTimer.js"],
-["Fake Train",icons.padrao,"https://twscripts.dev/scripts/evolvedFakeTrain.js"],
-["Timer Ataque",icons.padrao,"javascript:$.getScript('https://twscripts.dev/scripts/obfsucated/commandTimer.min.js');"],
-["Bônus Finder",icons.padrao,"javascript:$.getScript('https://twscripts.dev/scripts/bonusFinderEvolved.js');"]
-]
-},
-
-/* DEF */
-
-{
-titulo:'🛑 Defensivos',
-icone:"https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png",
-scripts:[
-["Snip Individual",icons.padrao,"https://twscripts.dev/scripts/singleVillageSnipe.js"],
-["Snip Coletivo",icons.padrao,"https://twscripts.dev/scripts/villagesInRange.js"],
-["Remover Apoios",icons.padrao,"https://twscripts.dev/scripts/supportCounterEvolved.js"],
-["Simulador Defesa",icons.padrao,"https://twscripts.dev/scripts/defenseHealthCheck.js"],
-["Visão Geral Ataques",icons.padrao,function(){
-window.NOBLE_GAP=100;
-window.FORMAT='%unit% | %sent%';
-$.getScript('https://twscripts.dev/scripts/incomingsOverview.js');
-}]
-]
-},
-
-/* RECURSOS */
-
-{
-titulo:'⛏️ Recursos',
-icone:"https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png",
-scripts:[
-["Coleta em Massa",icons.padrao,function(){
-window.premiumBtnEnabled=false;
-$.getScript('https://shinko-to-kuma.com/scripts/massScavenge.js');
-}],
-["Desbloquear Coleta",icons.padrao,"https://twscripts.dev/scripts/massUnlockScav.js"],
-["Organizador Recursos",icons.padrao,function(){
-$.ajaxSetup({dataType:'script'});
-$.getScript('https://www.minecraft.as/tw_scripts/outstanding_organizer.js');
-}],
-["Mint Helper",icons.padrao,"https://twscripts.dev/scripts/mintHelper.js"]
-]
-},
-
-/* TRIBO */
-
-{
-titulo:'🤝 Tribo',
-icone:"https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png",
-scripts:[
-["Análise Tribos",icons.padrao,"https://twscripts.dev/scripts/tribeStatsTool.js"],
-["Convidar em Massa",icons.padrao,"https://twscripts.dev/scripts/inviteToTribe.js"]
-]
-},
-
-/* SERVICOS */
-
-{
-titulo:'📢 Serviços',
-icone:"https://i.ibb.co/2YmvSFmb/logo-ttw-2.png",
-scripts:[
-["📺 Tribuna","https://icons.iconarchive.com/icons/danleech/simple/32/youtube-icon.png","https://www.youtube.com/@tribunatribalwars"],
-["🎓 Curso","https://icons.iconarchive.com/icons/bokehlicia/captiva/32/rocket-icon.png","https://hotmart.com/pt-br/marketplace/produtos/curso-de-tribal-wars/U96903865S"],
-["🧿 Obsidian","https://www.obsidiantribal.com/images/IMG_3002.GIF","https://www.obsidiantribal.com/"],
-["🛠️ Serviços","https://icons.iconarchive.com/icons/bokehlicia/captiva/32/steam-icon.png","https://tribunatw.com/services"],
-["💬 Discord","https://icons.iconarchive.com/icons/papirus-team/papirus-apps/32/discord-icon.png","https://discord.gg/kwTUFCyFRA"],
-["📱 WhatsApp","https://icons.iconarchive.com/icons/papirus-team/papirus-apps/32/whatsapp-icon.png","https://chat.whatsapp.com/LJf55XqXUC6CgURf1dPBkM"]
-]
-}
-
-];
-
-/* ---------- MENU ---------- */
-
-const menu=document.createElement('div');
-menu.id=SCRIPT_ID;
-
-menu.style=`
-position:fixed;
-top:100px;
-left:100px;
-background:${theme.bg};
-color:${theme.fg};
-border:2px solid ${theme.border};
-border-radius:8px;
-padding:10px;
-z-index:99999;
-max-width:520px;
-max-height:85vh;
-overflow-y:auto;
-font-family:sans-serif;
+  const label = document.createElement('label');
+  label.style = `
+  position: relative;
+  display: inline-block;
+  width: 42px;
+  height: 22px;
 `;
 
-/* ---------- EXECUTAR SCRIPT ---------- */
+  const input = document.createElement('input');
+  input.type = 'checkbox';
+  input.checked = currentTheme === 'dark';
+  input.style = 'opacity: 0; width: 0; height: 0;';
 
-function executarScript(script){
+  const slider = document.createElement('span');
+  slider.style = `
+    position: absolute;
+    cursor: pointer;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: ${currentTheme === 'dark' ? '#00ff66' : '#555'};
+    transition: .4s;
+    border-radius: 34px;
+    box-shadow: 0 0 6px ${currentTheme === 'dark' ? '#00ff66' : '#333'};
+  `;
 
-try{
+  const circle = document.createElement('span');
+  circle.style = `
+  position: absolute;
+  height: 16px; width: 16px;
+  left: ${currentTheme === 'dark' ? '24px' : '4px'};
+  bottom: 3px;
+  background-color: ${currentTheme === 'dark' ? '#000' : '#222'};
+  transition: .4s;
+  border-radius: 50%;
+`;
 
-const acao=script[2];
+  slider.appendChild(circle);
+  label.appendChild(input);
+  label.appendChild(slider);
+  container.appendChild(label);
 
-if(typeof acao==="function"){
-acao();
-return;
+  input.onchange = () => {
+    const newTheme = input.checked ? 'dark' : 'light';
+    localStorage.setItem('twBarraTheme', newTheme);
+    location.reload();
+  };
+
+  return container;
 }
 
-if(acao.startsWith("javascript:")){
-Function(acao.replace("javascript:",""))();
-return;
+ function renderHeader(){
+  const header = document.createElement('div');
+  header.style = 'position: relative; display:flex; align-items:center; gap: 12px; margin-bottom:10px;';
+
+  const titulo = document.createElement('h2');
+  titulo.textContent = 'Tribuna Scripts - Versão 0.0.3';
+  titulo.style = `margin:0; color:${theme.fg}; flex-shrink: 0;`;
+
+  const toggle = createThemeToggle();
+
+  const btnClose = document.createElement('span');
+  btnClose.textContent = '✖';
+  btnClose.style = `
+  position: absolute;
+  top: 0;
+  right: 0;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 18px;
+  color: ${theme.fg};
+  padding: 4px 8px;
+  border-radius: 4px;
+  background: transparent;
+  border: none;
+  line-height: 1;
+`;
+
+  btnClose.title = 'Fechar menu';
+  btnClose.onclick = () => menu.remove();
+
+  header.appendChild(titulo);
+  header.appendChild(toggle);
+  header.appendChild(btnClose);
+  menu.appendChild(header);
 }
+  
+  // Estilos para rolagem das categorias
+const style = document.createElement('style');
+style.textContent = `
+  .scripts-scroll {
+    max-height: 300px; /* altura para cerca de 10 itens — ajuste conforme seu layout */
+    overflow-y: auto;
+    overflow-x: hidden;
+  }
+`;
+document.head.appendChild(style);
+  
+  // Renderiza categorias como ícones clicáveis
+  function renderCategorias(){
+    limparMenu();
+    renderHeader();    
 
-if(/\.js(\?|$)/.test(acao)){
-let s=document.createElement("script");
-s.src=acao;
-document.body.appendChild(s);
-return;
-}
+    const container = document.createElement('div');
+    container.style = 'display:flex; flex-wrap: wrap; gap: 12px;';
+    categorias.forEach(cat => {
+      const box = document.createElement('div');
+      box.style = `
+        width: 80px; text-align: center; cursor: pointer;
+        background: ${theme.panelBg}; border: 1px solid ${theme.panelBorder};
+        border-radius: 6px; padding: 6px; user-select: none;
+        display: flex; flex-direction: column; align-items: center;
+      `;
+      box.title = cat.titulo;
+      box.onclick = () => renderScripts(cat);
 
-if(acao.includes("{game}")){
-location.href=acao.replace("{game}","game.php");
-return;
-}
+      const img = document.createElement('img');
+      img.src = cat.icone;
+      img.style = 'width: 40px; height: 40px; margin-bottom: 6px;';
+      img.alt = cat.titulo;
 
-if(acao.startsWith("http")){
-window.open(acao,"_blank");
-}
+      const label = document.createElement('span');
+      label.textContent = cat.titulo;
+      label.style = `font-size: 12px; color: ${theme.fg};`;
 
-}catch(e){
-alert("Erro ao executar script: "+e.message);
-}
+      box.appendChild(img);
+      box.appendChild(label);
+      container.appendChild(box);
+    });
 
-}
+    menu.appendChild(container);
+  }
 
-/* ---------- RENDER ---------- */
+  // Renderiza scripts da categoria
+  function renderScripts(cat){
+    limparMenu();
+    renderHeader();    
 
-function renderCategorias(){
+    const btnVoltar = document.createElement('button');
+    btnVoltar.textContent = '← Voltar';
+    btnVoltar.style = `
+      margin-bottom: 12px; padding: 6px 10px; cursor: pointer;
+      background: ${theme.panelBg}; border: 1px solid ${theme.panelBorder};
+      color: ${theme.fg}; border-radius: 5px;
+    `;
+    btnVoltar.onclick = renderCategorias;
+    menu.appendChild(btnVoltar);
 
-menu.innerHTML="<h2>Tribuna Scripts</h2>";
+    const titulo = document.createElement('h3');
+    titulo.textContent = cat.titulo;
+    titulo.style = `margin: 4px 0 12px 0; color: ${theme.fg};`;
+    menu.appendChild(titulo);
 
-categorias.forEach(cat=>{
+    // Cria container com scroll para os scripts
+const scrollHost = document.createElement('div');
+scrollHost.classList.add('scripts-scroll');
 
-let btn=document.createElement("div");
+// Adiciona cada script dentro do container
+cat.scripts.forEach(script => {
+  const linha = document.createElement('div');
+  linha.style = `
+    display: flex; align-items: center; padding: 6px; margin-bottom: 8px;
+    cursor: pointer; border-radius: 5px;
+    background: ${theme.panelBg}; border: 1px solid ${theme.panelBorder};
+    user-select: none;
+  `;
+  linha.onmouseenter = () => linha.style.backgroundColor = theme.hover;
+  linha.onmouseleave = () => linha.style.backgroundColor = theme.panelBg;
+  linha.onclick = () => executarScript(script);
 
-btn.style="cursor:pointer;margin:6px 0";
+  const img = document.createElement('img');
+  img.src = script[1] || icons.padrao;
+  img.alt = script[0];
+  img.style = 'width: 24px; height: 24px; margin-right: 10px;';
+  linha.appendChild(img);
 
-btn.innerHTML=`<b>${cat.titulo}</b>`;
+  const texto = document.createElement('span');
+  texto.textContent = script[0];
+  texto.style = `color: ${theme.fg}; font-size: 14px;`;
+  linha.appendChild(texto);
 
-btn.onclick=()=>renderScripts(cat);
-
-menu.appendChild(btn);
-
+  scrollHost.appendChild(linha);
 });
 
+// Finalmente, anexa o container com scroll ao menu
+menu.appendChild(scrollHost);
+
+  }
+
+  // Executa o script
+  function executarScript(script){
+    try {
+      if(typeof script[2] === 'function'){
+        script[2]();
+      } else if(typeof script[2] === 'string'){
+        const url = script[2];
+        if(url.startsWith('javascript:')){
+          eval(url.slice(11));
+        } else if(url.endsWith('.js')){
+          $.getScript(url).fail(() => alert('Erro ao carregar o script!'));
+        } else if(url.startsWith('http')){
+          window.open(url, '_blank');
+        } else if(url.includes('{game}')){
+          let base = window.location.href.split('?')[0];
+          window.location.href = url.replace('{game}', base);
+        } else {
+          alert('Formato de script inválido.');
+        }
+      }
+    } catch(e){
+      alert('Erro ao executar o script: ' + e.message);
+    }
+  }
+ function tornarMenuArrastavel(el) {
+  let isMouseDown = false;
+  let offsetX = 0;
+  let offsetY = 0;
+
+  // Restaura a posição salva (se existir)
+  const posSalva = localStorage.getItem('twBarraPos');
+  if (posSalva) {
+    try {
+      const pos = JSON.parse(posSalva);
+      if (pos.left && pos.top) {
+        el.style.left = pos.left;
+        el.style.top = pos.top;
+      }
+    } catch(e) {
+      // Ignora erros e mantém posição padrão
+    }
+  }
+
+  el.addEventListener('mousedown', function(e) {
+    // Evita arrastar se clicou em botão, link ou input
+    if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || e.target.tagName === 'INPUT') return;
+
+    isMouseDown = true;
+    offsetX = e.clientX - el.offsetLeft;
+    offsetY = e.clientY - el.offsetTop;
+    e.preventDefault();
+  });
+
+  document.addEventListener('mouseup', function() {
+    if (isMouseDown) {
+      // Salva posição no localStorage ao soltar o mouse
+      localStorage.setItem('twBarraPos', JSON.stringify({
+        left: el.style.left,
+        top: el.style.top
+      }));
+    }
+    isMouseDown = false;
+  });
+
+  document.addEventListener('mousemove', function(e) {
+    if (!isMouseDown) return;
+    el.style.left = (e.clientX - offsetX) + 'px';
+    el.style.top = (e.clientY - offsetY) + 'px';
+  });
 }
 
-function renderScripts(cat){
+tornarMenuArrastavel(menu);  
 
-menu.innerHTML=`<button id="back">← Voltar</button><h3>${cat.titulo}</h3>`;
-
-document.getElementById("back").onclick=renderCategorias;
-
-cat.scripts.forEach(s=>{
-
-let row=document.createElement("div");
-
-row.style="cursor:pointer;margin:5px 0";
-
-row.textContent=s[0];
-
-row.onclick=()=>executarScript(s);
-
-menu.appendChild(row);
-
-});
-
-}
-
-/* ---------- START ---------- */
-
-document.body.appendChild(menu);
-
-renderCategorias();
-
-})();
+document.body.appendChild(menu);  
+  renderCategorias();
+  })();
