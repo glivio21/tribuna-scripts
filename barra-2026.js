@@ -217,7 +217,7 @@ padrao:"https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png"
     ["📱  WhatsApp", "https://icons.iconarchive.com/icons/papirus-team/papirus-apps/32/whatsapp-icon.png", "https://chat.whatsapp.com/LJf55XqXUC6CgURf1dPBkM"],
     ["🎓 Acessar Curso", "https://icons.iconarchive.com/icons/bokehlicia/captiva/32/rocket-icon.png", "https://hotmart.com/pt-br/marketplace/produtos/curso-de-tribal-wars/U96903865S"],
     ["🧿 Obsidian Scripts", "https://www.obsidiantribal.com/images/IMG_3002.GIF", "https://www.obsidiantribal.com/"],
-    ["💎 Multi PRO", "https://www.multiprotribal.com/icon.png", "https://www.multiprotribal.com/"]
+    ["💎 Multi PRO", "https://www.multiprotribal.com/icon.png", "https://www.multiprotribal.com/"],
     ["🔋 Naga PPs", "https://nagastore.gg/wp-content/uploads/2025/12/Logo-Render.png", "https://nagastore.gg/"]
       ]
     }
