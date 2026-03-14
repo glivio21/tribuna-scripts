@@ -63,7 +63,7 @@ javascript:(function(){
     ["Histórico PPs", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/PPPurchaseHistoryScript.js"],
     ["Coletor Coords Perfil", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://shinko-to-kuma.com/scripts/findNonAttackedVillages.js');"],
     ["Coletor Coords Mapa", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://media.innogames.com/com_DS_NL/scripts/Multicollor-Coordgrab_207233_f7gcp9yt.js');"],
-    ['Coletor Coords Speed', "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png",
+    ["Coletor Coords Speed", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png",
         `javascript:(function(){
           if(typeof bb==='undefined') var bb=false;
           if(document.URL.indexOf('screen=info_player')===-1){
@@ -442,28 +442,53 @@ menu.appendChild(scrollHost);
 
   // Executa o script
   function executarScript(script){
-    try {
-      if(typeof script[2] === 'function'){
-        script[2]();
-      } else if(typeof script[2] === 'string'){
-        const url = script[2];
-        if(url.startsWith('javascript:')){
-          eval(url.slice(11));
-        } else if(url.endsWith('.js')){
-          $.getScript(url).fail(() => alert('Erro ao carregar o script!'));
-        } else if(url.startsWith('http')){
-          window.open(url, '_blank');
-        } else if(url.includes('{game}')){
-          let base = window.location.href.split('?')[0];
-          window.location.href = url.replace('{game}', base);
-        } else {
-          alert('Formato de script inválido.');
-        }
-      }
-    } catch(e){
-      alert('Erro ao executar o script: ' + e.message);
+  try {
+
+    if(typeof script[2] === 'function'){
+      script[2]();
+      return;
     }
+
+    if(typeof script[2] !== 'string'){
+      alert('Script inválido.');
+      return;
+    }
+
+    const url = script[2];
+
+    // javascript direto
+    if(url.startsWith('javascript:')){
+      new Function(url.replace(/^javascript:/,''))();
+      return;
+    }
+
+    // carregar script externo
+    if(url.includes('.js')){
+  const s = document.createElement('script');
+  s.src = url;
+  s.onload = () => console.log('Script carregado:', url);
+  s.onerror = () => alert('Erro ao carregar o script!');
+  document.body.appendChild(s);
+  return;
+}
+
+    // links externos
+    if(url.includes('{game}')){
+  window.location.href = url.replace('{game}', 'game.php');
+  return;
+}
+
+if(url.startsWith('http')){
+  window.open(url, '_blank');
+  return;
+}
+
+    alert('Formato de script inválido.');
+
+  } catch(e){
+    alert('Erro ao executar o script: ' + e.message);
   }
+}
  function tornarMenuArrastavel(el) {
   let isMouseDown = false;
   let offsetX = 0;
@@ -471,17 +496,17 @@ menu.appendChild(scrollHost);
 
   // Restaura a posição salva (se existir)
   const posSalva = localStorage.getItem('twBarraPos');
-  if (posSalva) {
-    try {
-      const pos = JSON.parse(posSalva);
-      if (pos.left && pos.top) {
-        el.style.left = pos.left;
-        el.style.top = pos.top;
-      }
-    } catch(e) {
-      // Ignora erros e mantém posição padrão
+if (posSalva) {
+  try {
+    const pos = JSON.parse(posSalva);
+    if (pos.left !== undefined && pos.top !== undefined) {
+      el.style.left = pos.left;
+      el.style.top = pos.top;
     }
+  } catch(e) {
+    // Ignora erros e mantém posição padrão
   }
+}
 
   el.addEventListener('mousedown', function(e) {
     // Evita arrastar se clicou em botão, link ou input
@@ -511,8 +536,7 @@ menu.appendChild(scrollHost);
   });
 }
 
-tornarMenuArrastavel(menu);  
-
-document.body.appendChild(menu);  
-  renderCategorias();
+document.body.appendChild(menu);
+tornarMenuArrastavel(menu);
+renderCategorias();
   })();
