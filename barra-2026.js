@@ -197,13 +197,9 @@ javascript:(() => {
             icon: IMG.logo,
             scripts: [
                 ['Tribuna', 'https://www.youtube.com/@tribunatribalwars', IA('danleech/simple/32/youtube-icon.png')],
-                ['Serviços', 'https://tribunatw.com/services', IA('bokehlicia/captiva/32/steam-icon.png')],
+                ['Tribal Shop', 'https://www.tribalshop.com.br/', IA('bokehlicia/captiva/32/steam-icon.png')],
                 ['Discord', 'https://discord.gg/kwTUFCyFRA', IA('papirus-team/papirus-apps/32/discord-icon.png')],
-                ['WhatsApp', 'https://chat.whatsapp.com/LJf55XqXUC6CgURf1dPBkM', IA('papirus-team/papirus-apps/32/whatsapp-icon.png')],
-                ['Acessar Curso', 'https://hotmart.com/pt-br/marketplace/produtos/curso-de-tribal-wars/U96903865S', IA('bokehlicia/captiva/32/rocket-icon.png')],
-                ['Obsidian Scripts', 'https://www.obsidiantribal.com/', 'https://www.obsidiantribal.com/images/IMG_3002.GIF'],
-                ['Multi PRO', 'https://www.multiprotribal.com/', 'https://www.multiprotribal.com/icon.png'],
-                ['Naga PPs', 'https://nagastore.gg/', 'https://nagastore.gg/wp-content/uploads/2025/12/Logo-Render.png'],
+                ['WhatsApp', 'https://chat.whatsapp.com/LJf55XqXUC6CgURf1dPBkM', IA('papirus-team/papirus-apps/32/whatsapp-icon.png')],                
             ],
         },
     ];
