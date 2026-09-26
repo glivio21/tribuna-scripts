@@ -1,509 +1,401 @@
-(function(){
+javascript:(() => {
+    const ID = 'tw-barra-tribuna';
+    const VERSION = '0.0.5';
+    const THEME_KEY = 'twBarraTheme';
+    const POS_KEY = 'twBarraPos';
+    const FONT = "system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif";
 
-const SCRIPT_ID='tw-barra-2026';
+    if ($(`#${ID}`).length) return $(`#${ID}, #${ID}-style`).remove();
 
-if(document.getElementById(SCRIPT_ID)){
-document.getElementById(SCRIPT_ID).remove();
-return;
-}
+    const IA = path => `https://icons.iconarchive.com/icons/${path}`;
+    const IMG = {
+        ide: IA('be-os/be-box/32/Be-IDE-icon.png'),
+        updater: IA('be-os/be-box/32/Flash-Updater-icon.png'),
+        target: IA('calle/smith-and-wesson/32/Target-icon.png'),
+        stop: IA('be-os/be-box/32/APPS-Stop-icon.png'),
+        server: IA('be-os/be-box/32/APP-Server-icon.png'),
+        smiley: IA('iconfactory/sketchcons/32/smiley-icon.png'),
+        logo: 'https://i.ibb.co/2YmvSFmb/logo-ttw-2.png',
+    };
 
-/* ---------- TEMAS ---------- */
+    const svg = d => `<svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${d}</svg>`;
+    const ICON = {
+        close: svg('<path d="M18 6 6 18M6 6l12 12"/>'),
+        back: svg('<path d="m15 18-6-6 6-6"/>'),
+        search: svg('<circle cx="11" cy="11" r="7"/><path d="m21 21-4.3-4.3"/>'),
+        sun: svg('<circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/>'),
+        moon: svg('<path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8Z"/>'),
+    };
 
-const themes={
-light:{bg:'#ffffff',fg:'#000',border:'#333',hover:'#eee',panelBg:'#fff',panelBorder:'#ccc'},
-dark:{bg:'#000',fg:'#fff',border:'#000',hover:'#222',panelBg:'#000',panelBorder:'#444'}
-};
-
-let currentTheme=localStorage.getItem('twBarraTheme')||'dark';
-const theme=themes[currentTheme];
-
-/* ---------- ICONE PADRAO ---------- */
-
-const icons={
-padrao:"https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png"
-};
-
-// Categorias e scripts
-  const categorias = [
-    {
-      titulo: '🏰 Edifícios',
-      icone: "https://icons.iconarchive.com/icons/icondigest/main-street/32/Cradle-of-learning-icon.png",
-      scripts: [
-        ["Bem Vindo", "https://icons.iconarchive.com/icons/be-os/be-box/32/Flash-Updater-icon.png", "{game}?screen=welcome&intro=1&oscreen=overview"],
-        ["Edifícios", "https://icons.iconarchive.com/icons/icondigest/main-street/32/Cradle-of-learning-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/redirector.js');"],
-        ["Recrutar Tropas", "https://icons.iconarchive.com/icons/calle/black-knight/32/Swords-icon.png", "{game}?screen=train"],
-        ["Torre Simulator", "https://icons.iconarchive.com/icons/icondigest/main-street/32/In-days-of-yore-icon.png", "https://twscripts.dev/scripts/watchtowerEvolved.js"],
-        ["Treinar Paladinos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Flash-Updater-icon.png", "https://twdevtools.github.io/approved/scripts/training.js"]
-      ]
-    },
-    {
-  titulo: '⚙️ Configuração',
-  icone: "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png",
-  scripts: [
-    ["Mostrar Pontos dos Edifícios", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://almis90.github.io/tw-scripts/building-points.js"],
-    ["Notas Manager", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/ownNotesManager.js');"],
-    ["ADD/DEL Grupos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://toxicdonut.dev:8080/js/Toxic_Donut_s_Group_Placer.js');"],
-    ["Adicionar Amigos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://twscripts.dev/scripts/friendRequest.js"],
-    ["Renomeador de Aldeias", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/TsalkaponeVillageRenamer.js"],
-    ["Renomeador GOD de Aldeias", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:(function(){if(!window.location.href.includes('mode=prod')){if(confirm('Você não está na tela certa. Ir agora para a Visualização de Produção?')){window.location.href='game.php?screen=overview_villages&mode=prod';}return;}if(document.getElementById('renameGui')){return;}let gui=document.createElement('div');gui.id='renameGui';gui.style.position='fixed';gui.style.top='100px';gui.style.left='50%';gui.style.transform='translateX(-50%)';gui.style.background='#222';gui.style.padding='10px';gui.style.border='2px solid #666';gui.style.borderRadius='10px';gui.style.zIndex=9999;gui.style.boxShadow='0px 0px 15px rgba(0,0,0,0.8)';gui.innerHTML=`<label style=\"color:#eee;\"><b>Nome da aldeia:</b></label><input id=\"villageBaseName\" type=\"text\" style=\"width:150px;margin:5px 0;background:#333;color:#eee;border:1px solid #555;\"><br><label style=\"color:#eee;\"><input type=\"checkbox\" id=\"seqCheck\"> Adicionar numeração sequencial</label><br><label style=\"color:#eee;\"><b>Velocidade:</b></label><br><select id=\"speedSelect\" style=\"margin-top:5px;background:#333;color:#eee;border:1px solid #555;\"><option value=\"300\">🐢 Devagar</option><option value=\"150\" selected>⚖️ Médio</option><option value=\"50\">⚡ Rápido</option></select><br><button id=\"startRename\" style=\"margin-top:10px;padding:5px 10px;background:#555;color:#eee;border:1px solid #777;\">▶️ START</button><button id=\"closeGui\" style=\"margin-left:10px;padding:5px 10px;background:#555;color:#eee;border:1px solid #777;\">❌ Fechar</button><div style=\"margin-top:10px;font-size:11px;color:#aaa;\">Tribuna Tribal Wars</div>`;document.body.appendChild(gui);document.getElementById('closeGui').onclick=function(){gui.remove();};document.getElementById('startRename').onclick=function(){let name=document.getElementById('villageBaseName').value.trim();let useSeq=document.getElementById('seqCheck').checked;let speed=parseInt(document.getElementById('speedSelect').value);if(!name||name.length<3){alert('Nome deve ter ao menos 3 letras.');return;}let delay=0;document.querySelectorAll('#production_table tr').forEach((row,i)=>{if(i===0)return;setTimeout(()=>{let icon=row.querySelector('.rename-icon');if(icon)icon.click();let input=row.querySelector('.quickedit-edit input[type=text]');let btn=row.querySelector('.quickedit-edit input[type=button]');if(input&&btn){input.value=name+(useSeq?(' '+String(i).padStart(2,'')):'');btn.click();}},delay+=speed);delay+=speed;});gui.remove();};})();"],
-    ["Contador de Tropas 1", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/countHomeTroops.js');"],
-    ["Contador de Tropas 2", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://twscripts.dev/scripts/troopsCounterFixed.js"],
-    ["Contador de Tropas 3", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://dl.dropboxusercontent.com/s/75jut7q397e03e5/troop_counter.js"],
-    ["Contador de Grupos", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://dl.dropboxusercontent.com/s/ry6d9uu2m0mcxsb/group%20counts.js"],
-    ["Histórico PPs", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/PPPurchaseHistoryScript.js"],
-    ["Coletor Coords Perfil", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://shinko-to-kuma.com/scripts/findNonAttackedVillages.js');"],
-    ["Coletor Coords Mapa", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://media.innogames.com/com_DS_NL/scripts/Multicollor-Coordgrab_207233_f7gcp9yt.js');"],
-    ['Coletor Coords Speed', "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png",
-        `javascript:(function(){
-          if(typeof bb==='undefined') var bb=false;
-          if(document.URL.indexOf('screen=info_player')===-1){
-            alert('Você deve executar o script no perfil de algum jogador!');
-          } else {
-            var tds=document.getElementsByTagName('TD'), K=[], C=[];
-            for(var idx=0;idx<100;idx++) K[idx]=[];
-            for(var i=0;i<tds.length;i++){
-              var xy=tds[i].innerHTML;
-              if(/^\\d+\\|\\d+$/.test(xy)){
-                var id=$(tds[i]).parent().find('span.village_anchor.contexted').attr('data-id');
-                var aux=id+'&'+xy; C.push(aux);
-                var xys=xy.split('|');
-                K[Math.floor(parseInt(xys[0])/100)+Math.floor(parseInt(xys[1])/100)*10].push(aux);
-              }
-            }
-            if(bb) C='Esta aldeia não existe Esta aldeia não existe';
-            else C=C.join(',');
-            var prefix='<textarea cols=80 rows=10>', postfix='</textarea>';
-            var S='<html><head><title>Coletor de Coordenadas</title><meta http-equiv="content-type" content="text/html; charset=UTF-8"/></head><body><b>Coletor de Coordenadas</b><hr>Todas as Aldeias do Jogador:<br>'+prefix+C+postfix;
-            for(var j=0;j<100;j++){
-              if(K[j].length>0){
-                var Ks=bb?'Esta aldeia não existe Esta aldeia não existe':K[j].join(',');
-                S+='<br><br> Aldeias do Continente '+j+' <br>'+prefix+Ks+postfix;
-              }
-            }
-            S+='</body></html>';
-            var popup=window.open('about:blank','twcc','width=720,height=480,scrollbars=1');
-            popup.document.open('text/html','replace');
-            popup.document.write(S); popup.document.close();
-          }
-        })();`
-      ],
-    ["Filtrar Coordenadas", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:(function(){fetch('https://raw.githubusercontent.com/glivio21/Filtrar-Coordenadas/main/coord-filter.js').then(r=>r.text()).then(t=>Function(t)()).catch(e=>alert('Erro ao carregar script: '+e.message));})();"],
-    ["Filtrar Relatórios", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/advancedReportFilters.js');"],
-    ["Filtrar Aldeias Front", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/findFrontlineVillages.js');"],
-    ["Template de Tropas (GC)", "https://icons.iconarchive.com/icons/be-os/be-box/32/Be-IDE-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/troopTemplatesManager.js');"],
-    ]
-},    
-    {
-      titulo: '🎯 Ofensivos',
-      icone: "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png",
-      scripts: [
-        ["Calculadora de Ataques nas Bárbaras", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twscripts.dev/scripts/lastTimeAttacked.js"],
-        ["Calculadora de MS (Confirmar Ataque)", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", function(){
-          !function(){
-            function e(){
-              var e=$("#serverDate").text(),r=$("#serverTime").text(),t=e.match(/(..)\/(..)\/(....)/);
-              return t[3]+"-"+t[2]+"-"+t[1]+" "+r
-            }
-            function r(e){
-              var r=(new Date).getMilliseconds();
-              return(1e3+r-e) - (1e3 * Math.floor((1e3+r-e)/1e3))
-            }
-            function t(e){
-              var t=setInterval(function(){
-                var t=r(e);
-                $("#serverMs").text(":"+("00"+t).substr(-3))
-              },80);
-              return t
-            }
-            if(!$("#serverMs").length){
-              $("#date_arrival").append('<span id="serverMs"></span>');
-              $("#serverMs").css({color:"black","font-weight":"Bold"});
-              var n,s=e(),i=s,a=setInterval(function(){
-                s=e(),s!==i&&(n=(new Date).getMilliseconds(),clearInterval(a),t(n)),
-                i=s
-              },20)
-            }
-          }()
-        }],
-        ["Coletar de Coordenadas (Perfil Player)", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://tylercamp.me/tw/get-coords.js"],
-        ["Todos os Ataques Enviados (Perfil Player)", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twscripts.dev/scripts/getIncsForPlayer.js"],
-        ["Planejador de Ataques Individual", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twscripts.dev/scripts/singleVillagePlanner.js"],
-        ["Planejador de Ataques em Massa", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twscripts.dev/scripts/massCommandTimer.js"],
-        ["Planejador de Ataques em Massa 2", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twscripts.dev/scripts/massAttackPlanner.js"],
-        ["Planejador de Ataques -", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twdevtools.github.io/approved/scripts/planner.js"],
-        ["Fake NT (Confirmar Ataque)", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://twscripts.dev/scripts/evolvedFakeTrain.js"],
-        ["Exibir Comandos (Confirmar Ataque)", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "https://media.innogames.com/com_DS_NL/scripts/ConfirmEnhancer_206293.js"],
-        ["Temporizador (Confirmar Ataque)", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/obfsucated/commandTimer.min.js');"],
-        ["Quebrar Muralha", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/clearBarbarianWalls.js');"],
-        ["Barbs Finder", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/barbsFinder.js');"],
-        ["Bônus Finder", "https://icons.iconarchive.com/icons/calle/smith-and-wesson/32/Target-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/bonusFinderEvolved.js');"],
-      ]
-    },
-    {
-      titulo: '🛑 Defensivos',
-      icone: "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png",
-      scripts: [
-        ["Calculadora de Snip + Aflição", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://dl.dropboxusercontent.com/s/5f0ewzcwkh39pau/TESTE12.js"],
-        ["Calculadora de Snip Individual", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://twscripts.dev/scripts/singleVillageSnipe.js"],
-        ["Calculadora de Snip Coletivo", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://twscripts.dev/scripts/villagesInRange.js"],
-        ["Remover Tropas de Apoio", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://twscripts.dev/scripts/supportCounterEvolved.js"],
-        ["Apoio em Massa", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", function(){
-          window.heavyCav=4;
-          $.getScript('https://dl.dropboxusercontent.com/s/idwa7mmpn6nxl3l/supportSender.js?dl=0');
-        }],
-        ["Simulador Defensor de Ataques", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://twscripts.dev/scripts/defenseHealthCheck.js"],
-        ["Ver Todos os Ataques", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://dl.dropbox.com/s/flt8iokmg7pomow/IncomingOpSpotter.js"],
-        ["Visão Geral de Ataques", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", function(){
-          window.NOBLE_GAP = 100;
-          window.FORMAT = '%unit% | %sent%';
-          $.getScript('https://twscripts.dev/scripts/incomingsOverview.js');
-        }],
-        ["Devil DEF", "https://icons.iconarchive.com/icons/be-os/be-box/32/APPS-Stop-icon.png", "https://media.innogames.com/com_DS_NL/scripts/Devils-Def-Pack_206163.js"]
-      ]
-    },
-    {
-      titulo: '⛏️ Recursos',
-      icone: "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png",
-      scripts: [
-        ["Coleta em Massa", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function(){
-          window.premiumBtnEnabled=false;$.getScript('https://shinko-to-kuma.com/scripts/massScavenge.js');
-        }],
-        ["Desbloqueador de Coleta", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", "https://twscripts.dev/scripts/massUnlockScav.js"],
-        ["Organizador de Recursos", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function(){
-          $.ajaxSetup({dataType:'script'});$.getScript('https://www.minecraft.as/tw_scripts/outstanding_organizer.js');
-        }],
-        ["Calcular Recursos para Nobre", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", "javascript:$.getScript('https://twscripts.dev/scripts/nobleCalculator.js');"],
-        ["Enviar Recursos", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function(){
-          $.getScript('https://shinko-to-kuma.com/scripts/res-senderV2.js');
-        }],
-        ["Balanceador de Recursos Shinko", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function(){
-          window.settings={highFarm:23000,lowPoints:2000,builtOutPercentage:0.25,needsMorePercentage:0.85};
-          $.getScript("https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/WarehouseBalancer.js");
-        }],
-        ["Balanceador de Recursos GOD", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function( ){
-  window.settings={highFarm:23000,lowPoints:2000,builtOutPercentage:0.25,needsMorePercentage:0.85};
-  $.getScript("https://dl.dropboxusercontent.com/s/bytvle86lj6230c/resBalancer.js?dl=0" );void(0);
-        }],
-        ["Eficiência do Farm (Relatórios)", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", "https://twscripts.dev/scripts/farmingEfficiencyCalculator.js"],
-        ["Mint Helper", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", "https://twscripts.dev/scripts/mintHelper.js"],
-        ["Farm A/B/C", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", function(){
-          window.cookieName='fakeypress';$.getScript('https://media.innogamescdn.com/com_DS_FR/Scripts/Pillage/fakeypress_lau.js');
-        }],
-        ["Farm LA (Assistente de Saque)", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", "https://scripts.ibragonza.nl/enhancer/enhancer.js"],
-        ["Farm GOD", "https://icons.iconarchive.com/icons/be-os/be-box/32/APP-Server-icon.png", "https://higamy.github.io/TW/Scripts/Approved/FarmGodCopy.js"]
-      ]
-    },
-    {
-      titulo: '🤝 Tribo',
-      icone: "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png",
-      scripts: [       
-        ["Aristocracia", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://shinko-to-kuma.com/scripts/overwatch.js"],
-        ["Ver ataques na tribo", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://dl.dropboxusercontent.com/s/ikunxd5d59059b4/scriptMostrarAtaquesACaminho.js"],
-        ["Ataques (Tribo) - Membros", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://dl.dropboxusercontent.com/s/oy16zihcrmtul4k/tribeinc.js"],
-        ["Evolução (Tribo) - Membros", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://shinko-to-kuma.com/scripts/tribeStats.js"],
-        ["Calcular Tropas da Tribo", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://shinko-to-kuma.com/scripts/tribeMembersTroopCalculator.js"],
-        ["Análise de Tribos", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://twscripts.dev/scripts/tribeStatsTool.js"],
-        ["Convidar P/ Tribo em Massa", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://twscripts.dev/scripts/inviteToTribe.js"],
-        ["Gerar lista (Membros)", "https://icons.iconarchive.com/icons/iconfactory/sketchcons/32/smiley-icon.png", "https://media.innogamescdn.com/com_DS_PL/skrypty/lista_mail.js"]
-      ]
-    },     
+    const CATEGORIES = [
         {
-      titulo: '📢 Serviços',
-      icone: "https://i.ibb.co/2YmvSFmb/logo-ttw-2.png",
-      scripts: [
-    ["📺 Tribuna", "https://icons.iconarchive.com/icons/danleech/simple/32/youtube-icon.png", "https://www.youtube.com/@tribunatribalwars"],
-    ["🛠️ Serviços", "https://icons.iconarchive.com/icons/bokehlicia/captiva/32/steam-icon.png", "https://tribunatw.com/services"],
-    ["💬 Discord", "https://icons.iconarchive.com/icons/papirus-team/papirus-apps/32/discord-icon.png", "https://discord.gg/kwTUFCyFRA"],
-    ["📱  WhatsApp", "https://icons.iconarchive.com/icons/papirus-team/papirus-apps/32/whatsapp-icon.png", "https://chat.whatsapp.com/LJf55XqXUC6CgURf1dPBkM"],
-    ["🎓 Acessar Curso", "https://icons.iconarchive.com/icons/bokehlicia/captiva/32/rocket-icon.png", "https://hotmart.com/pt-br/marketplace/produtos/curso-de-tribal-wars/U96903865S"],
-    ["🧿 Obsidian Scripts", "https://www.obsidiantribal.com/images/IMG_3002.GIF", "https://www.obsidiantribal.com/"],
-    ["💎 Multi PRO", "https://www.multiprotribal.com/icon.png", "https://www.multiprotribal.com/"],
-    ["🔋 Naga PPs", "https://nagastore.gg/wp-content/uploads/2025/12/Logo-Render.png", "https://nagastore.gg/"]
-      ]
-    }
-  ];
+            title: 'Edifícios',
+            icon: IA('icondigest/main-street/32/Cradle-of-learning-icon.png'),
+            scripts: [
+                ['Bem Vindo', '{game}?screen=welcome&intro=1&oscreen=overview', IMG.updater],
+                ['Edifícios', 'https://twscripts.dev/scripts/redirector.js'],
+                ['Recrutar Tropas', '{game}?screen=train', IA('calle/black-knight/32/Swords-icon.png')],
+                ['Torre Simulator', 'https://twscripts.dev/scripts/watchtowerEvolved.js', IA('icondigest/main-street/32/In-days-of-yore-icon.png')],
+                ['Treinar Paladinos', 'https://twdevtools.github.io/approved/scripts/training.js', IMG.updater],
+            ],
+        },
+        {
+            title: 'Configuração',
+            icon: IMG.ide,
+            scripts: [
+                ['Mostrar Pontos dos Edifícios', 'https://almis90.github.io/tw-scripts/building-points.js'],
+                ['Notas Manager', 'https://twscripts.dev/scripts/ownNotesManager.js'],
+                ['ADD/DEL Grupos', 'https://toxicdonut.dev:8080/js/Toxic_Donut_s_Group_Placer.js'],
+                ['Adicionar Amigos', 'https://twscripts.dev/scripts/friendRequest.js'],
+                ['Renomeador de Aldeias', 'https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/TsalkaponeVillageRenamer.js'],
+                ['Renomeador GOD de Aldeias', "javascript:(function(){if(!window.location.href.includes('mode=prod')){if(confirm('Você não está na tela certa. Ir agora para a Visualização de Produção?')){window.location.href='game.php?screen=overview_villages&mode=prod';}return;}if(document.getElementById('renameGui')){return;}let gui=document.createElement('div');gui.id='renameGui';gui.style.position='fixed';gui.style.top='100px';gui.style.left='50%';gui.style.transform='translateX(-50%)';gui.style.background='#222';gui.style.padding='10px';gui.style.border='2px solid #666';gui.style.borderRadius='10px';gui.style.zIndex=9999;gui.style.boxShadow='0px 0px 15px rgba(0,0,0,0.8)';gui.innerHTML=`<label style=\"color:#eee;\"><b>Nome da aldeia:</b></label><input id=\"villageBaseName\" type=\"text\" style=\"width:150px;margin:5px 0;background:#333;color:#eee;border:1px solid #555;\"><br><label style=\"color:#eee;\"><input type=\"checkbox\" id=\"seqCheck\"> Adicionar numeração sequencial</label><br><label style=\"color:#eee;\"><b>Velocidade:</b></label><br><select id=\"speedSelect\" style=\"margin-top:5px;background:#333;color:#eee;border:1px solid #555;\"><option value=\"300\">🐢 Devagar</option><option value=\"150\" selected>⚖️ Médio</option><option value=\"50\">⚡ Rápido</option></select><br><button id=\"startRename\" style=\"margin-top:10px;padding:5px 10px;background:#555;color:#eee;border:1px solid #777;\">▶️ START</button><button id=\"closeGui\" style=\"margin-left:10px;padding:5px 10px;background:#555;color:#eee;border:1px solid #777;\">❌ Fechar</button><div style=\"margin-top:10px;font-size:11px;color:#aaa;\">Tribuna Tribal Wars</div>`;document.body.appendChild(gui);document.getElementById('closeGui').onclick=function(){gui.remove();};document.getElementById('startRename').onclick=function(){let name=document.getElementById('villageBaseName').value.trim();let useSeq=document.getElementById('seqCheck').checked;let speed=parseInt(document.getElementById('speedSelect').value);if(!name||name.length<3){alert('Nome deve ter ao menos 3 letras.');return;}let delay=0;document.querySelectorAll('#production_table tr').forEach((row,i)=>{if(i===0)return;setTimeout(()=>{let icon=row.querySelector('.rename-icon');if(icon)icon.click();let input=row.querySelector('.quickedit-edit input[type=text]');let btn=row.querySelector('.quickedit-edit input[type=button]');if(input&&btn){input.value=name+(useSeq?(' '+String(i).padStart(2,'')):'');btn.click();}},delay+=speed);delay+=speed;});gui.remove();};})();"],
+                ['Contador de Tropas 1', 'https://twscripts.dev/scripts/countHomeTroops.js'],
+                ['Contador de Tropas 2', 'https://twscripts.dev/scripts/troopsCounterFixed.js'],
+                ['Contador de Tropas 3', 'https://dl.dropboxusercontent.com/s/75jut7q397e03e5/troop_counter.js'],
+                ['Contador de Grupos', 'https://dl.dropboxusercontent.com/s/ry6d9uu2m0mcxsb/group%20counts.js'],
+                ['Histórico PPs', 'https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/PPPurchaseHistoryScript.js'],
+                ['Coletor Coords Perfil', 'https://shinko-to-kuma.com/scripts/findNonAttackedVillages.js'],
+                ['Coletor Coords Mapa', 'https://media.innogames.com/com_DS_NL/scripts/Multicollor-Coordgrab_207233_f7gcp9yt.js'],
+                ['Coletor Coords Speed', () => {
+                    if (!location.href.includes('screen=info_player')) return UI.ErrorMessage('Execute o script no perfil de algum jogador');
+                    const all = [];
+                    const byContinent = {};
+                    $('td').filter((_, td) => /^\d+\|\d+$/.test(td.innerHTML)).each((_, td) => {
+                        const xy = td.innerHTML;
+                        const [x, y] = xy.split('|').map(Number);
+                        const entry = `${$(td).parent().find('span.village_anchor.contexted').attr('data-id')}&${xy}`;
+                        const k = Math.floor(x / 100) + Math.floor(y / 100) * 10;
+                        all.push(entry);
+                        (byContinent[k] = byContinent[k] || []).push(entry);
+                    });
+                    const area = list => `<textarea cols="80" rows="10">${list.join(',')}</textarea>`;
+                    const sections = Object.keys(byContinent).sort((a, b) => a - b)
+                        .map(k => `<br><br>Aldeias do Continente ${k}<br>${area(byContinent[k])}`).join('');
+                    const popup = window.open('about:blank', 'twcc', 'width=720,height=480,scrollbars=1');
+                    popup.document.open('text/html', 'replace');
+                    popup.document.write(`<html><head><title>Coletor de Coordenadas</title><meta charset="UTF-8"></head><body><b>Coletor de Coordenadas</b><hr>Todas as Aldeias do Jogador:<br>${area(all)}${sections}</body></html>`);
+                    popup.document.close();
+                }],
+                ['Filtrar Coordenadas', () => fetch('https://raw.githubusercontent.com/glivio21/Filtrar-Coordenadas/main/coord-filter.js')
+                    .then(res => res.text())
+                    .then(code => Function(code)())
+                    .catch(err => UI.ErrorMessage(`Erro ao carregar script: ${err.message}`))],
+                ['Filtrar Relatórios', 'https://twscripts.dev/scripts/advancedReportFilters.js'],
+                ['Filtrar Aldeias Front', 'https://twscripts.dev/scripts/findFrontlineVillages.js'],
+                ['Template de Tropas (GC)', 'https://twscripts.dev/scripts/troopTemplatesManager.js'],
+            ],
+        },
+        {
+            title: 'Ofensivos',
+            icon: IMG.target,
+            scripts: [
+                ['Calculadora de Ataques nas Bárbaras', 'https://twscripts.dev/scripts/lastTimeAttacked.js'],
+                ['Calculadora de MS (Confirmar Ataque)', () => {
+                    if ($('#serverMs').length) return;
+                    const stamp = () => {
+                        const d = $('#serverDate').text().match(/(..)\/(..)\/(....)/);
+                        return `${d[3]}-${d[2]}-${d[1]} ${$('#serverTime').text()}`;
+                    };
+                    const tick = base => setInterval(() => {
+                        const ms = (1000 + new Date().getMilliseconds() - base) % 1000;
+                        $('#serverMs').text(`:${`00${ms}`.slice(-3)}`);
+                    }, 80);
+                    $('#date_arrival').append('<span id="serverMs" style="color:black;font-weight:bold"></span>');
+                    let last = stamp();
+                    const sync = setInterval(() => {
+                        const now = stamp();
+                        if (now === last) return;
+                        clearInterval(sync);
+                        tick(new Date().getMilliseconds());
+                    }, 20);
+                }],
+                ['Coletar de Coordenadas (Perfil Player)', 'https://tylercamp.me/tw/get-coords.js'],
+                ['Todos os Ataques Enviados (Perfil Player)', 'https://twscripts.dev/scripts/getIncsForPlayer.js'],
+                ['Planejador de Ataques Individual', 'https://twscripts.dev/scripts/singleVillagePlanner.js'],
+                ['Planejador de Ataques em Massa', 'https://twscripts.dev/scripts/massCommandTimer.js'],
+                ['Planejador de Ataques em Massa 2', 'https://twscripts.dev/scripts/massAttackPlanner.js'],
+                ['Planejador de Ataques', 'https://twdevtools.github.io/approved/scripts/planner.js'],
+                ['Fake NT (Confirmar Ataque)', 'https://twscripts.dev/scripts/evolvedFakeTrain.js'],
+                ['Exibir Comandos (Confirmar Ataque)', 'https://media.innogames.com/com_DS_NL/scripts/ConfirmEnhancer_206293.js'],
+                ['Temporizador (Confirmar Ataque)', 'https://twscripts.dev/scripts/obfsucated/commandTimer.min.js'],
+                ['Quebrar Muralha', 'https://twscripts.dev/scripts/clearBarbarianWalls.js'],
+                ['Barbs Finder', 'https://twscripts.dev/scripts/barbsFinder.js'],
+                ['Bônus Finder', 'https://twscripts.dev/scripts/bonusFinderEvolved.js'],
+            ],
+        },
+        {
+            title: 'Defensivos',
+            icon: IMG.stop,
+            scripts: [
+                ['Calculadora de Snip + Aflição', 'https://dl.dropboxusercontent.com/s/5f0ewzcwkh39pau/TESTE12.js'],
+                ['Calculadora de Snip Individual', 'https://twscripts.dev/scripts/singleVillageSnipe.js'],
+                ['Calculadora de Snip Coletivo', 'https://twscripts.dev/scripts/villagesInRange.js'],
+                ['Remover Tropas de Apoio', 'https://twscripts.dev/scripts/supportCounterEvolved.js'],
+                ['Apoio em Massa', () => {
+                    window.heavyCav = 4;
+                    $.getScript('https://dl.dropboxusercontent.com/s/idwa7mmpn6nxl3l/supportSender.js?dl=0');
+                }],
+                ['Simulador Defensor de Ataques', 'https://twscripts.dev/scripts/defenseHealthCheck.js'],
+                ['Ver Todos os Ataques', 'https://dl.dropbox.com/s/flt8iokmg7pomow/IncomingOpSpotter.js'],
+                ['Visão Geral de Ataques', () => {
+                    window.NOBLE_GAP = 100;
+                    window.FORMAT = '%unit% | %sent%';
+                    $.getScript('https://twscripts.dev/scripts/incomingsOverview.js');
+                }],
+                ['Devil DEF', 'https://media.innogames.com/com_DS_NL/scripts/Devils-Def-Pack_206163.js'],
+            ],
+        },
+        {
+            title: 'Recursos',
+            icon: IMG.server,
+            scripts: [
+                ['Coleta em Massa', () => {
+                    window.premiumBtnEnabled = false;
+                    $.getScript('https://shinko-to-kuma.com/scripts/massScavenge.js');
+                }],
+                ['Desbloqueador de Coleta', 'https://twscripts.dev/scripts/massUnlockScav.js'],
+                ['Organizador de Recursos', () => {
+                    $.ajaxSetup({ dataType: 'script' });
+                    $.getScript('https://www.minecraft.as/tw_scripts/outstanding_organizer.js');
+                }],
+                ['Calcular Recursos para Nobre', 'https://twscripts.dev/scripts/nobleCalculator.js'],
+                ['Enviar Recursos', 'https://shinko-to-kuma.com/scripts/res-senderV2.js'],
+                ['Balanceador de Recursos Shinko', () => {
+                    window.settings = { highFarm: 23000, lowPoints: 2000, builtOutPercentage: .25, needsMorePercentage: .85 };
+                    $.getScript('https://media.innogamescdn.com/com_DS_BR/Scripts/Aprovados/WarehouseBalancer.js');
+                }],
+                ['Balanceador de Recursos GOD', () => {
+                    window.settings = { highFarm: 23000, lowPoints: 2000, builtOutPercentage: .25, needsMorePercentage: .85 };
+                    $.getScript('https://dl.dropboxusercontent.com/s/bytvle86lj6230c/resBalancer.js?dl=0');
+                }],
+                ['Eficiência do Farm (Relatórios)', 'https://twscripts.dev/scripts/farmingEfficiencyCalculator.js'],
+                ['Mint Helper', 'https://twscripts.dev/scripts/mintHelper.js'],
+                ['Farm A/B/C', () => {
+                    window.cookieName = 'fakeypress';
+                    $.getScript('https://media.innogamescdn.com/com_DS_FR/Scripts/Pillage/fakeypress_lau.js');
+                }],
+                ['Farm LA (Assistente de Saque)', 'https://scripts.ibragonza.nl/enhancer/enhancer.js'],
+                ['Farm GOD', 'https://higamy.github.io/TW/Scripts/Approved/FarmGodCopy.js'],
+            ],
+        },
+        {
+            title: 'Tribo',
+            icon: IMG.smiley,
+            scripts: [
+                ['Aristocracia', 'https://shinko-to-kuma.com/scripts/overwatch.js'],
+                ['Ver ataques na tribo', 'https://dl.dropboxusercontent.com/s/ikunxd5d59059b4/scriptMostrarAtaquesACaminho.js'],
+                ['Ataques (Tribo) - Membros', 'https://dl.dropboxusercontent.com/s/oy16zihcrmtul4k/tribeinc.js'],
+                ['Evolução (Tribo) - Membros', 'https://shinko-to-kuma.com/scripts/tribeStats.js'],
+                ['Calcular Tropas da Tribo', 'https://shinko-to-kuma.com/scripts/tribeMembersTroopCalculator.js'],
+                ['Análise de Tribos', 'https://twscripts.dev/scripts/tribeStatsTool.js'],
+                ['Convidar P/ Tribo em Massa', 'https://twscripts.dev/scripts/inviteToTribe.js'],
+                ['Gerar lista (Membros)', 'https://media.innogamescdn.com/com_DS_PL/skrypty/lista_mail.js'],
+            ],
+        },
+        {
+            title: 'Serviços',
+            icon: IMG.logo,
+            scripts: [
+                ['Tribuna', 'https://www.youtube.com/@tribunatribalwars', IA('danleech/simple/32/youtube-icon.png')],
+                ['Serviços', 'https://tribunatw.com/services', IA('bokehlicia/captiva/32/steam-icon.png')],
+                ['Discord', 'https://discord.gg/kwTUFCyFRA', IA('papirus-team/papirus-apps/32/discord-icon.png')],
+                ['WhatsApp', 'https://chat.whatsapp.com/LJf55XqXUC6CgURf1dPBkM', IA('papirus-team/papirus-apps/32/whatsapp-icon.png')],
+                ['Acessar Curso', 'https://hotmart.com/pt-br/marketplace/produtos/curso-de-tribal-wars/U96903865S', IA('bokehlicia/captiva/32/rocket-icon.png')],
+                ['Obsidian Scripts', 'https://www.obsidiantribal.com/', 'https://www.obsidiantribal.com/images/IMG_3002.GIF'],
+                ['Multi PRO', 'https://www.multiprotribal.com/', 'https://www.multiprotribal.com/icon.png'],
+                ['Naga PPs', 'https://nagastore.gg/', 'https://nagastore.gg/wp-content/uploads/2025/12/Logo-Render.png'],
+            ],
+        },
+    ];
 
-// Cria o container do menu e estiliza
-  const menu = document.createElement('div');
-  menu.id = SCRIPT_ID;
-  menu.style = `
-    position: fixed; top: 100px; left: 100px;
-    background: ${theme.bg}; color: ${theme.fg};
-    border: 2px solid ${theme.border}; border-radius: 8px;
-    padding: 10px; z-index: 99999;
-    box-shadow: 0 0 10px rgba(0,0,0,0.5);
-    max-width: 520px; max-height: 85vh; overflow-y: auto;
-    font-family: sans-serif;
-    user-select: none;
-  `;
+    $(`<style id="${ID}-style">
+        #${ID} {
+            --bg: #0d0e11; --surface: #15171c; --hover: #1c1f26; --line: #262930; --line-hi: #3a3e47;
+            --text: #d4d7dd; --muted: #6f7580; --accent: #a33b3b; --shadow: rgba(0, 0, 0, .55);
+            position: fixed; top: 100px; left: 100px; z-index: 99999; width: 380px; max-height: 85vh;
+            display: flex; flex-direction: column;
+            background: var(--bg); color: var(--text); border: 1px solid var(--line); border-radius: 10px;
+            box-shadow: 0 18px 40px var(--shadow);
+            font: 12px/1.4 ${FONT}; text-align: left;
+        }
+        #${ID}[data-theme=light] {
+            --bg: #f7f7f8; --surface: #ffffff; --hover: #eef0f3; --line: #dcdfe4; --line-hi: #c3c8d0;
+            --text: #1d2027; --muted: #6b7280; --shadow: rgba(0, 0, 0, .18);
+        }
+        #${ID} * { box-sizing: border-box; margin: 0; }
+        #${ID} svg { display: block; flex: none; }
+        #${ID} img { flex: none; object-fit: contain; }
+        #${ID} button { font: inherit; color: inherit; }
+        #${ID} .tb-head {
+            display: flex; align-items: center; gap: 10px;
+            padding: 10px 12px; border-bottom: 1px solid var(--line); cursor: move; user-select: none;
+        }
+        #${ID} .tb-logo { width: 28px; height: 28px; border-radius: 6px; }
+        #${ID} .tb-heading { flex: 1; min-width: 0; }
+        #${ID} .tb-title { font-size: 13px; font-weight: 600; letter-spacing: .02em; }
+        #${ID} .tb-sub { color: var(--muted); font-size: 11px; }
+        #${ID} .tb-icon {
+            width: 26px; height: 26px; display: grid; place-items: center; flex: none;
+            background: none; border: 0; border-radius: 5px; color: var(--muted); cursor: pointer;
+        }
+        #${ID} .tb-icon:hover { color: var(--text); background: var(--surface); }
+        #${ID} .tb-search { position: relative; padding: 10px 12px 0; }
+        #${ID} .tb-search svg { position: absolute; left: 22px; top: 50%; margin-top: 5px; transform: translateY(-50%); color: var(--muted); pointer-events: none; }
+        #${ID} .tb-search input {
+            width: 100%; height: 32px; padding: 0 10px 0 32px;
+            background: var(--surface); color: var(--text); border: 1px solid var(--line); border-radius: 6px; outline: none;
+            font: inherit;
+        }
+        #${ID} .tb-search input::placeholder { color: var(--muted); }
+        #${ID} .tb-search input:focus { border-color: var(--accent); }
+        #${ID} .tb-nav { display: flex; align-items: center; gap: 8px; padding: 10px 12px 0; }
+        #${ID} .tb-nav-title { font-weight: 600; }
+        #${ID} .tb-body { flex: 1; min-height: 0; overflow: auto; padding: 10px 12px 12px; }
+        #${ID} .tb-body::-webkit-scrollbar { width: 8px; }
+        #${ID} .tb-body::-webkit-scrollbar-thumb { background: var(--line-hi); border-radius: 4px; }
+        #${ID} .tb-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+        #${ID} .tb-card {
+            display: flex; flex-direction: column; align-items: center; gap: 6px; padding: 12px 6px 10px;
+            background: var(--surface); border: 1px solid var(--line); border-radius: 8px; cursor: pointer;
+        }
+        #${ID} .tb-card:hover { border-color: var(--line-hi); background: var(--hover); }
+        #${ID} .tb-card img { width: 32px; height: 32px; }
+        #${ID} .tb-card-title { font-weight: 600; text-align: center; }
+        #${ID} .tb-card-count { color: var(--muted); font-size: 11px; }
+        #${ID} .tb-list { display: flex; flex-direction: column; gap: 4px; }
+        #${ID} .tb-item {
+            display: flex; align-items: center; gap: 10px; width: 100%; padding: 7px 10px;
+            background: var(--surface); border: 1px solid var(--line); border-radius: 6px; cursor: pointer; text-align: left;
+        }
+        #${ID} .tb-item:hover { border-color: var(--line-hi); background: var(--hover); }
+        #${ID} .tb-item img { width: 20px; height: 20px; }
+        #${ID} .tb-item-name { flex: 1; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        #${ID} .tb-item-cat { color: var(--muted); font-size: 11px; white-space: nowrap; }
+        #${ID} .tb-empty { padding: 24px 0; color: var(--muted); text-align: center; }
+    </style>`).appendTo('head');
 
-  function limparMenu(){
-    menu.innerHTML = '';
-  }
-function createThemeToggle() {
-  const container = document.createElement('div');
-  container.style = 'display: flex; align-items: center;';
+    const $menu = $(`<div id="${ID}">
+        <div class="tb-head">
+            <img class="tb-logo" src="${IMG.logo}" alt="">
+            <div class="tb-heading">
+                <div class="tb-title">Tribuna Scripts</div>
+                <div class="tb-sub">Versão ${VERSION}</div>
+            </div>
+            <button class="tb-icon tb-theme"></button>
+            <button class="tb-icon tb-close" title="Fechar">${ICON.close}</button>
+        </div>
+        <div class="tb-search">
+            ${ICON.search}
+            <input type="text" placeholder="Buscar script">
+        </div>
+        <div class="tb-nav">
+            <button class="tb-icon tb-back" title="Voltar">${ICON.back}</button>
+            <span class="tb-nav-title"></span>
+        </div>
+        <div class="tb-body"></div>
+    </div>`).appendTo('body');
 
-  const label = document.createElement('label');
-  label.style = `
-  position: relative;
-  display: inline-block;
-  width: 42px;
-  height: 22px;
-`;
+    const $body = $menu.find('.tb-body');
+    const $nav = $menu.find('.tb-nav');
+    const $search = $menu.find('.tb-search input');
+    const $theme = $menu.find('.tb-theme');
 
-  const input = document.createElement('input');
-  input.type = 'checkbox';
-  input.checked = currentTheme === 'dark';
-  input.style = 'opacity: 0; width: 0; height: 0;';
+    let current = null;
 
-  const slider = document.createElement('span');
-  slider.style = `
-    position: absolute;
-    cursor: pointer;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: ${currentTheme === 'dark' ? '#00ff66' : '#555'};
-    transition: .4s;
-    border-radius: 34px;
-    box-shadow: 0 0 6px ${currentTheme === 'dark' ? '#00ff66' : '#333'};
-  `;
+    const storage = (key, value) => {
+        try {
+            if (value === undefined) return localStorage.getItem(key);
+            localStorage.setItem(key, value);
+        } catch {
+            return null;
+        }
+    };
 
-  const circle = document.createElement('span');
-  circle.style = `
-  position: absolute;
-  height: 16px; width: 16px;
-  left: ${currentTheme === 'dark' ? '24px' : '4px'};
-  bottom: 3px;
-  background-color: ${currentTheme === 'dark' ? '#000' : '#222'};
-  transition: .4s;
-  border-radius: 50%;
-`;
+    const setTheme = theme => {
+        $menu.attr('data-theme', theme);
+        $theme.html(theme === 'dark' ? ICON.sun : ICON.moon).attr('title', theme === 'dark' ? 'Tema claro' : 'Tema escuro');
+        storage(THEME_KEY, theme);
+    };
 
-  slider.appendChild(circle);
-  label.appendChild(input);
-  label.appendChild(slider);
-  container.appendChild(label);
+    const image = src => $('<img alt="">').attr('src', src).on('error', e => $(e.target).css('visibility', 'hidden'));
 
-  input.onchange = () => {
-    const newTheme = input.checked ? 'dark' : 'light';
-    localStorage.setItem('twBarraTheme', newTheme);
-    location.reload();
-  };
+    const exec = action => {
+        if (typeof action === 'function') return action();
+        if (action.startsWith('javascript:')) return (0, eval)(action.slice(11));
+        if (action.includes('{game}')) return location.href = action.replace('{game}', location.pathname);
+        if (/\.js(\?|$)/.test(action)) return $.getScript(action).fail(() => UI.ErrorMessage('Erro ao carregar o script'));
+        window.open(action, '_blank');
+    };
 
-  return container;
-}
+    const run = action => {
+        try {
+            exec(action);
+        } catch (err) {
+            UI.ErrorMessage(`Erro ao executar o script: ${err.message}`);
+        }
+    };
 
- function renderHeader(){
-  const header = document.createElement('div');
-  header.style = 'position: relative; display:flex; align-items:center; gap: 12px; margin-bottom:10px;';
+    const item = (script, cat, showCat) => $('<button class="tb-item">')
+        .append(image(script[2] || cat.icon), $('<span class="tb-item-name">').text(script[0]).attr('title', script[0]))
+        .append(showCat ? $('<span class="tb-item-cat">').text(cat.title) : null)
+        .on('click', () => run(script[1]));
 
-  const titulo = document.createElement('h2');
-  titulo.textContent = 'Tribuna Scripts - Versão 0.0.4';
-  titulo.style = `margin:0; color:${theme.fg}; flex-shrink: 0;`;
+    const list = (entries, showCat) => entries.length
+        ? $('<div class="tb-list">').append(entries.map(([script, cat]) => item(script, cat, showCat)))
+        : $('<div class="tb-empty">Nenhum script encontrado</div>');
 
-  const toggle = createThemeToggle();
+    const grid = () => $('<div class="tb-grid">').append(CATEGORIES.map(cat => $('<div class="tb-card">')
+        .append(image(cat.icon), $('<span class="tb-card-title">').text(cat.title), $('<span class="tb-card-count">').text(`${cat.scripts.length} scripts`))
+        .on('click', () => open(cat))));
 
-  const btnClose = document.createElement('span');
-  btnClose.textContent = '✖';
-  btnClose.style = `
-  position: absolute;
-  top: 0;
-  right: 0;
-  cursor: pointer;
-  font-weight: bold;
-  font-size: 18px;
-  color: ${theme.fg};
-  padding: 4px 8px;
-  border-radius: 4px;
-  background: transparent;
-  border: none;
-  line-height: 1;
-`;
+    const render = () => {
+        const query = $.trim($search.val()).toLowerCase();
+        $nav.toggle(!!current && !query);
+        $body.scrollTop(0);
+        if (query) return $body.html(list(CATEGORIES.flatMap(cat => cat.scripts
+            .filter(script => script[0].toLowerCase().includes(query))
+            .map(script => [script, cat])), true));
+        if (current) return $body.html(list(current.scripts.map(script => [script, current])));
+        $body.html(grid());
+    };
 
-  btnClose.title = 'Fechar menu';
-  btnClose.onclick = () => menu.remove();
+    const open = cat => {
+        current = cat;
+        $nav.find('.tb-nav-title').text(cat ? cat.title : '');
+        render();
+    };
 
-  header.appendChild(titulo);
-  header.appendChild(toggle);
-  header.appendChild(btnClose);
-  menu.appendChild(header);
-}
-  
-  // Estilos para rolagem das categorias
-const style = document.createElement('style');
-style.textContent = `
-  .scripts-scroll {
-    max-height: 300px; /* altura para cerca de 10 itens — ajuste conforme seu layout */
-    overflow-y: auto;
-    overflow-x: hidden;
-  }
-`;
-document.head.appendChild(style);
-  
-  // Renderiza categorias como ícones clicáveis
-  function renderCategorias(){
-    limparMenu();
-    renderHeader();    
+    const restore = () => {
+        const pos = JSON.parse(storage(POS_KEY) || 'null');
+        if (!pos) return;
+        const left = Math.min(Math.max(parseInt(pos.left) || 0, 0), innerWidth - $menu.outerWidth());
+        const top = Math.min(Math.max(parseInt(pos.top) || 0, 0), innerHeight - 60);
+        $menu.css({ left, top });
+    };
 
-    const container = document.createElement('div');
-    container.style = 'display:flex; flex-wrap: wrap; gap: 12px;';
-    categorias.forEach(cat => {
-      const box = document.createElement('div');
-      box.style = `
-        width: 80px; text-align: center; cursor: pointer;
-        background: ${theme.panelBg}; border: 1px solid ${theme.panelBorder};
-        border-radius: 6px; padding: 6px; user-select: none;
-        display: flex; flex-direction: column; align-items: center;
-      `;
-      box.title = cat.titulo;
-      box.onclick = () => renderScripts(cat);
-
-      const img = document.createElement('img');
-      img.src = cat.icone;
-      img.style = 'width: 40px; height: 40px; margin-bottom: 6px;';
-      img.alt = cat.titulo;
-
-      const label = document.createElement('span');
-      label.textContent = cat.titulo;
-      label.style = `font-size: 12px; color: ${theme.fg};`;
-
-      box.appendChild(img);
-      box.appendChild(label);
-      container.appendChild(box);
+    $menu.on('click', '.tb-close', () => $(`#${ID}, #${ID}-style`).remove());
+    $menu.on('click', '.tb-back', () => open(null));
+    $theme.on('click', () => setTheme($menu.attr('data-theme') === 'dark' ? 'light' : 'dark'));
+    $search.on('input', render);
+    $search.on('keydown', e => {
+        if (e.key !== 'Escape') return;
+        $search.val('');
+        render();
     });
 
-    menu.appendChild(container);
-  }
+    if ($.fn.draggable) $menu.draggable({
+        handle: '.tb-head',
+        cancel: 'button',
+        containment: 'window',
+        stop: (_, ui) => storage(POS_KEY, JSON.stringify({ left: `${ui.position.left}px`, top: `${ui.position.top}px` })),
+    });
 
-  // Renderiza scripts da categoria
-  function renderScripts(cat){
-    limparMenu();
-    renderHeader();    
-
-    const btnVoltar = document.createElement('button');
-    btnVoltar.textContent = '← Voltar';
-    btnVoltar.style = `
-      margin-bottom: 12px; padding: 6px 10px; cursor: pointer;
-      background: ${theme.panelBg}; border: 1px solid ${theme.panelBorder};
-      color: ${theme.fg}; border-radius: 5px;
-    `;
-    btnVoltar.onclick = renderCategorias;
-    menu.appendChild(btnVoltar);
-
-    const titulo = document.createElement('h3');
-    titulo.textContent = cat.titulo;
-    titulo.style = `margin: 4px 0 12px 0; color: ${theme.fg};`;
-    menu.appendChild(titulo);
-
-    // Cria container com scroll para os scripts
-const scrollHost = document.createElement('div');
-scrollHost.classList.add('scripts-scroll');
-
-// Adiciona cada script dentro do container
-cat.scripts.forEach(script => {
-  const linha = document.createElement('div');
-  linha.style = `
-    display: flex; align-items: center; padding: 6px; margin-bottom: 8px;
-    cursor: pointer; border-radius: 5px;
-    background: ${theme.panelBg}; border: 1px solid ${theme.panelBorder};
-    user-select: none;
-  `;
-  linha.onmouseenter = () => linha.style.backgroundColor = theme.hover;
-  linha.onmouseleave = () => linha.style.backgroundColor = theme.panelBg;
-  linha.onclick = () => executarScript(script);
-
-  const img = document.createElement('img');
-  img.src = script[1] || icons.padrao;
-  img.alt = script[0];
-  img.style = 'width: 24px; height: 24px; margin-right: 10px;';
-  linha.appendChild(img);
-
-  const texto = document.createElement('span');
-  texto.textContent = script[0];
-  texto.style = `color: ${theme.fg}; font-size: 14px;`;
-  linha.appendChild(texto);
-
-  scrollHost.appendChild(linha);
-});
-
-// Finalmente, anexa o container com scroll ao menu
-menu.appendChild(scrollHost);
-
-  }
-
-  // Executa o script
-  function executarScript(script){
     try {
-      if(typeof script[2] === 'function'){
-        script[2]();
-      } else if(typeof script[2] === 'string'){
-        const url = script[2];
-        if(url.startsWith('javascript:')){
-          eval(url.slice(11));
-        } else if(url.endsWith('.js')){
-          $.getScript(url).fail(() => alert('Erro ao carregar o script!'));
-        } else if(url.startsWith('http')){
-          window.open(url, '_blank');
-        } else if(url.includes('{game}')){
-          let base = window.location.href.split('?')[0];
-          window.location.href = url.replace('{game}', base);
-        } else {
-          alert('Formato de script inválido.');
-        }
-      }
-    } catch(e){
-      alert('Erro ao executar o script: ' + e.message);
+        restore();
+    } catch {
+        storage(POS_KEY, '');
     }
-  }
- function tornarMenuArrastavel(el) {
-  let isMouseDown = false;
-  let offsetX = 0;
-  let offsetY = 0;
 
-  // Restaura a posição salva (se existir)
-  const posSalva = localStorage.getItem('twBarraPos');
-  if (posSalva) {
-    try {
-      const pos = JSON.parse(posSalva);
-      if (pos.left && pos.top) {
-        el.style.left = pos.left;
-        el.style.top = pos.top;
-      }
-    } catch(e) {
-      // Ignora erros e mantém posição padrão
-    }
-  }
-
-  el.addEventListener('mousedown', function(e) {
-    // Evita arrastar se clicou em botão, link ou input
-    if (e.target.tagName === 'BUTTON' || e.target.tagName === 'A' || e.target.tagName === 'INPUT') return;
-
-    isMouseDown = true;
-    offsetX = e.clientX - el.offsetLeft;
-    offsetY = e.clientY - el.offsetTop;
-    e.preventDefault();
-  });
-
-  document.addEventListener('mouseup', function() {
-    if (isMouseDown) {
-      // Salva posição no localStorage ao soltar o mouse
-      localStorage.setItem('twBarraPos', JSON.stringify({
-        left: el.style.left,
-        top: el.style.top
-      }));
-    }
-    isMouseDown = false;
-  });
-
-  document.addEventListener('mousemove', function(e) {
-    if (!isMouseDown) return;
-    el.style.left = (e.clientX - offsetX) + 'px';
-    el.style.top = (e.clientY - offsetY) + 'px';
-  });
-}
-
-tornarMenuArrastavel(menu);  
-
-document.body.appendChild(menu);  
-  renderCategorias();
-  })();
+    setTheme(storage(THEME_KEY) === 'light' ? 'light' : 'dark');
+    open(null);
+})();
